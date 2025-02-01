@@ -1,24 +1,29 @@
 package com.pickpoint.pickpoint.ui.home.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pickpoint.pickpoint.ui.common.util.DataStoreManager
+import com.pickpoint.pickpoint.ui.model.setting.LanguageSetting
+import com.pickpoint.pickpoint.ui.model.setting.PreferencesSetting
+import com.pickpoint.pickpoint.ui.model.setting.ThemeSetting
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
 
-    private val _themeSetting = MutableStateFlow<String>("")
-    val themeSetting: StateFlow<String> = _themeSetting
+    private val _themeSettingIndex = MutableStateFlow<Int>(0)
+    val themeSettingIndex: StateFlow<Int> = _themeSettingIndex
 
-    private val _languageSetting = MutableStateFlow<String>("")
-    val languageSetting: StateFlow<String> = _languageSetting
+    private val _languageSettingIndex = MutableStateFlow<Int>(0)
+    val languageSettingIndex: StateFlow<Int> = _languageSettingIndex
 
-    private val _preferencesSetting = MutableStateFlow<String>("")
-    val preferencesSetting: StateFlow<String> = _preferencesSetting
+    private val _preferencesSettingIndex = MutableStateFlow<Int>(0)
+    val preferencesSettingIndex: StateFlow<Int> = _preferencesSettingIndex
 
     init {
         loadSettings()
@@ -32,48 +37,80 @@ class HomeViewModel(
     // confirm 버튼의 onClick 이벤트로 설정하면 됨.
     fun saveSettings() {
         viewModelScope.launch {
-            saveThemeSettings()
-            saveLanguageSettings()
-            savePreferencesSettings()
+            dataStoreManager.saveThemeSetting(
+                when (_themeSettingIndex.value) {
+                    ThemeSetting.PROTOTYPE.index -> ThemeSetting.PROTOTYPE
+                    ThemeSetting.COMING_SOON.index -> ThemeSetting.COMING_SOON
+                    else -> ThemeSetting.PROTOTYPE
+                }
+            )
+            dataStoreManager.saveLanguageSetting(
+                when (_languageSettingIndex.value) {
+                    LanguageSetting.KOREAN.index -> LanguageSetting.KOREAN
+                    LanguageSetting.ENGLISH.index -> LanguageSetting.ENGLISH
+                    LanguageSetting.JAPANESE.index -> LanguageSetting.JAPANESE
+                    else -> LanguageSetting.KOREAN
+                }
+            )
+            dataStoreManager.savePreferencesSetting(
+                when (_preferencesSettingIndex.value) {
+                    PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS.index -> PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS
+                    PreferencesSetting.SOME_SETTINGS.index -> PreferencesSetting.SOME_SETTINGS
+                    else -> PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS
+                }
+            )
         }
-    }
-
-    private suspend fun saveThemeSettings() {
-        dataStoreManager.setThemeSetting(themeSetting.value)
-    }
-
-    private suspend fun saveLanguageSettings() {
-        dataStoreManager.setLanguageSetting(languageSetting.value)
-    }
-
-    private suspend fun savePreferencesSettings() {
-        dataStoreManager.setPreferencesSetting(preferencesSetting.value)
     }
 
 
     private fun loadSettings() {
+
         viewModelScope.launch {
-            loadThemeSetting()
-            loadLanguageSetting()
-            loadPreferencesSetting()
+            combine(
+                dataStoreManager.getThemeSetting(),
+                dataStoreManager.getLanguageSetting(),
+                dataStoreManager.getPreferencesSetting()
+            ) { theme, language, preferences ->
+                Triple(theme, language, preferences)
+            }.collect { (theme, language, preferences) ->
+                when (theme) {
+                    ThemeSetting.PROTOTYPE -> {
+                        _themeSettingIndex.value = ThemeSetting.PROTOTYPE.index
+                    }
+
+                    ThemeSetting.COMING_SOON -> {
+                        _themeSettingIndex.value = ThemeSetting.COMING_SOON.index
+                    }
+
+                }
+
+                when (language) {
+                    LanguageSetting.KOREAN -> {
+                        _languageSettingIndex.value = LanguageSetting.KOREAN.index
+                    }
+
+                    LanguageSetting.ENGLISH -> {
+                        _languageSettingIndex.value = LanguageSetting.ENGLISH.index
+                    }
+
+                    LanguageSetting.JAPANESE -> {
+                        _languageSettingIndex.value = LanguageSetting.JAPANESE.index
+                    }
+                }
+
+                when (preferences) {
+                    PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS -> {
+                        _preferencesSettingIndex.value =
+                            PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS.index
+                    }
+
+                    PreferencesSetting.SOME_SETTINGS -> {
+                        _preferencesSettingIndex.value = PreferencesSetting.SOME_SETTINGS.index
+                    }
+                }
+            }
         }
     }
 
-    private suspend fun loadThemeSetting() {
-        dataStoreManager.getThemeSetting().collect { theme ->
-            _themeSetting.value = theme
-        }
-    }
 
-    private suspend fun loadLanguageSetting() {
-        dataStoreManager.getLanguageSetting().collect { language ->
-            _languageSetting.value = language
-        }
-    }
-
-    private suspend fun loadPreferencesSetting() {
-        dataStoreManager.getPreferencesSetting().collect { preferences ->
-            _preferencesSetting.value = preferences
-        }
-    }
 }
