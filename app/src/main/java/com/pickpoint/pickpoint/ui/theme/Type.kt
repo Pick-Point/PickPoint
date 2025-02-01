@@ -17,9 +17,11 @@ val provider = GoogleFont.Provider(
 
 val googleFont = GoogleFont(name = "Roboto")
 
-val robotoFontFamily = FontFamily(
-    Font(googleFont = googleFont, fontProvider = provider)
-)
+val robotoFontFamily = runCatching{
+    FontFamily(
+        Font(googleFont = googleFont, fontProvider = provider)
+    )
+}.getOrDefault(FontFamily.Default)
 
 /*
  * LetterSpacing Rules
@@ -28,7 +30,7 @@ val robotoFontFamily = FontFamily(
  * 16sp -> letterSpacing = 0.5.sp
  * 14sp and under -> letterSpacing = 0.5.sp ~ 1.sp
  *
- * FontWeight Rules
+ * FontWeight
  * displayLarge ~ headlineLarge -> FontWeight.Bold
  * titleLarge ~ titleSmall -> FontWeight.Medium
  * bodyLarge ~ bodySmall -> FontWeight.Normal
