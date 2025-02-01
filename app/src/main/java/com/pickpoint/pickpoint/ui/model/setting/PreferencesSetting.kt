@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 import com.pickpoint.pickpoint.R
 
 enum class PreferencesSetting(
-    @StringRes val res: Int, val value: String, private val index: Int
+    @StringRes val res: Int, val value: String, val index: Int
 ) {
     REMEMBER_PREVIOUS_SETTINGS(
         R.string.remember_previous_settings,
