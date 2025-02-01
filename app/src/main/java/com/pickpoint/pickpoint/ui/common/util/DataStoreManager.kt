@@ -1,6 +1,7 @@
 package com.pickpoint.pickpoint.ui.common.util
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -21,28 +22,22 @@ class DataStoreManager(private val context: Context) {
     private val languageKey = stringPreferencesKey("language")
     private val preferencesKey = stringPreferencesKey("preferences")
 
-    suspend fun saveThemeSetting(setting: ThemeSetting) {
-        context.dataStore.edit { theme ->
-            theme[themeKey] = when (setting) {
+    suspend fun saveAllSettings(
+        themeSetting: ThemeSetting,
+        languageSetting: LanguageSetting,
+        preferencesSetting: PreferencesSetting
+    ) {
+        context.dataStore.edit { preferences ->
+            preferences[themeKey] = when (themeSetting) {
                 ThemeSetting.PROTOTYPE -> ThemeSetting.PROTOTYPE.value
                 ThemeSetting.COMING_SOON -> ThemeSetting.COMING_SOON.value
             }
-        }
-    }
-
-    suspend fun saveLanguageSetting(setting: LanguageSetting) {
-        context.dataStore.edit { language ->
-            language[languageKey] = when (setting) {
+            preferences[languageKey] = when (languageSetting) {
                 LanguageSetting.KOREAN -> LanguageSetting.KOREAN.value
                 LanguageSetting.ENGLISH -> LanguageSetting.ENGLISH.value
                 LanguageSetting.JAPANESE -> LanguageSetting.JAPANESE.value
             }
-        }
-    }
-
-    suspend fun savePreferencesSetting(setting: PreferencesSetting) {
-        context.dataStore.edit { preferences ->
-            preferences[preferencesKey] = when (setting) {
+            preferences[preferencesKey] = when (preferencesSetting) {
                 PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS -> PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS.value
                 PreferencesSetting.SOME_SETTINGS -> PreferencesSetting.SOME_SETTINGS.value
             }

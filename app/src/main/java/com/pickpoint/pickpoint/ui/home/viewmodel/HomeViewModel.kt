@@ -37,23 +37,19 @@ class HomeViewModel(
     // confirm 버튼의 onClick 이벤트로 설정하면 됨.
     fun saveSettings() {
         viewModelScope.launch {
-            dataStoreManager.saveThemeSetting(
-                when (_themeSettingIndex.value) {
+            dataStoreManager.saveAllSettings(
+                when (themeSettingIndex.value) {
                     ThemeSetting.PROTOTYPE.index -> ThemeSetting.PROTOTYPE
                     ThemeSetting.COMING_SOON.index -> ThemeSetting.COMING_SOON
                     else -> ThemeSetting.PROTOTYPE
-                }
-            )
-            dataStoreManager.saveLanguageSetting(
-                when (_languageSettingIndex.value) {
+                },
+                when (languageSettingIndex.value) {
                     LanguageSetting.KOREAN.index -> LanguageSetting.KOREAN
                     LanguageSetting.ENGLISH.index -> LanguageSetting.ENGLISH
                     LanguageSetting.JAPANESE.index -> LanguageSetting.JAPANESE
                     else -> LanguageSetting.KOREAN
-                }
-            )
-            dataStoreManager.savePreferencesSetting(
-                when (_preferencesSettingIndex.value) {
+                },
+                when (preferencesSettingIndex.value) {
                     PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS.index -> PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS
                     PreferencesSetting.SOME_SETTINGS.index -> PreferencesSetting.SOME_SETTINGS
                     else -> PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS
@@ -64,7 +60,7 @@ class HomeViewModel(
 
 
     private fun loadSettings() {
-
+        Log.d("HomeViewModel", "loadSettings")
         viewModelScope.launch {
             combine(
                 dataStoreManager.getThemeSetting(),
@@ -114,14 +110,20 @@ class HomeViewModel(
 
     fun updateThemeSettingIndex(index: Int) {
         _themeSettingIndex.value = index
+        Log.d("HomeViewModel", "updateThemeSettingIndex: ${themeSettingIndex.value}")
     }
 
     fun updateLanguageSettingIndex(index: Int) {
         _languageSettingIndex.value = index
+        Log.d("HomeViewModel", "updateLanguageSettingIndex: ${languageSettingIndex.value}")
     }
 
     fun updatePreferencesSettingIndex(index: Int) {
         _preferencesSettingIndex.value = index
+        Log.d(
+            "HomeViewModel",
+            "updatePreferencesSettingIndex: ${preferencesSettingIndex.value}"
+        )
     }
 
 }
