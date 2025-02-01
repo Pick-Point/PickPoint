@@ -19,7 +19,7 @@ data class PointColors(
     val pointTextColor : Color,
 )
 
-val PrototypePointColors = PointColors(
+val LightPrototypePointColors = PointColors(
      pointColor1 = Color(0xFFFF9900),
      pointColor2 = Color(0xFF7FACFF),
      pointColor3 = Color(0xFF90DBA6),
@@ -33,4 +33,19 @@ val PrototypePointColors = PointColors(
      pointTextColor = Color(0xFFFFFFFF)
 )
 
-val LocalPointColors = staticCompositionLocalOf { PrototypePointColors }
+
+val DarkPrototypePointColors = PointColors(
+    pointColor1 = Color(0xFFFF9900),
+    pointColor2 = Color(0xFF7FACFF),
+    pointColor3 = Color(0xFF90DBA6),
+    pointColor4 = Color(0xFFE88081),
+    pointColor5 = Color(0xFFF6FF92),
+    pointColor6 = Color(0xFFD08EFF),
+    pointColor7 = Color(0xFF6DFFF3),
+    pointColor8 = Color(0xFF2C61FF),
+    pointColor9 = Color(0xFFAEAEAE),
+    pointColor10 =Color(0xFF000000),
+    pointTextColor = Color(0xFFFFFFFF)
+)
+
+val LocalPointColors = staticCompositionLocalOf { LightPrototypePointColors }
