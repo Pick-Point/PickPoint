@@ -112,5 +112,16 @@ class HomeViewModel(
         }
     }
 
+    fun updateThemeSettingIndex(index: Int) {
+        _themeSettingIndex.value = index
+    }
+
+    fun updateLanguageSettingIndex(index: Int) {
+        _languageSettingIndex.value = index
+    }
+
+    fun updatePreferencesSettingIndex(index: Int) {
+        _preferencesSettingIndex.value = index
+    }
 
 }
