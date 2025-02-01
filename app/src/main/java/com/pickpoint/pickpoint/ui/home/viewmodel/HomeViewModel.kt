@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pickpoint.pickpoint.ui.common.util.DataStoreManager
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
@@ -11,13 +12,44 @@ class HomeViewModel(
 ) : ViewModel() {
 
     private val _themeSetting = MutableStateFlow<String>("")
-    val themeSetting = _themeSetting
+    val themeSetting: StateFlow<String> = _themeSetting
 
     private val _languageSetting = MutableStateFlow<String>("")
-    val languageSetting = _languageSetting
+    val languageSetting: StateFlow<String> = _languageSetting
 
     private val _preferencesSetting = MutableStateFlow<String>("")
-    val preferencesSetting = _preferencesSetting
+    val preferencesSetting: StateFlow<String> = _preferencesSetting
+
+    init {
+        loadSettings()
+    }
+
+    // reset 버튼의 onClick 이벤트로 설정하면 됨.
+    fun resetSettings() {
+        loadSettings()
+    }
+
+    // confirm 버튼의 onClick 이벤트로 설정하면 됨.
+    fun saveSettings() {
+        viewModelScope.launch {
+            saveThemeSettings()
+            saveLanguageSettings()
+            savePreferencesSettings()
+        }
+    }
+
+    private suspend fun saveThemeSettings() {
+        dataStoreManager.setThemeSetting(themeSetting.value)
+    }
+
+    private suspend fun saveLanguageSettings() {
+        dataStoreManager.setLanguageSetting(languageSetting.value)
+    }
+
+    private suspend fun savePreferencesSettings() {
+        dataStoreManager.setPreferencesSetting(preferencesSetting.value)
+    }
+
 
     private fun loadSettings() {
         viewModelScope.launch {
