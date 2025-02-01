@@ -27,10 +27,6 @@ private val LightColorScheme = lightColorScheme(
     tertiary = PrototypeTertiaryColor
 )
 
-enum class AppTheme {
-    LIGHT_PROTOTYPE,
-    DARK_PROTOTYPE
-}
 
 @Composable
 fun PickPointTheme(
@@ -42,6 +38,7 @@ fun PickPointTheme(
     val context = LocalContext.current
     val isDarkTheme = when (theme) {
         AppTheme.DARK_PROTOTYPE -> true
+        AppTheme.LIGHT_PROTOTYPE -> false
         else -> false
     }
     val colorScheme = when {
