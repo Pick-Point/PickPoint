@@ -49,13 +49,13 @@ fun DummyRandomPickerComponent(onClick: () -> Unit) {
                 painter = painterResource(id = R.drawable.ic_trash_can),
                 contentDescription = "Reset"
             )
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 "Reset",
                 style = TextStyle(
                     fontSize = 20.sp
                 )
             )
-            Spacer(modifier = Modifier.width(8.dp))
         }
 
         Spacer(
@@ -75,15 +75,15 @@ fun DummyRandomPickerComponent(onClick: () -> Unit) {
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_check),
-                contentDescription = "Confirm"
+                contentDescription = "Confirm",
             )
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 "Confirm",
                 style = TextStyle(
                     fontSize = 20.sp
                 )
             )
-            Spacer(modifier = Modifier.width(8.dp))
         }
 
         Spacer(
@@ -105,13 +105,13 @@ fun DummyRandomPickerComponent(onClick: () -> Unit) {
                 painter = painterResource(id = R.drawable.ic_retry),
                 contentDescription = "Cancel"
             )
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 "Retry",
                 style = TextStyle(
                     fontSize = 20.sp
                 )
             )
-            Spacer(modifier = Modifier.width(8.dp))
         }
     }
 }
