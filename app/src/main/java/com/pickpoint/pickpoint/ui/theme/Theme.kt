@@ -11,20 +11,19 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    //TODO: 다크모드 색상 지정
-    primary = PrototypePrimaryColor,
-    onPrimary = PrototypeOnPrimaryColor,
-    background = PrototypeBackgroundColor,
-    secondary = ProtorypeSecondaryColor,
-    tertiary = PrototypeTertiaryColor
+    primary = DarkPrototypePrimaryColor,
+    onPrimary = DarkPrototypeOnPrimaryColor,
+    background = DarkPrototypeBackgroundColor,
+    secondary = DarkPrototypeSecondaryColor,
+    tertiary = DarkPrototypeTertiaryColor
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = PrototypePrimaryColor,
-    onPrimary = PrototypeOnPrimaryColor,
-    background = PrototypeBackgroundColor,
-    secondary = ProtorypeSecondaryColor,
-    tertiary = PrototypeTertiaryColor
+    primary = LightPrototypePrimaryColor,
+    onPrimary = LightPrototypeOnPrimaryColor,
+    background = LightPrototypeBackgroundColor,
+    secondary = LightPrototypeSecondaryColor,
+    tertiary = LightPrototypeTertiaryColor
 )
 
 

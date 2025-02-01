@@ -19,6 +19,9 @@ data class PointColors(
     val pointTextColor : Color,
 )
 
+/*
+* LIGHT_PROTOTYPE 에서 사용할 Point 색상들
+* */
 val LightPrototypePointColors = PointColors(
      pointColor1 = Color(0xFFFF9900),
      pointColor2 = Color(0xFF7FACFF),
@@ -34,6 +37,10 @@ val LightPrototypePointColors = PointColors(
 )
 
 
+/*
+* DARK_PROTOTYPE 에서 사용할 Point 색상들
+* TODO: 색상 지정
+* */
 val DarkPrototypePointColors = PointColors(
     pointColor1 = Color(0xFFFF9900),
     pointColor2 = Color(0xFF7FACFF),
