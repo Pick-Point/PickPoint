@@ -40,23 +40,3 @@ fun DummyHomeComponent(onClick: () -> Unit) {
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewDummyHomeComponent() {
-//    DummyHomeComponent(onClick = {})
-//}
-//@Composable
-//fun DummyHomeComponent(onClick: () -> Unit = {}) {
-//    Button(
-//        onClick = { onClick() },
-//        colors = ButtonDefaults.buttonColors(
-//            containerColor = Color(0xFFEEEEEE),
-//            contentColor = Color(0xFF333333)
-//        ),
-//        shape = RoundedCornerShape(100.dp)
-//
-//    ) {
-//        Text("Random Picker")
-//    }
-//} preview 미리보기를 위한 코드
-
