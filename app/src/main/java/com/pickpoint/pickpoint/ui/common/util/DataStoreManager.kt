@@ -5,6 +5,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.pickpoint.pickpoint.ui.model.setting.LanguageSetting
+import com.pickpoint.pickpoint.ui.model.setting.PreferencesSetting
+import com.pickpoint.pickpoint.ui.model.setting.ThemeSetting
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -18,25 +21,36 @@ class DataStoreManager(private val context: Context) {
     private val languageKey = stringPreferencesKey("language")
     private val preferencesKey = stringPreferencesKey("preferences")
 
-    suspend fun setThemeSetting(text: String) {
+    suspend fun saveThemeSetting(setting: ThemeSetting) {
         context.dataStore.edit { theme ->
-            theme[themeKey] = text
+            theme[themeKey] = when (setting) {
+                ThemeSetting.PROTOTYPE -> ThemeSetting.PROTOTYPE.value
+                ThemeSetting.COMING_SOON -> ThemeSetting.COMING_SOON.value
+            }
         }
     }
 
-    suspend fun setLanguageSetting(text: String) {
+    suspend fun saveLanguageSetting(setting: LanguageSetting) {
         context.dataStore.edit { language ->
-            language[languageKey] = text
+            language[languageKey] = when (setting) {
+                LanguageSetting.KOREAN -> LanguageSetting.KOREAN.value
+                LanguageSetting.ENGLISH -> LanguageSetting.ENGLISH.value
+                LanguageSetting.JAPANESE -> LanguageSetting.JAPANESE.value
+            }
         }
     }
 
-    suspend fun setPreferencesSetting(text: String) {
+    suspend fun savePreferencesSetting(setting: PreferencesSetting) {
         context.dataStore.edit { preferences ->
-            preferences[preferencesKey] = text
+            preferences[preferencesKey] = when (setting) {
+                PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS -> PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS.value
+                PreferencesSetting.SOME_SETTINGS -> PreferencesSetting.SOME_SETTINGS.value
+            }
         }
     }
 
-    fun getThemeSetting(): Flow<String> {
+    fun getThemeSetting(): Flow<ThemeSetting> {
+
         return context.dataStore.data
             .catch { exception ->
                 if (exception is IOException) {
@@ -46,11 +60,15 @@ class DataStoreManager(private val context: Context) {
                 }
             }
             .map { preferences ->
-                preferences[themeKey] ?: "prototype"
+                when (preferences[themeKey]) {
+                    ThemeSetting.PROTOTYPE.value -> ThemeSetting.PROTOTYPE
+                    ThemeSetting.COMING_SOON.value -> ThemeSetting.COMING_SOON
+                    else -> ThemeSetting.PROTOTYPE
+                }
             }
     }
 
-    fun getLanguageSetting(): Flow<String> {
+    fun getLanguageSetting(): Flow<LanguageSetting> {
         return context.dataStore.data
             .catch { exception ->
                 if (exception is IOException) {
@@ -60,11 +78,16 @@ class DataStoreManager(private val context: Context) {
                 }
             }
             .map { preferences ->
-                preferences[languageKey] ?: "한국어 (대한민국)"
+                when (preferences[languageKey]) {
+                    LanguageSetting.KOREAN.value -> LanguageSetting.KOREAN
+                    LanguageSetting.ENGLISH.value -> LanguageSetting.ENGLISH
+                    LanguageSetting.JAPANESE.value -> LanguageSetting.JAPANESE
+                    else -> LanguageSetting.KOREAN
+                }
             }
     }
 
-    fun getPreferencesSetting(): Flow<String> {
+    fun getPreferencesSetting(): Flow<PreferencesSetting> {
         return context.dataStore.data
             .catch { exception ->
                 if (exception is IOException) {
@@ -74,7 +97,11 @@ class DataStoreManager(private val context: Context) {
                 }
             }
             .map { preferences ->
-                preferences[preferencesKey] ?: "Remember Previous Settings"
+                when (preferences[preferencesKey]) {
+                    PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS.value -> PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS
+                    PreferencesSetting.SOME_SETTINGS.value -> PreferencesSetting.SOME_SETTINGS
+                    else -> PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS
+                }
             }
     }
 
