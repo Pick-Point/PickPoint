@@ -20,8 +20,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+
 @Composable
-fun TopAppBar(modifier: Modifier = Modifier) {
+fun TopAppBar(
+    title: String,
+    onNavigationClick: () -> Unit,
+    onActionClick: (() -> Unit)? = null,
+    modifier: Modifier = Modifier
+) {
     Surface(
         modifier = modifier,
         color = MaterialTheme.colorScheme.background
@@ -33,34 +39,40 @@ fun TopAppBar(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             IconButton(
-                onClick = {},
+                onClick = onNavigationClick,
                 modifier = Modifier.size(24.dp)
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = null
+                    contentDescription = "Back"
                 )
             }
             Text(
-                text = "Pick Point",
+                text = title,
                 fontSize = 28.sp
-                /*text 색만 바꾸면 됨*/
+                /* 여기에 text 색상 변경 가능 */
             )
-            IconButton(
-                onClick = {},
-                modifier = Modifier.size(24.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Settings,
-                    contentDescription = null
-                )
+            onActionClick?.let {
+                IconButton(
+                    onClick = it,
+                    modifier = Modifier.size(24.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Settings,
+                        contentDescription = "Settings"
+                    )
+                }
             }
         }
     }
 }
 
 @Composable
-fun SecondaryTopAppBar(modifier: Modifier = Modifier) {
+fun SecondaryTopAppBar(
+    title: String,
+    onNavigationClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Surface(
         modifier = modifier,
         color = MaterialTheme.colorScheme.background
@@ -72,33 +84,32 @@ fun SecondaryTopAppBar(modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.Start
         ) {
             IconButton(
-                onClick = {},
+                onClick = onNavigationClick,
                 modifier = Modifier.size(24.dp)
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                    contentDescription = null
+                    contentDescription = "Back"
                 )
             }
             Text(
-                text = "Settings",
+                text = title,
                 fontSize = 28.sp,
                 modifier = Modifier.padding(start = 18.dp)
-                /*text 색만 바꾸면 됨*/
+                /* 여기에 text 색상 변경 가능 */
             )
         }
     }
 }
 
-
 @Preview
 @Composable
-fun FirstPreview(){
-    TopAppBar()
+fun FirstPreview() {
+    TopAppBar(title = "Pick Point", onNavigationClick = {}, onActionClick = {})
 }
 
 @Preview
 @Composable
-fun SecondPreview(){
-    SecondaryTopAppBar()
+fun SecondPreview() {
+    SecondaryTopAppBar(title = "Settings", onNavigationClick = {})
 }
