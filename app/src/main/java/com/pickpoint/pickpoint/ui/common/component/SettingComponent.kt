@@ -1,6 +1,7 @@
 package com.pickpoint.pickpoint.ui.common.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,11 +14,17 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.R
+import com.pickpoint.pickpoint.ui.model.setting.ThemeSetting
 
 /**
  * @param*/
@@ -32,8 +40,9 @@ import com.pickpoint.pickpoint.R
 fun SettingComponent(
     modifier: Modifier = Modifier,
     title: String = "",
-    settingMenus: List<String>,
+    settingRes: List<Int>,
     checkedIndex: Int = 0,
+    onClick : (Int) -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -43,7 +52,7 @@ fun SettingComponent(
     ) {
         Row(
             modifier = Modifier
-                .height(23.dp)
+                .height(36.dp)
         ) {
             Text(
                 text = title,
@@ -65,17 +74,19 @@ fun SettingComponent(
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .background(color = Color(0xFFEEEEEE), shape = RoundedCornerShape(size = 8.dp))
-                .padding(10.dp)
         ) {
-            settingMenus.forEachIndexed { index, menu ->
+            settingRes.forEachIndexed { index, res ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .clip(RoundedCornerShape(size = 8.dp))
+                        .clickable { onClick(index) }
+                        .padding(10.dp)
                         .height(24.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = menu,
+                        text = stringResource(id = res),
                         modifier = Modifier
                             .align(Alignment.CenterVertically),
                         style = TextStyle(
@@ -92,11 +103,11 @@ fun SettingComponent(
                         )
                     }
                 }
-                if (index != settingMenus.size - 1) {
+                if (index != settingRes.size - 1) {
                     HorizontalDivider(
                         modifier = Modifier
+                            .padding(horizontal = 10.dp)
                             .fillMaxWidth()
-                            .padding(vertical = 6.dp)
                     )
                 }
             }
@@ -107,10 +118,13 @@ fun SettingComponent(
 @Preview(showBackground = true)
 @Composable
 private fun SettingComponentPreview() {
+    var checkedIndex by remember { mutableIntStateOf(0) }
+
     SettingComponent(
         title = "Language",
-        settingMenus = listOf("한국어 (대한민국)", "English", "日本語"),
-        checkedIndex = 0
+        settingRes = ThemeSetting.entries.map { it.res },
+        checkedIndex = checkedIndex,
+        onClick = { checkedIndex = it }
     )
 }
 
@@ -123,7 +137,7 @@ private fun SettingComponentPreview() {
 private fun SettingComponentPreviewFull() {
     SettingComponent(
         title = "Language",
-        settingMenus = listOf("한국어 (대한민국)", "English", "日本語"),
+        settingRes = ThemeSetting.entries.map { it.res },
         checkedIndex = 0
     )
 }
@@ -137,7 +151,7 @@ private fun SettingComponentPreviewFull() {
 private fun SettingComponentPreviewWide() {
     SettingComponent(
         title = "Language",
-        settingMenus = listOf("한국어 (대한민국)", "English", "日本語"),
+        settingRes = ThemeSetting.entries.map { it.res },
         checkedIndex = 0
     )
 }
