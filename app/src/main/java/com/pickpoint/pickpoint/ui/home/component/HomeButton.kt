@@ -45,7 +45,7 @@ fun HomeButton(onClick: () -> Unit, Text: String = "Random Picker") {
     }
 }
 
-@Preview(showBackground = true,  backgroundColor = 0x00000000)
+@Preview
 @Composable
 fun HomeButtonPreview(){
     HomeButton(onClick = { /* Handle click */ })
