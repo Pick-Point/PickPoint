@@ -19,9 +19,6 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun HomeButton(onClick: () -> Unit, Text: String = "Random Picker") {
-    Surface(
-        color = MaterialTheme.colorScheme.background
-    ) {
         Button(
             onClick = { onClick() },
             colors = ButtonDefaults.buttonColors(
@@ -42,7 +39,7 @@ fun HomeButton(onClick: () -> Unit, Text: String = "Random Picker") {
                 )
             )
         }
-    }
+
 }
 
 @Preview
