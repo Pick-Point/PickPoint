@@ -51,7 +51,7 @@ fun NumberSettingComponent(
                 .height(4.dp)
         )
         Card(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp))
                 .height(50.dp),
@@ -61,13 +61,16 @@ fun NumberSettingComponent(
             )
         ) {
             Row(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp, vertical = 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = currentNumber.toString(), fontSize = 20.sp)
+                Text(
+                    text = currentNumber.toString(),
+                    fontSize = 28.sp
+                )
                 Row {
                     //- 버튼
                     OutlinedButton(
@@ -84,10 +87,10 @@ fun NumberSettingComponent(
                             painter = painterResource(id = R.drawable.ic_number_setting_minus),
                             contentDescription = "-",
                             tint = Color.Unspecified,
-                            modifier = modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp)
                         )
                     }
-                    Spacer(modifier = modifier.width(12.dp))
+                    Spacer(modifier = Modifier.width(12.dp))
                     //+ 버튼
                     OutlinedButton(
                         onClick = {
@@ -103,7 +106,7 @@ fun NumberSettingComponent(
                             imageVector = Icons.Filled.Add,
                             contentDescription = "-",
                             tint = Color.Unspecified,
-                            modifier = modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp)
                         )
                     }
                 }
@@ -123,14 +126,14 @@ private fun NumberSettingComponentPreview() {
         onPlusButtonClick = {
             if (count < 10) {
                 count++
-            }else{
+            } else {
                 //Toast
             }
         },
         onMinusButtonClick = {
-            if (count > 1){
+            if (count > 1) {
                 count--
-            }else{
+            } else {
                 //Toast
             }
         }
