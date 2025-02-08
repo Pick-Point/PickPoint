@@ -37,7 +37,7 @@ fun RandomPickerGameComponent(
     modifier: Modifier = Modifier,
     pointsToStart: Int = 2,
     resultDialog: @Composable ((onRetry: () -> Unit) -> Unit)? = null, // 카운트다운 끝난 후 결과 다이얼로그
-    onCountdownDone: (List<Pair<Offset, Color>>) -> List<Pair<Offset, Color>>
+    resultLogic: (List<Pair<Offset, Color>>) -> List<Pair<Offset, Color>>
 ) {
     val pointColorList = LocalPointColors.current.getPointColorList()
     val pointSize = 100
@@ -71,7 +71,7 @@ fun RandomPickerGameComponent(
 
             // 로직 반영
             resultPoints.clear()
-            resultPoints.addAll(onCountdownDone(finalPoints))
+            resultPoints.addAll(resultLogic(finalPoints))
         }
     }
 
@@ -177,7 +177,7 @@ private fun RandomPickerGameComponentPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
             RandomPickerGameComponent(
-                onCountdownDone = { resultPoints ->
+                resultLogic = { resultPoints ->
                     // 점 1개 선택
                     resultPoints.shuffled().take(1)
                     // 점 2개 선택
