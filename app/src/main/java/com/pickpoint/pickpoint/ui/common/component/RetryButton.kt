@@ -1,6 +1,7 @@
 package com.pickpoint.pickpoint.ui.common.component
 
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +21,10 @@ import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.R
 
 @Composable
-fun RetryButton(retry: () -> Unit) {
+fun RetryButton(
+    modifier: Modifier = Modifier,
+    retry: () -> Unit
+) {
 
     Button(
         onClick = { retry() },
@@ -29,8 +33,8 @@ fun RetryButton(retry: () -> Unit) {
             contentColor = Color(0xFFFFFFFF),
         ),
         shape = RoundedCornerShape(100.dp),
-        modifier = Modifier
-            .width(300.dp)
+        modifier = modifier
+            .fillMaxWidth()
             .height(48.dp)
             .shadow(4.dp, RoundedCornerShape(100.dp))
     ) {
@@ -49,7 +53,7 @@ fun RetryButton(retry: () -> Unit) {
 
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun RetryButtonPreview() {
     RetryButton(retry = { /* Handle retry click */ })
