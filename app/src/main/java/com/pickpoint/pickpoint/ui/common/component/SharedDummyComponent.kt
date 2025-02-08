@@ -2,6 +2,7 @@ package com.pickpoint.pickpoint.ui.common.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,7 +29,6 @@ import com.pickpoint.pickpoint.ui.theme.*
 fun TopAppBar(
     title: String,
     onNavigationClick: () -> Unit,
-    onActionClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     Surface(
@@ -41,12 +41,12 @@ fun TopAppBar(
         Row(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
                 onClick = onNavigationClick,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier
+                    .size(24.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Menu,
@@ -54,23 +54,14 @@ fun TopAppBar(
                     tint = LightPrototypeOnPrimaryColor
                 )
             }
+            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = title,
                 fontSize = 28.sp,
-                color = LightPrototypeSecondaryColor
+                color = LightPrototypeSecondaryColor,
+                modifier = Modifier.padding(end = 20.dp)
             )
-            onActionClick?.let {
-                IconButton(
-                    onClick = it,
-                    modifier = Modifier.size(24.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Settings,
-                        contentDescription = null,
-                        tint = LightPrototypeOnPrimaryColor
-                    )
-                }
-            }
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }
@@ -117,7 +108,7 @@ fun SecondaryTopAppBar(
 @Preview(showBackground = true)
 @Composable
 fun FirstPreview() {
-    TopAppBar(title = "Pick Point", onNavigationClick = {}, onActionClick = {})
+    TopAppBar(title = "Pick Point", onNavigationClick = {})
 }
 
 @Preview(showBackground = true)
