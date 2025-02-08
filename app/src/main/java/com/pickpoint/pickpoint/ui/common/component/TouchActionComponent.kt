@@ -1,17 +1,13 @@
 package com.pickpoint.pickpoint.ui.common.component
 
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -25,7 +21,7 @@ import kotlin.math.roundToInt
 
 
 @Composable
-fun TouchActionDemoComponent(modifier: Modifier = Modifier) {
+fun TouchActionComponent(modifier: Modifier = Modifier) {
     // 각 터치의 포인터 ID와 위치 정보를 저장하는 상태 리스트
     val touchPoints = remember { mutableStateMapOf<Long, Pair<Offset, Color>>() }
     val pointColorList = LocalPointColors.current.getPointColorList()
@@ -33,7 +29,7 @@ fun TouchActionDemoComponent(modifier: Modifier = Modifier) {
     val pointSize = 100
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             // pointerInput을 이용해 터치 이벤트를 감지
             .pointerInput(Unit) {
@@ -63,13 +59,13 @@ fun TouchActionDemoComponent(modifier: Modifier = Modifier) {
                 }
             }
     ) {
-        Text("TouchActionDemoComponent")
+        Text("TouchActionComponent")
         // 현재 활성화된 각 터치에 대해 Point composable 표시
         touchPoints.forEach { (_, data) ->
             val (position, color) = data
             // offset을 이용해 터치한 위치에 Point를 배치
             CircleButton(
-                modifier = Modifier.offset {
+                modifier = modifier.offset {
                     IntOffset(
                         (position.x - (pointSize/2).dp.toPx()).roundToInt(),
                         (position.y - (pointSize/2).dp.toPx()).roundToInt()
@@ -88,5 +84,5 @@ fun TouchActionDemoComponent(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun TouchLogicTestPreview() {
-    TouchActionDemoComponent()
+    TouchActionComponent()
 }
