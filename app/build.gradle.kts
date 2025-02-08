@@ -60,4 +60,5 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
     implementation(libs.androidx.datastore.preferences)
+    implementation("androidx.navigation:navigation-compose:2.5.3")
 }
