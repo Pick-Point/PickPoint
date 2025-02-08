@@ -1,5 +1,6 @@
 package com.pickpoint.pickpoint.ui.common.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -51,15 +52,6 @@ fun TouchActionComponent(
         timeToStart = timeToStart,
     )
 
-    // 결과 다이얼로그
-    LaunchedEffect(finalPoints.toList()) {
-        if (finalPoints.isNotEmpty() && !isGameActive) {
-            countdown = null
-            onCountdownDone(finalPoints.toList())
-            delay(1000)
-            showResultDialog = true
-        }
-    }
 
     // 카운트다운
     LaunchedEffect(touchPoints.keys.toSet()){
@@ -71,6 +63,10 @@ fun TouchActionComponent(
             }
             isGameActive = false
             countdown = null
+            showResultDialog = true
+
+            finalPoints.clear()
+            finalPoints.addAll(touchPoints.values)
         }
     }
 
@@ -162,6 +158,7 @@ fun TouchActionComponent(
         }
 
         if (showResultDialog) {
+            Log.d("TouchActionComponent", "showResultDialog is true")
             Button(
                 onClick = { resetGame() },
                 modifier = Modifier.align(Alignment.Center)
