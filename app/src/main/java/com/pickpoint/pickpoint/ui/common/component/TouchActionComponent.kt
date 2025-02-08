@@ -1,13 +1,20 @@
 package com.pickpoint.pickpoint.ui.common.component
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -15,18 +22,44 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.pickpoint.pickpoint.ui.common.util.TimerStartHandler
 import com.pickpoint.pickpoint.ui.common.util.getPointColorList
+import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.LocalPointColors
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
+import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 
 @Composable
-fun TouchActionComponent(modifier: Modifier = Modifier) {
-    // 각 터치의 포인터 ID와 위치 정보를 저장하는 상태 리스트
-    val touchPoints = remember { mutableStateMapOf<Long, Pair<Offset, Color>>() }
+fun TouchActionComponent(
+    modifier: Modifier = Modifier,
+    pointsToStart: Int = 2,
+    resultDialog: @Composable (() -> Unit)? = null, // 카운트다운 끝난 후 결과 다이얼로그
+    onCountdownDone: (List<Pair<Offset, Color>>) -> Unit
+) {
     val pointColorList = LocalPointColors.current.getPointColorList()
-    val usedColors = remember { mutableStateListOf<Color>()}
+    val usedColors = remember { mutableStateListOf<Color>() }
     val pointSize = 100
+    val timeToStart: Long = 2000 //2초
+    var countdown by remember { mutableStateOf<Int?>(null)}
+
+    val (touchPoints, finalPoints) = TimerStartHandler(
+        pointsToStart = pointsToStart,
+        timeToStart = timeToStart,
+        onCountdownDone = onCountdownDone
+    )
+
+    LaunchedEffect(touchPoints.keys.toSet()){
+        if (touchPoints.size >= pointsToStart){
+            delay(timeToStart)
+            for (i in 3 downTo 1){
+                countdown = i
+                delay(1000)
+            }
+            countdown = null
+        }
+    }
 
     Box(
         modifier = modifier
@@ -40,15 +73,18 @@ fun TouchActionComponent(modifier: Modifier = Modifier) {
                             val pointerId = pointerInputChange.id.value
                             if (pointerInputChange.pressed) {
                                 // 이미 있는 포인터면 색상 유지, 없으면 랜덤 색상 할당
-                                if (pointerId !in touchPoints){
-                                    val availableColor = pointColorList.filter { it !in usedColors }.randomOrNull()
-                                    if (availableColor != null){
+                                if (pointerId !in touchPoints) {
+                                    val availableColor =
+                                        pointColorList.filter { it !in usedColors }.randomOrNull()
+                                    if (availableColor != null) {
                                         usedColors.add(availableColor)
-                                        touchPoints[pointerId] = pointerInputChange.position to availableColor
+                                        touchPoints[pointerId] =
+                                            pointerInputChange.position to availableColor
                                     }
-                                }else{
+                                } else {
                                     //기존 위치 업데이트
-                                    touchPoints[pointerId] = pointerInputChange.position to touchPoints[pointerId]!!.second
+                                    touchPoints[pointerId] =
+                                        pointerInputChange.position to touchPoints[pointerId]!!.second
                                 }
                             } else {
                                 touchPoints[pointerId]?.second?.let { usedColors.remove(it) }
@@ -67,8 +103,8 @@ fun TouchActionComponent(modifier: Modifier = Modifier) {
             CircleButton(
                 modifier = modifier.offset {
                     IntOffset(
-                        (position.x - (pointSize/2).dp.toPx()).roundToInt(),
-                        (position.y - (pointSize/2).dp.toPx()).roundToInt()
+                        (position.x - (pointSize / 2).dp.toPx()).roundToInt(),
+                        (position.y - (pointSize / 2).dp.toPx()).roundToInt()
                     )
                 },
                 pointSize = pointSize,
@@ -77,6 +113,29 @@ fun TouchActionComponent(modifier: Modifier = Modifier) {
 
             }
         }
+        // 카운트다운 끝난 후 유지되는 Point 표시
+        finalPoints.forEach { (position, color) ->
+            CircleButton(
+                modifier = modifier.offset {
+                    IntOffset(
+                        (position.x - (pointSize / 2).dp.toPx()).roundToInt(),
+                        (position.y - (pointSize / 2).dp.toPx()).roundToInt()
+                    )
+                },
+                pointSize = pointSize,
+                color = color,
+            ) {
+            }
+        }
+        // 카운트다운 표시
+        countdown?.let{
+            Text(
+                text = it.toString(),
+                style = MaterialTheme.typography.displayLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
+                modifier = modifier.align(Alignment.Center)
+            )
+        }
     }
 }
 
@@ -84,5 +143,23 @@ fun TouchActionComponent(modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 private fun TouchLogicTestPreview() {
-    TouchActionComponent()
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            TouchActionComponent(
+                resultDialog = {
+                    Button(
+                        onClick = { /*TODO*/ },
+                        modifier = Modifier
+                    ) {
+                        Text("Retry",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                }
+            ){
+                // 카운트다운 끝난 후 동작
+            }
+        }
+    }
 }
