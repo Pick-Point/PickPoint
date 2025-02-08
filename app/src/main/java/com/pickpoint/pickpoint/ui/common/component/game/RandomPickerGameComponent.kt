@@ -1,4 +1,4 @@
-package com.pickpoint.pickpoint.ui.common.component
+package com.pickpoint.pickpoint.ui.common.component.game
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,6 +22,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.pickpoint.pickpoint.ui.common.component.CircleButton
 import com.pickpoint.pickpoint.ui.common.util.getPointColorList
 import com.pickpoint.pickpoint.ui.common.util.timerStartHandler
 import com.pickpoint.pickpoint.ui.theme.AppTheme
@@ -32,7 +33,7 @@ import kotlin.math.roundToInt
 
 
 @Composable
-fun TouchActionComponent(
+fun RandomPickerGameComponent(
     modifier: Modifier = Modifier,
     pointsToStart: Int = 2,
     resultDialog: @Composable ((onRetry: () -> Unit) -> Unit)? = null, // 카운트다운 끝난 후 결과 다이얼로그
@@ -172,10 +173,10 @@ fun TouchActionComponent(
 
 @Preview(showBackground = true)
 @Composable
-private fun TouchLogicTestPreview() {
+private fun RandomPickerGameComponentPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
-            TouchActionComponent(
+            RandomPickerGameComponent(
                 onCountdownDone = { resultPoints ->
                     // 점 1개 선택
                     resultPoints.shuffled().take(1)
