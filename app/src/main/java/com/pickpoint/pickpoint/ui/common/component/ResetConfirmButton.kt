@@ -29,7 +29,7 @@ fun ResetConfirmButton(
     confirm: () -> Unit
 ) {
         Row(
-            modifier = modifier.padding(8.dp),
+            modifier = modifier.padding(10.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
