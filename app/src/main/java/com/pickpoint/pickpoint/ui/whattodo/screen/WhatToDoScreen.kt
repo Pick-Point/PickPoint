@@ -19,6 +19,7 @@ import com.pickpoint.pickpoint.ui.common.component.NumberSettingComponent
 import com.pickpoint.pickpoint.ui.common.component.ResetConfirmButton
 import com.pickpoint.pickpoint.ui.common.component.ResultsComponent
 import com.pickpoint.pickpoint.ui.common.component.TopAppBar
+import com.pickpoint.pickpoint.ui.whattodo.component.WTDSettingContent
 import com.pickpoint.pickpoint.ui.whattodo.viewmodel.WhatToDoViewmodel
 
 @Composable
@@ -38,51 +39,15 @@ fun WhatToDoScreen(
             )
         },
     ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            Column {
-
-                NumberSettingComponent(
-                    modifier = Modifier
-                        .padding(top = 30.dp)
-                        .padding(horizontal = 20.dp),
-                    label = "Total Points",
-                    currentNumber = count,
-                    onPlusButtonClick = {
-                        if (count < 10)
-                            viewmodel.onPlusButtonClick()
-                    },
-                    onMinusButtonClick = {
-                        if (count > 1)
-                            viewmodel.onMinusButtonClick()
-                    }
-                )
-
-                ResultsComponent(
-                    modifier = Modifier
-                        .padding(top = 46.dp),
-                    title = "Results",
-                    count = count,
-                    resultList = resultList,
-                    onResultChanged = { index, result ->
-                        viewmodel.updateResultIndex(index, result)
-                    }
-                )
-            }
-
-            ResetConfirmButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 14.dp)
-                    .padding(horizontal = 20.dp)
-                    .align(Alignment.BottomCenter),
-                reset = { viewmodel.reset() },
-                confirm = {}
-            )
-        }
+        WTDSettingContent(
+            modifier = Modifier.padding(innerPadding),
+            count = count,
+            onPlusButtonClick = { viewmodel.onPlusButtonClick() },
+            onMinusButtonClick = { viewmodel.onMinusButtonClick() },
+            resultList = resultList,
+            onResultChanged = { index, result -> viewmodel.updateResultIndex(index, result) },
+            reset = { viewmodel.reset() }
+        )
     }
 }
 
