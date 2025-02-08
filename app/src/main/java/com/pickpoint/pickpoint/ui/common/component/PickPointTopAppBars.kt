@@ -21,13 +21,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun TopAppBar(modifier: Modifier = Modifier) {
+fun MainTopAppBar(
+    modifier: Modifier = Modifier,
+    title: String = "Pick Point",
+) {
     Surface(
         modifier = modifier,
         color = MaterialTheme.colorScheme.background
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(start = 16.dp, top = 14.dp, bottom = 14.dp, end = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
@@ -42,7 +46,7 @@ fun TopAppBar(modifier: Modifier = Modifier) {
                 )
             }
             Text(
-                text = "Pick Point",
+                text = title,
                 fontSize = 28.sp
                 /*text 색만 바꾸면 됨*/
             )
@@ -60,13 +64,17 @@ fun TopAppBar(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun SecondaryTopAppBar(modifier: Modifier = Modifier) {
+fun SecondaryTopAppBar(
+    modifier: Modifier = Modifier,
+    title: String = "Settings"
+) {
     Surface(
         modifier = modifier,
         color = MaterialTheme.colorScheme.background
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(start = 16.dp, top = 14.dp, bottom = 14.dp, end = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
@@ -93,12 +101,12 @@ fun SecondaryTopAppBar(modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun FirstPreview(){
-    TopAppBar()
+fun FirstPreview() {
+    MainTopAppBar()
 }
 
 @Preview
 @Composable
-fun SecondPreview(){
+fun SecondPreview() {
     SecondaryTopAppBar()
 }
