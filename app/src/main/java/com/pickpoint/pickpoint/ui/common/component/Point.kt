@@ -19,7 +19,7 @@ import com.pickpoint.pickpoint.ui.theme.LightPrototypePointColors
 import com.pickpoint.pickpoint.ui.theme.LocalPointColors
 
 @Composable
-fun CircleButton(color: Color, number: Int? = null, onClick: () -> Unit) {
+fun CircleButton(modifier: Modifier = Modifier, color: Color, number: Int? = null, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .size(60.dp)
