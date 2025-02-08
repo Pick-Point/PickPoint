@@ -19,10 +19,10 @@ import com.pickpoint.pickpoint.ui.theme.LightPrototypePointColors
 import com.pickpoint.pickpoint.ui.theme.LocalPointColors
 
 @Composable
-fun CircleButton(modifier: Modifier = Modifier, color: Color, number: Int? = null, onClick: () -> Unit) {
+fun CircleButton(modifier: Modifier = Modifier, color: Color, pointSize: Int, number: Int? = null, onClick: () -> Unit) {
     Box(
         modifier = modifier
-            .size(60.dp)
+            .size(pointSize.dp)
             .background(color = color, shape = CircleShape)
             .clickable { onClick() },
         contentAlignment = Alignment.Center // 텍스트를 중앙 정렬
@@ -51,7 +51,7 @@ fun PointColorPreview() {
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             colors.forEachIndexed { index, color ->
-                CircleButton(color = color, number = if (index % 2 == 0) index + 1 else null) {
+                CircleButton(color = color, pointSize = 100, number = if (index % 2 == 0) index + 1 else null) {
                     // 클릭 시 동작 추가 가능
                 }
             }

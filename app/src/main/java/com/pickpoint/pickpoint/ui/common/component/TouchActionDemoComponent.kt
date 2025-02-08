@@ -30,6 +30,7 @@ fun TouchActionDemoComponent(modifier: Modifier = Modifier) {
     val touchPoints = remember { mutableStateMapOf<Long, Pair<Offset, Color>>() }
     val pointColorList = LocalPointColors.current.getPointColorList()
     val usedColors = remember { mutableStateListOf<Color>()}
+    val pointSize = 100
 
     Box(
         modifier = Modifier
@@ -70,10 +71,11 @@ fun TouchActionDemoComponent(modifier: Modifier = Modifier) {
             CircleButton(
                 modifier = Modifier.offset {
                     IntOffset(
-                        (position.x - 30.dp.toPx()).roundToInt(),
-                        (position.y - 30.dp.toPx()).roundToInt()
+                        (position.x - (pointSize/2).dp.toPx()).roundToInt(),
+                        (position.y - (pointSize/2).dp.toPx()).roundToInt()
                     )
                 },
+                pointSize = pointSize,
                 color = color,
             ) {
 
