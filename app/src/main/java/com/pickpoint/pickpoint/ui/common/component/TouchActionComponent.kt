@@ -1,6 +1,5 @@
 package com.pickpoint.pickpoint.ui.common.component
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,7 +36,7 @@ fun TouchActionComponent(
     modifier: Modifier = Modifier,
     pointsToStart: Int = 2,
     resultDialog: @Composable ((onRetry: () -> Unit) -> Unit)? = null, // 카운트다운 끝난 후 결과 다이얼로그
-    onCountdownDone: (List<Pair<Offset, Color>>) -> Unit
+    onCountdownDone: (List<Pair<Offset, Color>>) -> List<Pair<Offset, Color>>
 ) {
     val pointColorList = LocalPointColors.current.getPointColorList()
     val pointSize = 100
@@ -52,6 +51,7 @@ fun TouchActionComponent(
         timeToStart = timeToStart,
     )
 
+    val resultPoints = remember { mutableStateListOf<Pair<Offset, Color>>() }
 
     // 카운트다운
     LaunchedEffect(touchPoints.keys.toSet()){
@@ -67,6 +67,10 @@ fun TouchActionComponent(
 
             finalPoints.clear()
             finalPoints.addAll(touchPoints.values)
+
+            // 로직 반영
+            resultPoints.clear()
+            resultPoints.addAll(onCountdownDone(finalPoints))
         }
     }
 
@@ -76,6 +80,7 @@ fun TouchActionComponent(
         countdown = null
         touchPoints.clear()
         finalPoints.clear()
+        resultPoints.clear()
         usedColors.clear()
     }
 
@@ -113,7 +118,6 @@ fun TouchActionComponent(
                 }
             }
     ) {
-        Text("TouchActionComponent")
         // 현재 활성화된 각 터치에 대해 Point composable 표시
         if (isGameActive) {
             touchPoints.forEach { (_, data) ->
@@ -133,8 +137,8 @@ fun TouchActionComponent(
                 }
             }
         }
-        // 카운트다운 끝난 후 유지되는 Point 표시
-        finalPoints.forEach { (position, color) ->
+        // 카운트다운 끝난 후 결과 Point 표시
+        resultPoints.forEach { (position, color) ->
             CircleButton(
                 modifier = modifier.offset {
                     IntOffset(
@@ -158,17 +162,6 @@ fun TouchActionComponent(
         }
 
         if (showResultDialog) {
-            Log.d("TouchActionComponent", "showResultDialog is true")
-//            Button(
-//                onClick = { resetGame() },
-//                modifier = Modifier.align(Alignment.Center)
-//            ) {
-//                Text("Retry",
-//                    style = MaterialTheme.typography.labelLarge,
-//                    color = MaterialTheme.colorScheme.onPrimary
-//                )
-//            }
-
             resultDialog?.invoke(resetGame)
         }
     }
@@ -183,7 +176,14 @@ private fun TouchLogicTestPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
             TouchActionComponent(
-                onCountdownDone = {},
+                onCountdownDone = { resultPoints ->
+                    // 점 1개 선택
+                    resultPoints.shuffled().take(1)
+                    // 점 2개 선택
+//                    resultPoints.shuffled().take(2)
+                    // 점 3개 선택
+//                    resultPoints.shuffled().take(3)
+                },
                 resultDialog = { onRetry ->
                     Box(
                         modifier = Modifier.fillMaxSize(),
