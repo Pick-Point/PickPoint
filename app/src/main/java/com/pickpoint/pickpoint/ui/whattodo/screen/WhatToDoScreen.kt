@@ -3,11 +3,17 @@ package com.pickpoint.pickpoint.ui.whattodo.screen
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -32,9 +38,17 @@ fun WhatToDoScreen(
     val randomColors by viewmodel.randomColors.collectAsState()
     val scaffoldState = rememberBottomSheetScaffoldState()
 
+    var showSheet by remember { mutableStateOf(false) }
+
     val confirmed by viewmodel.isConfirmed.collectAsState()
 
     viewmodel.initRandomColors(LocalPointColors.current.getPointColorList())
+
+    if (showSheet) {
+        LaunchedEffect(Unit) {
+            scaffoldState.bottomSheetState.expand()
+        }
+    }
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
@@ -77,7 +91,8 @@ fun WhatToDoScreen(
                 modifier = Modifier.padding(innerPadding),
                 count = count,
                 resultList = resultList,
-                randomColors = randomColors
+                randomColors = randomColors,
+                expandBottomSheet = { showSheet = true }
             )
         }
     }
