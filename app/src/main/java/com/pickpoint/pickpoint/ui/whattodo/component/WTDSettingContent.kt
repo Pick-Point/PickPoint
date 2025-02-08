@@ -22,6 +22,7 @@ fun WTDSettingContent(
     resultList: List<String>,
     onResultChanged: (Int, String) -> Unit,
     reset: () -> Unit,
+    confirm: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -62,7 +63,7 @@ fun WTDSettingContent(
                 .padding(horizontal = 20.dp)
                 .align(Alignment.BottomCenter),
             reset = { reset() },
-            confirm = {}
+            confirm = { confirm() }
         )
     }
 }
