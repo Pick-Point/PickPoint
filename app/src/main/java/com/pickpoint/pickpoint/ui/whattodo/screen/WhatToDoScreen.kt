@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pickpoint.pickpoint.ui.common.component.NumberSettingComponent
+import com.pickpoint.pickpoint.ui.common.component.ResetConfirmButton
 import com.pickpoint.pickpoint.ui.common.component.ResultsComponent
 import com.pickpoint.pickpoint.ui.common.component.TopAppBar
 import com.pickpoint.pickpoint.ui.whattodo.viewmodel.WhatToDoViewmodel
@@ -72,13 +73,15 @@ fun WhatToDoScreen(
                 )
             }
 
-            Row(
+            ResetConfirmButton(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-            ) {
-
-            }
+                    .padding(bottom = 14.dp)
+                    .padding(horizontal = 20.dp)
+                    .align(Alignment.BottomCenter),
+                reset = { viewmodel.reset() },
+                confirm = {}
+            )
         }
     }
 }

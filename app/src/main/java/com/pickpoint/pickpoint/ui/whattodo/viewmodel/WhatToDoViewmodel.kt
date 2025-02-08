@@ -35,4 +35,9 @@ class WhatToDoViewmodel: ViewModel() {
         _resultList.value = _resultList.value.toMutableList().apply { set(index, result) }
     }
 
+    fun reset() {
+        _count.value = 4
+        _resultList.value = mutableListOf("", "", "", "")
+    }
+
 }
