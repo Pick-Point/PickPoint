@@ -22,8 +22,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import com.pickpoint.pickpoint.ui.common.util.TimerStartHandler
 import com.pickpoint.pickpoint.ui.common.util.getPointColorList
+import com.pickpoint.pickpoint.ui.common.util.timerStartHandler
 import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.LocalPointColors
 import com.pickpoint.pickpoint.ui.theme.PickPointTheme
@@ -39,17 +39,29 @@ fun TouchActionComponent(
     onCountdownDone: (List<Pair<Offset, Color>>) -> Unit
 ) {
     val pointColorList = LocalPointColors.current.getPointColorList()
-    val usedColors = remember { mutableStateListOf<Color>() }
     val pointSize = 100
     val timeToStart: Long = 2000 //2초
+    val usedColors = remember { mutableStateListOf<Color>() }
     var countdown by remember { mutableStateOf<Int?>(null)}
+    var isGameActive by remember { mutableStateOf(true) } // 게임 진행 여부
+    var showResultDialog by remember { mutableStateOf(false) } // 결과 다이얼로그 표시 여부
 
-    val (touchPoints, finalPoints) = TimerStartHandler(
+    val (touchPoints, finalPoints) = timerStartHandler(
         pointsToStart = pointsToStart,
         timeToStart = timeToStart,
-        onCountdownDone = onCountdownDone
     )
 
+    // 결과 다이얼로그
+    LaunchedEffect(finalPoints.toList()) {
+        if (finalPoints.isNotEmpty() && !isGameActive) {
+            countdown = null
+            onCountdownDone(finalPoints.toList())
+            delay(1000)
+            showResultDialog = true
+        }
+    }
+
+    // 카운트다운
     LaunchedEffect(touchPoints.keys.toSet()){
         if (touchPoints.size >= pointsToStart){
             delay(timeToStart)
@@ -57,8 +69,18 @@ fun TouchActionComponent(
                 countdown = i
                 delay(1000)
             }
+            isGameActive = false
             countdown = null
         }
+    }
+
+    fun resetGame(){
+        isGameActive = true
+        showResultDialog = false
+        countdown = null
+        touchPoints.clear()
+        finalPoints.clear()
+        usedColors.clear()
     }
 
     Box(
@@ -97,20 +119,22 @@ fun TouchActionComponent(
     ) {
         Text("TouchActionComponent")
         // 현재 활성화된 각 터치에 대해 Point composable 표시
-        touchPoints.forEach { (_, data) ->
-            val (position, color) = data
-            // offset을 이용해 터치한 위치에 Point를 배치
-            CircleButton(
-                modifier = modifier.offset {
-                    IntOffset(
-                        (position.x - (pointSize / 2).dp.toPx()).roundToInt(),
-                        (position.y - (pointSize / 2).dp.toPx()).roundToInt()
-                    )
-                },
-                pointSize = pointSize,
-                color = color,
-            ) {
+        if (isGameActive) {
+            touchPoints.forEach { (_, data) ->
+                val (position, color) = data
+                // offset을 이용해 터치한 위치에 Point를 배치
+                CircleButton(
+                    modifier = modifier.offset {
+                        IntOffset(
+                            (position.x - (pointSize / 2).dp.toPx()).roundToInt(),
+                            (position.y - (pointSize / 2).dp.toPx()).roundToInt()
+                        )
+                    },
+                    pointSize = pointSize,
+                    color = color,
+                ) {
 
+                }
             }
         }
         // 카운트다운 끝난 후 유지되는 Point 표시
@@ -136,8 +160,22 @@ fun TouchActionComponent(
                 modifier = modifier.align(Alignment.Center)
             )
         }
+
+        if (showResultDialog) {
+            Button(
+                onClick = { resetGame() },
+                modifier = Modifier.align(Alignment.Center)
+            ) {
+                Text("Retry",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+        }
     }
+
 }
+
 
 
 @Preview(showBackground = true)
@@ -145,21 +183,7 @@ fun TouchActionComponent(
 private fun TouchLogicTestPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
-            TouchActionComponent(
-                resultDialog = {
-                    Button(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier
-                    ) {
-                        Text("Retry",
-                            style = MaterialTheme.typography.labelLarge,
-                            color = MaterialTheme.colorScheme.onPrimary
-                        )
-                    }
-                }
-            ){
-                // 카운트다운 끝난 후 동작
-            }
+            TouchActionComponent(onCountdownDone = {})
         }
     }
 }
