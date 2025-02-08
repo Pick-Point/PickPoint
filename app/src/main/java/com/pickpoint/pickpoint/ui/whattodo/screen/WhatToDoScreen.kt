@@ -39,6 +39,7 @@ fun WhatToDoScreen(
     val scaffoldState = rememberBottomSheetScaffoldState()
 
     var showSheet by remember { mutableStateOf(false) }
+    var isTapped by remember { mutableStateOf(false) }
 
     val confirmed by viewmodel.isConfirmed.collectAsState()
 
@@ -47,6 +48,7 @@ fun WhatToDoScreen(
     if (showSheet) {
         LaunchedEffect(Unit) {
             scaffoldState.bottomSheetState.expand()
+            showSheet = false
         }
     }
 
@@ -68,7 +70,7 @@ fun WhatToDoScreen(
                 retryClick = { }
             )
         },
-        sheetPeekHeight = if (confirmed) 53.dp else 0.dp,
+        sheetPeekHeight = if (isTapped) 53.dp else 0.dp,
         sheetDragHandle = {
             DragHandle()
         }
@@ -90,6 +92,8 @@ fun WhatToDoScreen(
             WTDRandomPicker(
                 modifier = Modifier.padding(innerPadding),
                 count = count,
+                isTapped = isTapped,
+                startClick = { isTapped = true },
                 resultList = resultList,
                 randomColors = randomColors,
                 expandBottomSheet = { showSheet = true }

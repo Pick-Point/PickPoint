@@ -40,19 +40,20 @@ import kotlinx.coroutines.delay
 @Composable
 fun WTDRandomPicker(
     modifier: Modifier = Modifier,
+    isTapped: Boolean,
+    startClick: () -> Unit,
     count: Int,
     resultList: List<String>,
     randomColors: List<Color>,
     expandBottomSheet: () -> Unit
 ) {
-    var isTapped by remember { mutableStateOf(false) }
     var timer by remember { mutableIntStateOf(3) }
 
     if (!isTapped) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .clickable { isTapped = true }
+                .clickable { startClick() }
         ) {
             Text(
                 text = "Tap to Start!",
@@ -136,6 +137,8 @@ fun WTDRandomPicker(
 private fun WTDRandomPickerPreview() {
     WTDRandomPicker(
         count = 4,
+        isTapped = false,
+        startClick = { },
         resultList = listOf(
             "벌칙1",
             "벌칙2",
