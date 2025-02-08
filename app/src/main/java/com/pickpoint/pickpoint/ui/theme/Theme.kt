@@ -57,7 +57,7 @@ fun PickPointTheme(
     CompositionLocalProvider(LocalPointColors provides pointColors) {
         MaterialTheme(
             colorScheme = colorScheme,
-            typography = Typography,
+            typography = RobotoTypography,
             content = content
         )
     }
