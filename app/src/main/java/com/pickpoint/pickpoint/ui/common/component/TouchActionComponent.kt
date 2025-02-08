@@ -36,7 +36,7 @@ import kotlin.math.roundToInt
 fun TouchActionComponent(
     modifier: Modifier = Modifier,
     pointsToStart: Int = 2,
-    resultDialog: @Composable (() -> Unit)? = null, // 카운트다운 끝난 후 결과 다이얼로그
+    resultDialog: @Composable ((onRetry: () -> Unit) -> Unit)? = null, // 카운트다운 끝난 후 결과 다이얼로그
     onCountdownDone: (List<Pair<Offset, Color>>) -> Unit
 ) {
     val pointColorList = LocalPointColors.current.getPointColorList()
@@ -70,7 +70,7 @@ fun TouchActionComponent(
         }
     }
 
-    fun resetGame(){
+    val resetGame: () -> Unit = {
         isGameActive = true
         showResultDialog = false
         countdown = null
@@ -159,15 +159,17 @@ fun TouchActionComponent(
 
         if (showResultDialog) {
             Log.d("TouchActionComponent", "showResultDialog is true")
-            Button(
-                onClick = { resetGame() },
-                modifier = Modifier.align(Alignment.Center)
-            ) {
-                Text("Retry",
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.onPrimary
-                )
-            }
+//            Button(
+//                onClick = { resetGame() },
+//                modifier = Modifier.align(Alignment.Center)
+//            ) {
+//                Text("Retry",
+//                    style = MaterialTheme.typography.labelLarge,
+//                    color = MaterialTheme.colorScheme.onPrimary
+//                )
+//            }
+
+            resultDialog?.invoke(resetGame)
         }
     }
 
@@ -180,7 +182,25 @@ fun TouchActionComponent(
 private fun TouchLogicTestPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
-            TouchActionComponent(onCountdownDone = {})
+            TouchActionComponent(
+                onCountdownDone = {},
+                resultDialog = { onRetry ->
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Button(
+                            onClick = { onRetry() },
+                            modifier = Modifier.align(Alignment.Center)
+                        ) {
+                            Text("Retry",
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
+                    }
+                }
+            )
         }
     }
 }
