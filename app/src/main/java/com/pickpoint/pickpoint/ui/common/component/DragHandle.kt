@@ -14,9 +14,11 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DragHandle() {
+fun DragHandle(
+    modifier: Modifier = Modifier,
+) {
     BottomSheetDefaults.DragHandle(
-        modifier = Modifier
+        modifier = modifier
             .padding(top = 14.dp, bottom = 5.dp),
         width = 120.dp,
         height = 4.dp,
