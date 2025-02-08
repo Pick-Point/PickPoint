@@ -12,6 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pickpoint.pickpoint.ui.common.component.TopAppBar
+import com.pickpoint.pickpoint.ui.common.util.getPointColorList
+import com.pickpoint.pickpoint.ui.common.util.getRandomElements
+import com.pickpoint.pickpoint.ui.theme.LocalPointColors
+import com.pickpoint.pickpoint.ui.whattodo.component.WTDRandomPicker
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDSettingContent
 import com.pickpoint.pickpoint.ui.whattodo.viewmodel.WhatToDoViewmodel
 
@@ -22,7 +26,10 @@ fun WhatToDoScreen(
 
     val count by viewmodel.count.collectAsState()
     val resultList by viewmodel.resultList.collectAsState()
-    var confirmed by remember { mutableStateOf(false) }
+    val confirmed by viewmodel.isConfirmed.collectAsState()
+    val randomColors by viewmodel.randomColors.collectAsState()
+
+    viewmodel.initRandomColors(LocalPointColors.current.getPointColorList())
 
     Scaffold(
         topBar = {
@@ -33,16 +40,25 @@ fun WhatToDoScreen(
             )
         },
     ) { innerPadding ->
-        WTDSettingContent(
-            modifier = Modifier.padding(innerPadding),
-            count = count,
-            onPlusButtonClick = { viewmodel.onPlusButtonClick() },
-            onMinusButtonClick = { viewmodel.onMinusButtonClick() },
-            resultList = resultList,
-            onResultChanged = { index, result -> viewmodel.updateResultIndex(index, result) },
-            reset = { viewmodel.reset() },
-            confirm = { confirmed = true }
-        )
+        if (confirmed) {
+            WTDSettingContent(
+                modifier = Modifier.padding(innerPadding),
+                count = count,
+                onPlusButtonClick = { viewmodel.onPlusButtonClick() },
+                onMinusButtonClick = { viewmodel.onMinusButtonClick() },
+                resultList = resultList,
+                onResultChanged = { index, result -> viewmodel.updateResultIndex(index, result) },
+                reset = { viewmodel.reset() },
+                confirm = { viewmodel.onConfirmButtonClick() }
+            )
+        } else {
+            WTDRandomPicker(
+                modifier = Modifier.padding(innerPadding),
+                count = count,
+                resultList = resultList,
+                randomColors = randomColors
+            )
+        }
     }
 }
 
