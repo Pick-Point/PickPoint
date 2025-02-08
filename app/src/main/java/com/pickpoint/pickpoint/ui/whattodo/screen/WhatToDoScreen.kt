@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.pickpoint.pickpoint.ui.common.component.MainTopAppBar
 import com.pickpoint.pickpoint.ui.common.component.NumberSettingComponent
 import com.pickpoint.pickpoint.ui.common.component.ResultsComponent
+import com.pickpoint.pickpoint.ui.common.component.TopAppBar
 import com.pickpoint.pickpoint.ui.whattodo.viewmodel.WhatToDoViewmodel
 
 @Composable
@@ -29,7 +29,13 @@ fun WhatToDoScreen(
     val resultList by viewmodel.resultList.collectAsState()
 
     Scaffold(
-        topBar = { MainTopAppBar(title = "What to do") },
+        topBar = {
+            TopAppBar(
+                title = "What to do",
+                onNavigationClick = { },
+                onActionClick = { }
+            )
+        },
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -71,6 +77,7 @@ fun WhatToDoScreen(
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
             ) {
+
             }
         }
     }

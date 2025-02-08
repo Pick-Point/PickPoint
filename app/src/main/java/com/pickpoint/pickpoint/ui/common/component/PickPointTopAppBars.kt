@@ -27,9 +27,9 @@ import com.pickpoint.pickpoint.ui.theme.*
 @Composable
 fun TopAppBar(
     title: String,
+    modifier: Modifier = Modifier,
     onNavigationClick: () -> Unit,
-    onActionClick: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
+    onActionClick: (() -> Unit)? = null
 ) {
     Surface(
         modifier = modifier
