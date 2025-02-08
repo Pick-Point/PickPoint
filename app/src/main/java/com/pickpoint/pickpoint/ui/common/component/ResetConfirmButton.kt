@@ -23,9 +23,13 @@ import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.R
 
 @Composable
-fun ResetConfirmButton(reset: () -> Unit, confirm: () -> Unit) {
+fun ResetConfirmButton(
+    modifier: Modifier = Modifier,
+    reset: () -> Unit,
+    confirm: () -> Unit
+) {
         Row(
-            modifier = Modifier.padding(8.dp),
+            modifier = modifier.padding(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
