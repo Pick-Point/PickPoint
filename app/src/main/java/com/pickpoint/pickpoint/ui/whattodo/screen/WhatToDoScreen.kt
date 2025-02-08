@@ -75,7 +75,7 @@ fun WhatToDoScreen(
 
 
     ) { innerPadding ->
-        if (confirmed) {
+        if (!confirmed) {
             WTDSettingContent(
                 modifier = Modifier.padding(innerPadding),
                 count = count,
