@@ -44,7 +44,7 @@ fun PointColorPreview() {
     CompositionLocalProvider(LocalPointColors provides LightPrototypePointColors) {
         val colors = LocalPointColors.current.getPointColorList()
 
-        Row(
+        FlowRow (
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
