@@ -28,7 +28,7 @@ import com.pickpoint.pickpoint.ui.theme.*
 
 
 @Composable
-fun TopAppBar(
+fun MainTopAppBar(
     title: String,
     onNavigationClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -123,7 +123,7 @@ fun SecondaryTopAppBar(
 @Preview(showBackground = true)
 @Composable
 fun FirstPreview() {
-    TopAppBar(title = "Pick Point", onNavigationClick = {})
+    MainTopAppBar(title = "Pick Point", onNavigationClick = {})
 }
 
 @Preview(showBackground = true)

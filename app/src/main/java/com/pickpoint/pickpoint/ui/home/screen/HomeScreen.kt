@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.pickpoint.pickpoint.ui.common.component.TopAppBar
 import com.pickpoint.pickpoint.ui.home.component.HomeButton
 import com.pickpoint.pickpoint.ui.home.viewmodel.HomeViewModel
 import com.pickpoint.pickpoint.ui.theme.PickPointTheme
@@ -26,6 +25,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import com.pickpoint.pickpoint.ui.common.component.MainTopAppBar
 import com.pickpoint.pickpoint.ui.home.component.TopMenu
 import com.pickpoint.pickpoint.ui.theme.LightPrototypeBackgroundColor
 
@@ -59,7 +59,7 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize(),
             ) {
-                TopAppBar(
+                MainTopAppBar(
                     "Pick Point",
                     onNavigationClick = { menuExpanded = !menuExpanded }
                 )
