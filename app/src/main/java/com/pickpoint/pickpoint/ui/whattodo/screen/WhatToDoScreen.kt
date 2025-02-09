@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.pickpoint.pickpoint.ui.common.component.DragHandle
-import com.pickpoint.pickpoint.ui.common.component.TopAppBar
+import com.pickpoint.pickpoint.ui.common.component.MainTopAppBar
 import com.pickpoint.pickpoint.ui.common.util.getPointColorList
 import com.pickpoint.pickpoint.ui.theme.LocalPointColors
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDBottomSheetContent
@@ -55,10 +55,9 @@ fun WhatToDoScreen(
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(
+            MainTopAppBar(
                 title = "What to do",
-                onNavigationClick = { },
-                onActionClick = { }
+                onNavigationClick = { }
             )
         },
         sheetContent = {

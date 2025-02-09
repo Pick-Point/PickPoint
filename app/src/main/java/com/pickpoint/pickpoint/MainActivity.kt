@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.pickpoint.pickpoint.navigation.PickPointNavGraph
 import com.pickpoint.pickpoint.ui.common.util.DataStoreManager
 import com.pickpoint.pickpoint.ui.home.screen.HomeScreen
 import com.pickpoint.pickpoint.ui.home.viewmodel.HomeViewModel
@@ -19,13 +21,18 @@ import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             PickPointTheme {
                 val dataStoreManager = DataStoreManager(context = this)
                 val homeViewModel = HomeViewModel(dataStoreManager = dataStoreManager)
-                HomeScreen(viewModel = homeViewModel)
+                val navController = rememberNavController()
+                // homeViewModel을 전달
+                PickPointNavGraph(
+                    navController = navController,
+                    homeViewModel = homeViewModel
+                )
             }
         }
+
     }
 }

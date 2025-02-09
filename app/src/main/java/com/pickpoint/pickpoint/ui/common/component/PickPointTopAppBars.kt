@@ -2,6 +2,7 @@ package com.pickpoint.pickpoint.ui.common.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -9,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,13 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.ui.theme.*
 
-
 @Composable
-fun TopAppBar(
+fun MainTopAppBar(
     title: String,
     modifier: Modifier = Modifier,
-    onNavigationClick: () -> Unit,
-    onActionClick: (() -> Unit)? = null
+    onNavigationClick: () -> Unit
 ) {
     Surface(
         modifier = modifier
@@ -41,12 +39,12 @@ fun TopAppBar(
         Row(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+            verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
                 onClick = onNavigationClick,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier
+                    .size(24.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Menu,
@@ -54,23 +52,14 @@ fun TopAppBar(
                     tint = LightPrototypeOnPrimaryColor
                 )
             }
+            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = title,
-                fontSize = 28.sp,
-                color = LightPrototypeSecondaryColor
+                color = LightPrototypeSecondaryColor,
+                modifier = Modifier.padding(end = 20.dp),
+                style = MaterialTheme.typography.titleLarge
             )
-            onActionClick?.let {
-                IconButton(
-                    onClick = it,
-                    modifier = Modifier.size(24.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Settings,
-                        contentDescription = null,
-                        tint = LightPrototypeOnPrimaryColor
-                    )
-                }
-            }
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }
@@ -108,7 +97,8 @@ fun SecondaryTopAppBar(
                 text = title,
                 fontSize = 28.sp,
                 color = LightPrototypeSecondaryColor,
-                modifier = Modifier.padding(start = 18.dp)
+                modifier = Modifier.padding(start = 18.dp),
+                style = MaterialTheme.typography.titleLarge
             )
         }
     }
@@ -117,7 +107,7 @@ fun SecondaryTopAppBar(
 @Preview(showBackground = true)
 @Composable
 fun FirstPreview() {
-    TopAppBar(title = "Pick Point", onNavigationClick = {}, onActionClick = {})
+    MainTopAppBar(title = "Pick Point", onNavigationClick = {})
 }
 
 @Preview(showBackground = true)
