@@ -19,6 +19,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,9 +59,15 @@ fun TopAppBar(
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = title,
-                fontSize = 28.sp,
                 color = LightPrototypeSecondaryColor,
-                modifier = Modifier.padding(end = 20.dp)
+                modifier = Modifier.padding(end = 20.dp),
+                style = TextStyle(
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 22.sp,
+                    lineHeight = 28.sp,
+                    letterSpacing = 0.sp
+                )
             )
             Spacer(modifier = Modifier.weight(1f))
         }
@@ -97,9 +105,16 @@ fun SecondaryTopAppBar(
             }
             Text(
                 text = title,
-                fontSize = 28.sp,
                 color = LightPrototypeSecondaryColor,
-                modifier = Modifier.padding(start = 18.dp)
+                modifier = Modifier.padding(start = 18.dp),
+                style = TextStyle(
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 22.sp,
+                    lineHeight = 28.sp,
+                    letterSpacing = 0.sp
+                )
+
             )
         }
     }

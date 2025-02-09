@@ -32,7 +32,10 @@ fun PickPointNavGraph(
             )
         }
         composable(route = Routes.Settings.route) {
-            SettingsScreen(onNavigateBack = { navController.navigateUp() })
+            SettingsScreen(
+                viewModel = homeViewModel,
+                onNavigateBack = { navController.navigateUp() }
+            )
         }
         composable(route = Routes.Report.route) {
             //ReportScreen(onNavigateBack = { navController.navigateUp() })

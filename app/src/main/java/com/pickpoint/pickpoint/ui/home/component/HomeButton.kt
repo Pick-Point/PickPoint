@@ -13,9 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pickpoint.pickpoint.ui.theme.robotoFontFamily
 
 @Composable
 fun HomeButton(onClick: () -> Unit, Text: String = "Random Picker") {
@@ -35,7 +37,11 @@ fun HomeButton(onClick: () -> Unit, Text: String = "Random Picker") {
             Text(
                 text = Text,
                 style = TextStyle(
-                    fontSize = 14.sp
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    letterSpacing = 0.5.sp
                 )
             )
         }

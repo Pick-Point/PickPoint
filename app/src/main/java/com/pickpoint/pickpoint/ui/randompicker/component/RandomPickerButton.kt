@@ -19,10 +19,12 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.R
+import com.pickpoint.pickpoint.ui.theme.robotoFontFamily
 
 @Composable
 fun ResetConfirmButton(reset: () -> Unit, confirm: () -> Unit) {
@@ -50,7 +52,11 @@ fun ResetConfirmButton(reset: () -> Unit, confirm: () -> Unit) {
             Text(
                 "Reset",
                 style = TextStyle(
-                    fontSize = 20.sp
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    letterSpacing = 0.5.sp
                 )
             )
         }
@@ -74,7 +80,11 @@ fun ResetConfirmButton(reset: () -> Unit, confirm: () -> Unit) {
             Text(
                 "Confirm",
                 style = TextStyle(
-                    fontSize = 20.sp
+                    fontFamily = robotoFontFamily,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 14.sp,
+                    lineHeight = 20.sp,
+                    letterSpacing = 0.5.sp
                 )
             )
         }
