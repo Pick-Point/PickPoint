@@ -10,12 +10,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -37,15 +39,13 @@ import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.R
 import com.pickpoint.pickpoint.ui.model.setting.ThemeSetting
 
-/**
- * @param*/
 @Composable
-fun SettingComponent(
+fun ResultsComponent(
     modifier: Modifier = Modifier,
     title: String = "",
-    settingRes: List<Int>,
-    checkedIndex: Int = 0,
-    onClick : (Int) -> Unit = {}
+    count: Int = 0,
+    resultList: List<String> = listOf(),
+    onResultChanged: (Int, String) -> Unit = { _, _ -> }
 ) {
     Column(
         modifier = modifier
@@ -74,42 +74,50 @@ fun SettingComponent(
         Card(
             elevation = CardDefaults.cardElevation(6.dp)
         ) {
-        Column(
-            modifier = Modifier
-                .shadow(elevation = 4.dp)
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(color = Color(0xFFEEEEEE), shape = RoundedCornerShape(size = 8.dp))
-        ) {
-            settingRes.forEachIndexed { index, res ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(size = 8.dp))
-                        .clickable { onClick(index) }
-                        .padding(10.dp)
-                        .height(24.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = stringResource(id = res),
+            Column(
+                modifier = Modifier
+                    .shadow(elevation = 4.dp)
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .background(color = Color(0xFFEEEEEE), shape = RoundedCornerShape(size = 8.dp))
+            ) {
+                repeat(count) { index ->
+
+                    Row(
                         modifier = Modifier
-                            .align(Alignment.CenterVertically),
-                        style = TextStyle(
-                            fontSize = 12.sp,
-                            lineHeight = 16.sp,
-                            fontWeight = FontWeight(500),
-                            color = Color(0xFF333333),
-                        ),
-                    )
-                    if (index == checkedIndex) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_setting_check_24),
-                            contentDescription = "checked",
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(size = 8.dp))
+                            .padding(10.dp)
+                            .height(24.dp),
+                    ) {
+                        Text(
+                            text = "${index+1}. ",
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically),
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                lineHeight = 16.sp,
+                                fontWeight = FontWeight(500),
+                                color = Color(0xFF333333),
+                            ),
+                        )
+                        BasicTextField(
+                            value = resultList[index],
+                            onValueChange = { onResultChanged(index, it) },
+                            textStyle = TextStyle(
+                                fontSize = 12.sp,
+                                lineHeight = 16.sp,
+                                fontWeight = FontWeight(500),
+                                color = Color(0xFF333333),
+                            ),
+                            modifier = Modifier
+                                .wrapContentHeight()
+                                .align(Alignment.CenterVertically)
+                                .background(color = Color(0xFFEEEEEE)),
+                            singleLine = true,
+
                         )
                     }
-                }
-                if (index != settingRes.size - 1) {
                     HorizontalDivider(
                         modifier = Modifier
                             .padding(horizontal = 10.dp)
@@ -117,47 +125,19 @@ fun SettingComponent(
                     )
                 }
             }
-        }}
+        }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun SettingComponentPreview() {
-    var checkedIndex by remember { mutableIntStateOf(0) }
+private fun ResultsComponentPreview() {
+    val count by remember { mutableIntStateOf(3) }
 
-    SettingComponent(
-        title = "Language",
-        settingRes = ThemeSetting.entries.map { it.res },
-        checkedIndex = checkedIndex,
-        onClick = { checkedIndex = it }
-    )
-}
-
-@Preview(
-    showBackground = true,
-    widthDp = 360,
-    heightDp = 800
-)
-@Composable
-private fun SettingComponentPreviewFull() {
-    SettingComponent(
-        title = "Language",
-        settingRes = ThemeSetting.entries.map { it.res },
-        checkedIndex = 0
-    )
-}
-
-@Preview(
-    showBackground = true,
-    widthDp = 1280,
-    heightDp = 800
-)
-@Composable
-private fun SettingComponentPreviewWide() {
-    SettingComponent(
-        title = "Language",
-        settingRes = ThemeSetting.entries.map { it.res },
-        checkedIndex = 0
+    ResultsComponent(
+        title = "Results",
+        count = count,
+        resultList = listOf("", "", ""),
+        onResultChanged = { _, _ -> }
     )
 }

@@ -60,7 +60,6 @@ class HomeViewModel(
 
 
     private fun loadSettings() {
-        Log.d("HomeViewModel", "loadSettings")
         viewModelScope.launch {
             combine(
                 dataStoreManager.getThemeSetting(),
@@ -110,20 +109,14 @@ class HomeViewModel(
 
     fun updateThemeSettingIndex(index: Int) {
         _themeSettingIndex.value = index
-        Log.d("HomeViewModel", "updateThemeSettingIndex: ${themeSettingIndex.value}")
     }
 
     fun updateLanguageSettingIndex(index: Int) {
         _languageSettingIndex.value = index
-        Log.d("HomeViewModel", "updateLanguageSettingIndex: ${languageSettingIndex.value}")
     }
 
     fun updatePreferencesSettingIndex(index: Int) {
         _preferencesSettingIndex.value = index
-        Log.d(
-            "HomeViewModel",
-            "updatePreferencesSettingIndex: ${preferencesSettingIndex.value}"
-        )
     }
 
 }

@@ -10,3 +10,10 @@ fun PointColors.getPointColorList(): List<Color>{
         pointColor6, pointColor7, pointColor8, pointColor9, pointColor10
     )
 }
+
+fun <T> List<T>.getRandomElements(count: Int): List<T> {
+    val shuffledList = this.shuffled()
+    if(count > shuffledList.size) return shuffledList
+
+    return shuffledList.subList(0, count)
+}
