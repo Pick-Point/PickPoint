@@ -21,7 +21,6 @@ import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             PickPointTheme {
                 val dataStoreManager = DataStoreManager(context = this)

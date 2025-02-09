@@ -51,13 +51,7 @@ fun ResetConfirmButton(reset: () -> Unit, confirm: () -> Unit) {
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 "Reset",
-                style = TextStyle(
-                    fontFamily = robotoFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    letterSpacing = 0.5.sp
-                )
+                style = MaterialTheme.typography.labelLarge
             )
         }
 
@@ -79,13 +73,7 @@ fun ResetConfirmButton(reset: () -> Unit, confirm: () -> Unit) {
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 "Confirm",
-                style = TextStyle(
-                    fontFamily = robotoFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    letterSpacing = 0.5.sp
-                )
+                style = MaterialTheme.typography.labelLarge
             )
         }
             }

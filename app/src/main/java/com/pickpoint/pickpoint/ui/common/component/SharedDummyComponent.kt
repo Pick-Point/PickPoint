@@ -61,13 +61,7 @@ fun MainTopAppBar(
                 text = title,
                 color = LightPrototypeSecondaryColor,
                 modifier = Modifier.padding(end = 20.dp),
-                style = TextStyle(
-                    fontFamily = robotoFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 22.sp,
-                    lineHeight = 28.sp,
-                    letterSpacing = 0.sp
-                )
+                style = MaterialTheme.typography.titleLarge
             )
             Spacer(modifier = Modifier.weight(1f))
         }
@@ -107,14 +101,7 @@ fun SecondaryTopAppBar(
                 text = title,
                 color = LightPrototypeSecondaryColor,
                 modifier = Modifier.padding(start = 18.dp),
-                style = TextStyle(
-                    fontFamily = robotoFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 22.sp,
-                    lineHeight = 28.sp,
-                    letterSpacing = 0.sp
-                )
-
+                style = MaterialTheme.typography.titleLarge
             )
         }
     }
