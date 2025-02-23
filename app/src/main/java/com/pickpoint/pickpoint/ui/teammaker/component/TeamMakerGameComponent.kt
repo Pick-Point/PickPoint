@@ -1,4 +1,4 @@
-package com.pickpoint.pickpoint.ui.common.component.game
+package com.pickpoint.pickpoint.ui.teammaker.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
