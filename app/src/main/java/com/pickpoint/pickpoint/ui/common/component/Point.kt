@@ -23,8 +23,7 @@ fun CircleButton(modifier: Modifier = Modifier, color: Color, pointSize: Int, nu
     Box(
         modifier = modifier
             .size(pointSize.dp)
-            .background(color = color, shape = CircleShape)
-            .clickable { onClick() },
+            .background(color = color, shape = CircleShape),
         contentAlignment = Alignment.Center // 텍스트를 중앙 정렬
     ) {
         number?.let {
