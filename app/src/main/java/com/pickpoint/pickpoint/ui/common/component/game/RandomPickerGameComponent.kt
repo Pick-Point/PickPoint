@@ -178,7 +178,6 @@ private fun RandomPickerGameComponentPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
             RandomPickerGameComponent(
-                pointsToSelect = 2,
                 resultDialog = { onRetry ->
                     Box(
                         modifier = Modifier.fillMaxSize(),
