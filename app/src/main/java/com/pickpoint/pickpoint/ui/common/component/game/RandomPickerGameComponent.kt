@@ -56,6 +56,7 @@ fun RandomPickerGameComponent(
 
     // 카운트다운
     LaunchedEffect(touchPoints.keys.toSet()){
+        countdown = null
         if (touchPoints.size >= pointsToStart){
             delay(timeToStart)
             for (i in 3 downTo 1){

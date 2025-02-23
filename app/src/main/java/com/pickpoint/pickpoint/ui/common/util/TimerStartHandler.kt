@@ -27,9 +27,20 @@ fun timerStartHandler(
     LaunchedEffect (touchPoints.keys.toSet()) {
         if (touchPoints.size >= pointsToStart && !isCountingDown) {
             isCountingDown = true
-            delay(timeToStart)
+            // 100ms 단위로 타이머 진행하여 터치 개수 변화를 감지
+            val initialPoints = touchPoints.keys.toSet()
+            var elapsedTime = 0L
+            while (elapsedTime < timeToStart){
+                delay(100)
+                elapsedTime += 100
+                if (touchPoints.keys.toSet() != initialPoints){
+                    isCountingDown = false
+                    return@LaunchedEffect
+                }
+            }
             finalPoints.clear()
             finalPoints.addAll(touchPoints.values)
+            isCountingDown = false
         }
     }
 

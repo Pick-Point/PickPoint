@@ -34,7 +34,6 @@ import kotlin.math.roundToInt
 @Composable
 fun TeamMakerGameComponent(
     modifier: Modifier = Modifier,
-    pointsToStart: Int = 2, // 시작에 필요한 최소한의 점의 개수
     totalTeams: Int = 2,
     resultDialog: @Composable ((onRetry: () -> Unit) -> Unit)? = null, // 카운트다운 끝난 후 결과 다이얼로그
 ) {
@@ -48,7 +47,7 @@ fun TeamMakerGameComponent(
     var showResultDialog by remember { mutableStateOf(false) } // 결과 다이얼로그 표시 여부
 
     val (touchPoints, finalPoints) = timerStartHandler(
-        pointsToStart = pointsToStart,
+        pointsToStart = totalTeams + 1,
         timeToStart = timeToStart,
     )
 
@@ -56,7 +55,8 @@ fun TeamMakerGameComponent(
 
     // 카운트다운
     LaunchedEffect(touchPoints.keys.toSet()){
-        if (touchPoints.size >= pointsToStart){
+        countdown = null
+        if (touchPoints.size > totalTeams){
             delay(timeToStart)
             for (i in 3 downTo 1){
                 countdown = i
@@ -185,6 +185,7 @@ private fun TeamMakerGameComponentPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
             TeamMakerGameComponent(
+                totalTeams = 3,
                 resultDialog = { onRetry ->
                     Box(
                         modifier = Modifier.fillMaxSize(),
