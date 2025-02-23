@@ -36,8 +36,8 @@ import kotlin.math.roundToInt
 fun RandomPickerGameComponent(
     modifier: Modifier = Modifier,
     pointsToStart: Int = 2, // 시작에 필요한 최소한의 점의 개수
+    pointsToSelect: Int = 1, // 최종적으로 선택할 점의 개수
     resultDialog: @Composable ((onRetry: () -> Unit) -> Unit)? = null, // 카운트다운 끝난 후 결과 다이얼로그
-    resultLogic: (List<Pair<Offset, Color>>) -> List<Pair<Offset, Color>>
 ) {
     val pointColorList = LocalPointColors.current.getPointColorList()
     val pointSize = 100
@@ -71,7 +71,7 @@ fun RandomPickerGameComponent(
 
             // 로직 반영
             resultPoints.clear()
-            resultPoints.addAll(resultLogic(finalPoints))
+            resultPoints.addAll(finalPoints.shuffled().take(pointsToSelect))
         }
     }
 
@@ -177,14 +177,7 @@ private fun RandomPickerGameComponentPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
             RandomPickerGameComponent(
-                resultLogic = { resultPoints ->
-                    // 점 1개 선택
-                    resultPoints.shuffled().take(1)
-                    // 점 2개 선택
-//                    resultPoints.shuffled().take(2)
-                    // 점 3개 선택
-//                    resultPoints.shuffled().take(3)
-                },
+                pointsToSelect = 2,
                 resultDialog = { onRetry ->
                     Box(
                         modifier = Modifier.fillMaxSize(),
