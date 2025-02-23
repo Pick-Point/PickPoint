@@ -48,7 +48,7 @@ fun RandomPickerGameComponent(
     var showResultDialog by remember { mutableStateOf(false) } // 결과 다이얼로그 표시 여부
 
     val (touchPoints, finalPoints) = timerStartHandler(
-        pointsToStart = pointsToStart,
+        pointsToStart = pointsToStart + 1,
         timeToStart = timeToStart,
     )
 
@@ -57,7 +57,7 @@ fun RandomPickerGameComponent(
     // 카운트다운
     LaunchedEffect(touchPoints.keys.toSet()){
         countdown = null
-        if (touchPoints.size >= pointsToStart){
+        if (touchPoints.size > pointsToSelect){
             delay(timeToStart)
             for (i in 3 downTo 1){
                 countdown = i
