@@ -35,7 +35,6 @@ import kotlin.math.roundToInt
 @Composable
 fun RandomPickerGameComponent(
     modifier: Modifier = Modifier,
-    pointsToStart: Int = 2, // 시작에 필요한 최소한의 점의 개수
     pointsToSelect: Int = 1, // 최종적으로 선택할 점의 개수
     resultDialog: @Composable ((onRetry: () -> Unit) -> Unit)? = null, // 카운트다운 끝난 후 결과 다이얼로그
 ) {
@@ -48,7 +47,7 @@ fun RandomPickerGameComponent(
     var showResultDialog by remember { mutableStateOf(false) } // 결과 다이얼로그 표시 여부
 
     val (touchPoints, finalPoints) = timerStartHandler(
-        pointsToStart = pointsToStart + 1,
+        pointsToStart = pointsToSelect + 1,
         timeToStart = timeToStart,
     )
 
