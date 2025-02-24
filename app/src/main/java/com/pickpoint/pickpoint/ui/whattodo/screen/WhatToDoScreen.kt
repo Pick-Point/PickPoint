@@ -2,8 +2,11 @@ package com.pickpoint.pickpoint.ui.whattodo.screen
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
@@ -14,12 +17,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.pickpoint.pickpoint.R
 import com.pickpoint.pickpoint.ui.common.component.DragHandle
 import com.pickpoint.pickpoint.ui.common.component.MainTopAppBar
+import com.pickpoint.pickpoint.ui.common.component.SecondaryTopAppBar
 import com.pickpoint.pickpoint.ui.common.util.getPointColorList
+import com.pickpoint.pickpoint.ui.theme.LightPrototypeOnPrimaryColor
 import com.pickpoint.pickpoint.ui.theme.LocalPointColors
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDBottomSheetContent
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDGameComponent
@@ -60,10 +67,30 @@ fun WhatToDoScreen(
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            MainTopAppBar(
-                title = "What to do",
-                onNavigationClick = { }
-            )
+            if (confirmed) {
+                MainTopAppBar(
+                    title = "What to do",
+                    leftIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_main_top_back),
+                            contentDescription = null,
+                            tint = LightPrototypeOnPrimaryColor
+                        )
+                    },
+                    rightIcon = {
+                        Icon(
+                            imageVector = Icons.Filled.Menu,
+                            contentDescription = null,
+                            tint = LightPrototypeOnPrimaryColor
+                        )
+                    }
+                )
+            } else {
+                SecondaryTopAppBar(
+                    title = "Game Settings",
+                    onNavigationClick = onNavigateBack
+                )
+            }
         },
         sheetContent = {
             WTDBottomSheetContent(

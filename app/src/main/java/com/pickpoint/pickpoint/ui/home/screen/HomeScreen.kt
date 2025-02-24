@@ -25,6 +25,9 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Icon
 import com.pickpoint.pickpoint.ui.common.component.MainTopAppBar
 import com.pickpoint.pickpoint.ui.home.component.TopMenu
 import com.pickpoint.pickpoint.ui.theme.LightPrototypeBackgroundColor
@@ -47,7 +50,7 @@ fun HomeScreen(
         .clickable(
             indication = null,
             interactionSource = remember { MutableInteractionSource() }
-        ) {menuExpanded = false}
+        ) { menuExpanded = false }
         .background(LightPrototypeBackgroundColor)
     ) {
         Surface(
@@ -61,7 +64,13 @@ fun HomeScreen(
             ) {
                 MainTopAppBar(
                     "Pick Point",
-                    onNavigationClick = { menuExpanded = !menuExpanded }
+                    leftIcon = {
+                        Icon(
+                            imageVector = Icons.Filled.Menu,
+                            contentDescription = "Menu"
+                        )
+                    },
+                    leftIconClick = { menuExpanded = !menuExpanded }
                 )
 
                 Spacer(modifier = Modifier.weight(1f))
