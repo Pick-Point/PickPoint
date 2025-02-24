@@ -127,7 +127,7 @@ fun RandomPickerGameComponent(
                 val (position, color) = data
                 // offset을 이용해 터치한 위치에 Point를 배치
                 CircleButton(
-                    modifier = modifier.offset {
+                    modifier = Modifier.offset {
                         IntOffset(
                             (position.x - (pointSize / 2).dp.toPx()).roundToInt(),
                             (position.y - (pointSize / 2).dp.toPx()).roundToInt()
@@ -143,7 +143,7 @@ fun RandomPickerGameComponent(
         // 카운트다운 끝난 후 결과 Point 표시
         resultPoints.forEach { (position, color) ->
             CircleButton(
-                modifier = modifier.offset {
+                modifier = Modifier.offset {
                     IntOffset(
                         (position.x - (pointSize / 2).dp.toPx()).roundToInt(),
                         (position.y - (pointSize / 2).dp.toPx()).roundToInt()
