@@ -41,13 +41,19 @@ fun PickPointNavGraph(
             //ReportScreen(onNavigateBack = { navController.navigateUp() })
         }
         composable(route = Routes.RandomPicker.route) {
-            //RandomPickerScreen(onNavigateBack = { navController.navigateUp() })
+            RandomPickerScreen(
+                onNavigateBack = { navController.navigateUp() }
+            )
         }
         composable(route = Routes.TeamMaker.route) {
-            //TeamMakerScreen(onNavigateBack = { navController.navigateUp() })
+            TeamMakerScreen(
+                onNavigateBack = { navController.navigateUp() }
+            )
         }
         composable(route = Routes.WhatToDo.route) {
-            //WhatToDoScreen(onNavigateBack = { navController.navigateUp() })
+            WhatToDoScreen(
+                onNavigateBack = { navController.navigateUp() }
+            )
         }
     }
 }
