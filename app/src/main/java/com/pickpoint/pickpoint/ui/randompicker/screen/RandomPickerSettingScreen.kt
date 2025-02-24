@@ -171,7 +171,8 @@ fun SettingScreen(
                 }
             }
             ResetConfirmButton(
-                reset = { },
+                reset = {onPointsChange(4)
+                    onPointsPickChange(1)},
                 confirm = {},
                 modifier = Modifier
                     .fillMaxWidth()
