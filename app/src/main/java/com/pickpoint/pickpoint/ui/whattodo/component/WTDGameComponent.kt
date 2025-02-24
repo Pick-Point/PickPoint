@@ -180,6 +180,7 @@ private fun WTDGameComponentPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
             WTDGameComponent(
+                totalPoints = 5,
                 resultDialog = { onRetry ->
                     Box(
                         modifier = Modifier.fillMaxSize(),
