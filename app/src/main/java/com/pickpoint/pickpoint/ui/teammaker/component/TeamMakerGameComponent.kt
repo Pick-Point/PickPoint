@@ -1,4 +1,4 @@
-package com.pickpoint.pickpoint.ui.common.component.game
+package com.pickpoint.pickpoint.ui.teammaker.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,24 +31,23 @@ import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
-
 @Composable
-fun RandomPickerGameComponent(
+fun TeamMakerGameComponent(
     modifier: Modifier = Modifier,
-    pointsToStart: Int = 2,
+    totalTeams: Int = 2,
     resultDialog: @Composable ((onRetry: () -> Unit) -> Unit)? = null, // 카운트다운 끝난 후 결과 다이얼로그
-    resultLogic: (List<Pair<Offset, Color>>) -> List<Pair<Offset, Color>>
 ) {
     val pointColorList = LocalPointColors.current.getPointColorList()
     val pointSize = 100
     val timeToStart: Long = 2000 //2초
     val usedColors = remember { mutableStateListOf<Color>() }
-    var countdown by remember { mutableStateOf<Int?>(null)}
+    val teamColors = remember { mutableStateListOf<Color>() }
+    var countdown by remember { mutableStateOf<Int?>(null) }
     var isGameActive by remember { mutableStateOf(true) } // 게임 진행 여부
     var showResultDialog by remember { mutableStateOf(false) } // 결과 다이얼로그 표시 여부
 
     val (touchPoints, finalPoints) = timerStartHandler(
-        pointsToStart = pointsToStart,
+        pointsToStart = totalTeams + 1,
         timeToStart = timeToStart,
     )
 
@@ -56,7 +55,8 @@ fun RandomPickerGameComponent(
 
     // 카운트다운
     LaunchedEffect(touchPoints.keys.toSet()){
-        if (touchPoints.size >= pointsToStart){
+        countdown = null
+        if (touchPoints.size > totalTeams){
             delay(timeToStart)
             for (i in 3 downTo 1){
                 countdown = i
@@ -66,12 +66,22 @@ fun RandomPickerGameComponent(
             countdown = null
             showResultDialog = true
 
+            // 최종 결과에 사용할 점들
             finalPoints.clear()
             finalPoints.addAll(touchPoints.values)
+            // 사용할 팀 색상
+            val colorGroups = pointColorList.shuffled().take(totalTeams)
+            for (color in colorGroups){
+                teamColors.add(color)
+            }
 
-            // 로직 반영
+            val shuffledPoints = finalPoints.shuffled()
             resultPoints.clear()
-            resultPoints.addAll(resultLogic(finalPoints))
+            for ((index, point) in shuffledPoints.withIndex()){
+                val teamIndex = index % totalTeams
+                // 팀에 해당하는 색상 할당
+                resultPoints.add(point.copy(second = teamColors[teamIndex]))
+            }
         }
     }
 
@@ -83,6 +93,7 @@ fun RandomPickerGameComponent(
         finalPoints.clear()
         resultPoints.clear()
         usedColors.clear()
+        teamColors.clear()
     }
 
     Box(
@@ -161,30 +172,20 @@ fun RandomPickerGameComponent(
                 modifier = modifier.align(Alignment.Center)
             )
         }
-
         if (showResultDialog) {
             resultDialog?.invoke(resetGame)
         }
     }
-
 }
-
 
 
 @Preview(showBackground = true)
 @Composable
-private fun RandomPickerGameComponentPreview() {
+private fun TeamMakerGameComponentPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
-            RandomPickerGameComponent(
-                resultLogic = { resultPoints ->
-                    // 점 1개 선택
-                    resultPoints.shuffled().take(1)
-                    // 점 2개 선택
-//                    resultPoints.shuffled().take(2)
-                    // 점 3개 선택
-//                    resultPoints.shuffled().take(3)
-                },
+            TeamMakerGameComponent(
+                totalTeams = 3,
                 resultDialog = { onRetry ->
                     Box(
                         modifier = Modifier.fillMaxSize(),
