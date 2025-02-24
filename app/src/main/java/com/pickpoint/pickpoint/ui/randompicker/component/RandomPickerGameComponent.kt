@@ -1,5 +1,6 @@
 package com.pickpoint.pickpoint.ui.randompicker.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,7 +43,7 @@ fun RandomPickerGameComponent(
     val pointSize = 100
     val timeToStart: Long = 2000 //2초
     val usedColors = remember { mutableStateListOf<Color>() }
-    var countdown by remember { mutableStateOf<Int?>(null)}
+    var countdown by remember { mutableStateOf<Int?>(null) }
     var isGameActive by remember { mutableStateOf(true) } // 게임 진행 여부
     var showResultDialog by remember { mutableStateOf(false) } // 결과 다이얼로그 표시 여부
 
@@ -54,11 +55,11 @@ fun RandomPickerGameComponent(
     val resultPoints = remember { mutableStateListOf<Pair<Offset, Color>>() }
 
     // 카운트다운
-    LaunchedEffect(touchPoints.keys.toSet()){
+    LaunchedEffect(touchPoints.keys.toSet()) {
         countdown = null
-        if (touchPoints.size > pointsToSelect){
+        if (touchPoints.size > pointsToSelect) {
             delay(timeToStart)
-            for (i in 3 downTo 1){
+            for (i in 3 downTo 1) {
                 countdown = i
                 delay(1000)
             }
@@ -88,6 +89,7 @@ fun RandomPickerGameComponent(
     Box(
         modifier = modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             // pointerInput을 이용해 터치 이벤트를 감지
             .pointerInput(Unit) {
                 awaitPointerEventScope {
@@ -153,7 +155,7 @@ fun RandomPickerGameComponent(
             }
         }
         // 카운트다운 표시
-        countdown?.let{
+        countdown?.let {
             Text(
                 text = it.toString(),
                 style = MaterialTheme.typography.displayLarge,
@@ -170,11 +172,11 @@ fun RandomPickerGameComponent(
 }
 
 
-
 @Preview(showBackground = true)
 @Composable
 private fun RandomPickerGameComponentPreview() {
-    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+    val appTheme: AppTheme = AppTheme.DARK_PROTOTYPE
+    PickPointTheme(theme = appTheme, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
             RandomPickerGameComponent(
                 resultDialog = { onRetry ->
