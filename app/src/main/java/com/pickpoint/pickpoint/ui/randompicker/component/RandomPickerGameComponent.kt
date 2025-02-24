@@ -175,6 +175,7 @@ fun RandomPickerGameComponent(
 @Preview(showBackground = true)
 @Composable
 private fun RandomPickerGameComponentPreview() {
+//    val appTheme: AppTheme = AppTheme.LIGHT_PROTOTYPE
     val appTheme: AppTheme = AppTheme.DARK_PROTOTYPE
     PickPointTheme(theme = appTheme, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {

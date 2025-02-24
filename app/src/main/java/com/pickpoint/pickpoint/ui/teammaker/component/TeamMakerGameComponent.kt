@@ -1,5 +1,6 @@
 package com.pickpoint.pickpoint.ui.teammaker.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -99,6 +100,7 @@ fun TeamMakerGameComponent(
     Box(
         modifier = modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             // pointerInput을 이용해 터치 이벤트를 감지
             .pointerInput(Unit) {
                 awaitPointerEventScope {
@@ -182,7 +184,9 @@ fun TeamMakerGameComponent(
 @Preview(showBackground = true)
 @Composable
 private fun TeamMakerGameComponentPreview() {
-    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+    val appTheme: AppTheme = AppTheme.LIGHT_PROTOTYPE
+//    val appTheme: AppTheme = AppTheme.DARK_PROTOTYPE
+    PickPointTheme(theme = appTheme, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
             TeamMakerGameComponent(
                 totalTeams = 3,
