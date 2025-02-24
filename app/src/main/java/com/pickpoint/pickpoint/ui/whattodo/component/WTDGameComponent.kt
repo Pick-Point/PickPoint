@@ -142,7 +142,7 @@ fun WTDGameComponent(
             }
         }
         // 카운트다운 끝난 후 결과 Point 표시
-        resultPoints.forEach { (position, color) ->
+        resultPoints.forEachIndexed { index, (position, color) ->
             CircleButton(
                 modifier = modifier.offset {
                     IntOffset(
@@ -152,6 +152,7 @@ fun WTDGameComponent(
                 },
                 pointSize = pointSize,
                 color = color,
+                number = index + 1
             ) {
             }
         }
