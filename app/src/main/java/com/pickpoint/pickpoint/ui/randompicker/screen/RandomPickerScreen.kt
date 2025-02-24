@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.R
 import com.pickpoint.pickpoint.ui.common.component.SecondaryTopAppBar
 import com.pickpoint.pickpoint.ui.randompicker.component.RandomPickerGameComponent
+import com.pickpoint.pickpoint.ui.randompicker.component.RandomPickerSettingContent
 import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerGameComponent
 import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerSettingContent
 import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerTryAgain
@@ -68,16 +69,9 @@ fun RandomPickerScreen(
         },
     ) { innerPadding ->
         if (!confirmed) {
-            TeamMakerSettingContent(
+            RandomPickerSettingContent(
                 modifier = Modifier.padding(innerPadding),
-                totalCount = totalCount,
                 pointsToPick = pointsToPick,
-                totalPlus = {
-                    if (totalCount < 10) totalCount += 1
-                },
-                totalMinus = {
-                    if (totalCount > 1) totalCount -= 1
-                },
                 pointsToPickPlus = {
                     if (pointsToPick < 10) pointsToPick += 1
                 },

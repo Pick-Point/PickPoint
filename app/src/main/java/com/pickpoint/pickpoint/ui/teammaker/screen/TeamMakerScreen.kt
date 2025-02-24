@@ -62,14 +62,7 @@ fun TeamMakerScreen(
         if (!confirmed) {
             TeamMakerSettingContent(
                 modifier = Modifier.padding(innerPadding),
-                totalCount = totalCount,
                 pointsToPick = pointsToPick,
-                totalPlus = {
-                    if (totalCount < 10) totalCount += 1
-                },
-                totalMinus = {
-                    if (totalCount > 1) totalCount -= 1
-                },
                 pointsToPickPlus = {
                     if (pointsToPick < 10) pointsToPick += 1
                 },

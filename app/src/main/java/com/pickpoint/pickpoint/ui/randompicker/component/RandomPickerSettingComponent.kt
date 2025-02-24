@@ -21,10 +21,7 @@ import com.pickpoint.pickpoint.ui.common.component.ResetConfirmButton
 @Composable
 fun RandomPickerSettingContent(
     modifier: Modifier = Modifier,
-    totalCount: Int,
     pointsToPick: Int,
-    totalPlus: () -> Unit,
-    totalMinus: () -> Unit,
     pointsToPickPlus: () -> Unit,
     pointsToPickMinus: () -> Unit,
     reset: () -> Unit,
@@ -35,16 +32,6 @@ fun RandomPickerSettingContent(
             .fillMaxSize()
     ) {
         Column {
-
-            NumberSettingComponent(
-                modifier = Modifier
-                    .padding(top = 30.dp)
-                    .padding(horizontal = 20.dp),
-                label = "Total Points",
-                currentNumber = totalCount,
-                onPlusButtonClick = { totalPlus() },
-                onMinusButtonClick = { totalMinus() }
-            )
 
             NumberSettingComponent(
                 modifier = Modifier
@@ -74,10 +61,7 @@ fun RandomPickerSettingContent(
 @Composable
 fun RandomPickerSettingContentPreview() {
     RandomPickerSettingContent(
-        totalCount = 4,
         pointsToPick = 1,
-        totalPlus = {},
-        totalMinus = {},
         pointsToPickPlus = {},
         pointsToPickMinus = {},
         reset = {},
