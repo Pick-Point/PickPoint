@@ -5,43 +5,102 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import com.pickpoint.pickpoint.ui.common.component.MainTopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.pickpoint.pickpoint.R
+import com.pickpoint.pickpoint.ui.common.component.SecondaryTopAppBar
+import com.pickpoint.pickpoint.ui.randompicker.component.RandomPickerGameComponent
+import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerGameComponent
+import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerSettingContent
+import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerTryAgain
+import com.pickpoint.pickpoint.ui.theme.LightPrototypeOnPrimaryColor
 
 @Composable
-fun RandomPickerScreen(modifier: Modifier = Modifier) {
-    Column(modifier = Modifier.fillMaxSize(),
-    ) {
-        Scaffold(
-            topBar = {
+fun RandomPickerScreen(
+    onNavigateBack: () -> Unit
+) {
+    var totalCount by remember { mutableIntStateOf(4) }
+    var pointsToPick by remember { mutableIntStateOf(1) }
+    var confirmed by remember { mutableStateOf(false) }
+
+    Scaffold(
+        topBar = {
+            if (confirmed) {
                 MainTopAppBar(
                     title = "Random Picker",
-                    modifier = modifier,
-                    onNavigationClick = { /*뒤로가기 동작*/ },
+                    leftIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_main_top_back),
+                            contentDescription = null,
+                            tint = LightPrototypeOnPrimaryColor
+                        )
+                    },
+                    rightIcon = {
+                        Icon(
+                            imageVector = Icons.Filled.Menu,
+                            contentDescription = null,
+                            tint = LightPrototypeOnPrimaryColor
+                        )
+                    }
+                )
+            } else {
+                SecondaryTopAppBar(
+                    title = "Game Settings",
+                    onNavigationClick = onNavigateBack
                 )
             }
-        ) {
-                paddingValues ->
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues)
-                    .background(Color.White),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Tap to start!", fontSize = 28.sp,
-                    modifier = Modifier
-                        .background(Color.White)
-
-                )
-            }
+        },
+    ) { innerPadding ->
+        if (!confirmed) {
+            TeamMakerSettingContent(
+                modifier = Modifier.padding(innerPadding),
+                totalCount = totalCount,
+                pointsToPick = pointsToPick,
+                totalPlus = {
+                    if (totalCount < 10) totalCount += 1
+                },
+                totalMinus = {
+                    if (totalCount > 1) totalCount -= 1
+                },
+                pointsToPickPlus = {
+                    if (pointsToPick < 10) pointsToPick += 1
+                },
+                pointsToPickMinus = {
+                    if (pointsToPick > 1) pointsToPick -= 1
+                },
+                reset = {
+                    totalCount = 4
+                    pointsToPick = 1
+                },
+                confirm = { confirmed = true }
+            )
+        } else {
+            RandomPickerGameComponent(
+                modifier = Modifier.padding(innerPadding),
+                pointsToSelect = pointsToPick,
+                resultDialog = { onRetry ->
+                    TeamMakerTryAgain {
+                        onRetry()
+                        confirmed = false
+                    }
+                }
+            )
         }
     }
 }
@@ -49,5 +108,5 @@ fun RandomPickerScreen(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 fun RandomPickerScreenPreview() {
-    RandomPickerScreen()
+    RandomPickerScreen { }
 }
