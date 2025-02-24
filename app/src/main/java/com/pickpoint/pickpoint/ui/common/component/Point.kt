@@ -30,7 +30,7 @@ fun CircleButton(modifier: Modifier = Modifier, color: Color, pointSize: Int, nu
             Text(
                 text = it.toString(),
                 fontSize = 35.sp,
-                color = Color.White,
+                color = LocalPointColors.current.pointTextColor,
                 textAlign = TextAlign.Center
             )
         }
