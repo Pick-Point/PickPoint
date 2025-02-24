@@ -3,7 +3,6 @@ package com.pickpoint.pickpoint.ui.whattodo.screen
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
@@ -23,20 +22,25 @@ import com.pickpoint.pickpoint.ui.common.component.MainTopAppBar
 import com.pickpoint.pickpoint.ui.common.util.getPointColorList
 import com.pickpoint.pickpoint.ui.theme.LocalPointColors
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDBottomSheetContent
-import com.pickpoint.pickpoint.ui.whattodo.component.WTDRandomPicker
+import com.pickpoint.pickpoint.ui.whattodo.component.WTDGameComponent
+import com.pickpoint.pickpoint.ui.whattodo.component.WTDSeeResult
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDSettingContent
 import com.pickpoint.pickpoint.ui.whattodo.viewmodel.WhatToDoViewmodel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WhatToDoScreen(
+    onNavigateBack: () -> Unit,
     viewmodel: WhatToDoViewmodel = viewModel()
 ) {
 
     val count by viewmodel.count.collectAsState()
     val resultList by viewmodel.resultList.collectAsState()
-    val randomColors by viewmodel.randomColors.collectAsState()
-    val scaffoldState = rememberBottomSheetScaffoldState()
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberStandardBottomSheetState(
+            skipHiddenState = false
+        )
+    )
 
     var showSheet by remember { mutableStateOf(false) }
     var isTapped by remember { mutableStateOf(false) }
@@ -45,10 +49,11 @@ fun WhatToDoScreen(
 
     viewmodel.initRandomColors(LocalPointColors.current.getPointColorList())
 
-    if (showSheet) {
-        LaunchedEffect(Unit) {
+    LaunchedEffect(showSheet) {
+        if (showSheet) {
             scaffoldState.bottomSheetState.expand()
-            showSheet = false
+        } else {
+            scaffoldState.bottomSheetState.hide()
         }
     }
 
@@ -66,7 +71,10 @@ fun WhatToDoScreen(
                     .fillMaxHeight(0.91f),
                 count = count,
                 resultList = resultList,
-                retryClick = { }
+                retryClick = {
+                    showSheet = false
+                    viewmodel.setConfirmed(false)
+                }
             )
         },
         sheetPeekHeight = if (isTapped) 53.dp else 0.dp,
@@ -83,19 +91,25 @@ fun WhatToDoScreen(
                 onPlusButtonClick = { viewmodel.onPlusButtonClick() },
                 onMinusButtonClick = { viewmodel.onMinusButtonClick() },
                 resultList = resultList,
-                onResultChanged = { index, result -> viewmodel.updateResultIndex(index, result) },
+                onResultChanged = { index, result ->
+                    viewmodel.updateResultIndex(
+                        index,
+                        result
+                    )
+                },
                 reset = { viewmodel.reset() },
                 confirm = { viewmodel.onConfirmButtonClick() }
             )
         } else {
-            WTDRandomPicker(
+            WTDGameComponent(
                 modifier = Modifier.padding(innerPadding),
-                count = count,
-                isTapped = isTapped,
-                startClick = { isTapped = true },
-                resultList = resultList,
-                randomColors = randomColors,
-                expandBottomSheet = { showSheet = true }
+                totalPoints = count,
+                resultDialog = { onRetry ->
+//                    onRetry()
+                    WTDSeeResult(
+                        modifier = Modifier.padding(innerPadding)
+                    ) { showSheet = true }
+                }
             )
         }
     }
@@ -104,5 +118,5 @@ fun WhatToDoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun WhatToDoScreenPreview() {
-    WhatToDoScreen()
+    WhatToDoScreen({})
 }
