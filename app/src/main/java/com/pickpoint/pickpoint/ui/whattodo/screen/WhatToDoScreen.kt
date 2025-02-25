@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -33,6 +34,7 @@ import com.pickpoint.pickpoint.ui.whattodo.component.WTDGameComponent
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDSeeResult
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDSettingContent
 import com.pickpoint.pickpoint.ui.whattodo.viewmodel.WhatToDoViewmodel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,7 +50,7 @@ fun WhatToDoScreen(
             skipHiddenState = false
         )
     )
-
+    val coroutineScope = rememberCoroutineScope()
     var showSheet by remember { mutableStateOf(false) }
     var isTapped by remember { mutableStateOf(false) }
 
@@ -62,6 +64,9 @@ fun WhatToDoScreen(
         } else {
             scaffoldState.bottomSheetState.hide()
         }
+    }
+    LaunchedEffect(scaffoldState) {
+        showSheet = !scaffoldState.bottomSheetState.isVisible
     }
 
     BottomSheetScaffold(
@@ -132,10 +137,14 @@ fun WhatToDoScreen(
                 modifier = Modifier.padding(innerPadding),
                 totalPoints = count,
                 resultDialog = { onRetry ->
-//                    onRetry()
                     WTDSeeResult(
                         modifier = Modifier.padding(innerPadding)
-                    ) { showSheet = true }
+                    ) {
+                        coroutineScope.launch {
+                            showSheet = true
+                            scaffoldState.bottomSheetState.expand()
+                        }
+                    }
                 }
             )
         }
