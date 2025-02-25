@@ -63,7 +63,7 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxSize(),
             ) {
                 MainTopAppBar(
-                    "Pick Point",
+                    title = "Pick Point",
                     leftIcon = {
                         Icon(
                             imageVector = Icons.Filled.Menu,

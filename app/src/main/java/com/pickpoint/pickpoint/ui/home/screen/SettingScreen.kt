@@ -49,7 +49,7 @@ fun SettingsScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             SecondaryTopAppBar(
-                "Settings",
+                title = "Settings",
                 onNavigationClick = onNavigateBack
             )
             Spacer(modifier = Modifier.padding(15.dp))
