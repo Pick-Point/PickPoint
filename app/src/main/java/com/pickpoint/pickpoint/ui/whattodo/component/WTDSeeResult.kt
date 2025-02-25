@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,12 +35,8 @@ fun WTDSeeResult(modifier: Modifier = Modifier, setShowSheet: () -> Unit) {
         ) {
             Text(
                 text = "See Result",
-                style = TextStyle(
-                    fontSize = 57.sp,
-                    lineHeight = 64.sp,
-                    fontWeight = FontWeight(400),
-                    color = Color(0xFF333333),
-                )
+                style = MaterialTheme.typography.displayLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
             )
             IconButton(
                 modifier = Modifier
@@ -47,7 +44,7 @@ fun WTDSeeResult(modifier: Modifier = Modifier, setShowSheet: () -> Unit) {
                     .width(52.dp)
                     .height(52.dp)
                     .background(
-                        color = Color(0xFFEEEEEE),
+                        color = MaterialTheme.colorScheme.primary,
                         shape = RoundedCornerShape(size = 100.dp)
                     )
                     .align(Alignment.CenterHorizontally),
@@ -55,7 +52,8 @@ fun WTDSeeResult(modifier: Modifier = Modifier, setShowSheet: () -> Unit) {
             ) {
                 Icon(
                     painter = painterResource(R.drawable.ic_arrow_forward),
-                    contentDescription = null
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }
