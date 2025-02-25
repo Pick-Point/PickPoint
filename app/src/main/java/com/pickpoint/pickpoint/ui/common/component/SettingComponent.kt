@@ -15,6 +15,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.R
 import com.pickpoint.pickpoint.ui.model.setting.ThemeSetting
+import com.pickpoint.pickpoint.ui.theme.AppTheme
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
 /**
  * @param*/
@@ -45,7 +48,7 @@ fun SettingComponent(
     title: String = "",
     settingRes: List<Int>,
     checkedIndex: Int = 0,
-    onClick : (Int) -> Unit = {}
+    onClick: (Int) -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -59,14 +62,8 @@ fun SettingComponent(
         ) {
             Text(
                 text = title,
-                // M3/label/large
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFF333333),
-                    textAlign = TextAlign.Center,
-                ),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
             )
@@ -74,50 +71,49 @@ fun SettingComponent(
         Card(
             elevation = CardDefaults.cardElevation(6.dp)
         ) {
-        Column(
-            modifier = Modifier
-                .shadow(elevation = 4.dp)
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(color = Color(0xFFEEEEEE), shape = RoundedCornerShape(size = 8.dp))
-        ) {
-            settingRes.forEachIndexed { index, res ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(size = 8.dp))
-                        .clickable { onClick(index) }
-                        .padding(10.dp)
-                        .height(24.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = stringResource(id = res),
+            Column(
+                modifier = Modifier
+                    .shadow(elevation = 4.dp)
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .background(color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(size = 8.dp))
+            ) {
+                settingRes.forEachIndexed { index, res ->
+                    Row(
                         modifier = Modifier
-                            .align(Alignment.CenterVertically),
-                        style = TextStyle(
-                            fontSize = 12.sp,
-                            lineHeight = 16.sp,
-                            fontWeight = FontWeight(500),
-                            color = Color(0xFF333333),
-                        ),
-                    )
-                    if (index == checkedIndex) {
-                        Icon(
-                            painter = painterResource(R.drawable.ic_setting_check_24),
-                            contentDescription = "checked",
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(size = 8.dp))
+                            .clickable { onClick(index) }
+                            .padding(10.dp)
+                            .height(24.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = stringResource(id = res),
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                        if (index == checkedIndex) {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_setting_check_24),
+                                contentDescription = "checked",
+                                tint = MaterialTheme.colorScheme.onPrimary
+                            )
+                        }
+                    }
+                    if (index != settingRes.size - 1) {
+                        HorizontalDivider(
+                            modifier = Modifier
+                                .padding(horizontal = 10.dp)
+                                .background(MaterialTheme.colorScheme.tertiary)
+                                .fillMaxWidth()
                         )
                     }
                 }
-                if (index != settingRes.size - 1) {
-                    HorizontalDivider(
-                        modifier = Modifier
-                            .padding(horizontal = 10.dp)
-                            .fillMaxWidth()
-                    )
-                }
             }
-        }}
+        }
     }
 }
 
@@ -126,12 +122,14 @@ fun SettingComponent(
 private fun SettingComponentPreview() {
     var checkedIndex by remember { mutableIntStateOf(0) }
 
-    SettingComponent(
-        title = "Language",
-        settingRes = ThemeSetting.entries.map { it.res },
-        checkedIndex = checkedIndex,
-        onClick = { checkedIndex = it }
-    )
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        SettingComponent(
+            title = "Language",
+            settingRes = ThemeSetting.entries.map { it.res },
+            checkedIndex = checkedIndex,
+            onClick = { checkedIndex = it }
+        )
+    }
 }
 
 @Preview(
@@ -141,11 +139,13 @@ private fun SettingComponentPreview() {
 )
 @Composable
 private fun SettingComponentPreviewFull() {
-    SettingComponent(
-        title = "Language",
-        settingRes = ThemeSetting.entries.map { it.res },
-        checkedIndex = 0
-    )
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        SettingComponent(
+            title = "Language",
+            settingRes = ThemeSetting.entries.map { it.res },
+            checkedIndex = 0
+        )
+    }
 }
 
 @Preview(
@@ -155,9 +155,11 @@ private fun SettingComponentPreviewFull() {
 )
 @Composable
 private fun SettingComponentPreviewWide() {
-    SettingComponent(
-        title = "Language",
-        settingRes = ThemeSetting.entries.map { it.res },
-        checkedIndex = 0
-    )
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        SettingComponent(
+            title = "Language",
+            settingRes = ThemeSetting.entries.map { it.res },
+            checkedIndex = 0
+        )
+    }
 }
