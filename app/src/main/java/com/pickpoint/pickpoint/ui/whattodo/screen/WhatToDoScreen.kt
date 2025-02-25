@@ -32,8 +32,9 @@ import com.pickpoint.pickpoint.ui.common.component.DragHandle
 import com.pickpoint.pickpoint.ui.common.component.MainTopAppBar
 import com.pickpoint.pickpoint.ui.common.component.SecondaryTopAppBar
 import com.pickpoint.pickpoint.ui.common.util.getPointColorList
-import com.pickpoint.pickpoint.ui.theme.LightPrototypeOnPrimaryColor
+import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.LocalPointColors
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDBottomSheetContent
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDGameComponent
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDSeeResult
@@ -84,14 +85,14 @@ fun WhatToDoScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_main_top_back),
                             contentDescription = null,
-                            tint = LightPrototypeOnPrimaryColor
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     },
                     rightIcon = {
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = null,
-                            tint = LightPrototypeOnPrimaryColor
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 )
@@ -166,5 +167,7 @@ fun WhatToDoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun WhatToDoScreenPreview() {
-    WhatToDoScreen({})
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        WhatToDoScreen({})
+    }
 }
