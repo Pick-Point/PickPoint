@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -15,11 +16,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.ui.common.util.getPointColorList
+import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.LightPrototypePointColors
 import com.pickpoint.pickpoint.ui.theme.LocalPointColors
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
 @Composable
-fun CircleButton(modifier: Modifier = Modifier, color: Color, pointSize: Int, number: Int? = null, onClick: () -> Unit) {
+fun CircleButton(
+    modifier: Modifier = Modifier,
+    color: Color,
+    pointSize: Int,
+    number: Int? = null,
+) {
     Box(
         modifier = modifier
             .size(pointSize.dp)
@@ -29,7 +37,7 @@ fun CircleButton(modifier: Modifier = Modifier, color: Color, pointSize: Int, nu
         number?.let {
             Text(
                 text = it.toString(),
-                fontSize = 35.sp,
+                style = MaterialTheme.typography.displaySmall,
                 color = LocalPointColors.current.pointTextColor,
                 textAlign = TextAlign.Center
             )
@@ -43,15 +51,19 @@ fun PointColorPreview() {
     CompositionLocalProvider(LocalPointColors provides LightPrototypePointColors) {
         val colors = LocalPointColors.current.getPointColorList()
 
-        FlowRow (
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            colors.forEachIndexed { index, color ->
-                CircleButton(color = color, pointSize = 100, number = if (index % 2 == 0) index + 1 else null) {
-                    // 클릭 시 동작 추가 가능
+        PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+            FlowRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                colors.forEachIndexed { index, color ->
+                    CircleButton(
+                        color = color,
+                        pointSize = 100,
+                        number = if (index % 2 == 0) index + 1 else null
+                    )
                 }
             }
         }

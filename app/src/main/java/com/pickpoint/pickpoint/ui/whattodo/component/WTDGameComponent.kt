@@ -138,9 +138,7 @@ fun WTDGameComponent(
                     },
                     pointSize = pointSize,
                     color = color,
-                ) {
-
-                }
+                )
             }
         }
         // 카운트다운 끝난 후 결과 Point 표시
@@ -155,8 +153,7 @@ fun WTDGameComponent(
                 pointSize = pointSize,
                 color = color,
                 number = index + 1
-            ) {
-            }
+            )
         }
         // 카운트다운 표시
         countdown?.let {
