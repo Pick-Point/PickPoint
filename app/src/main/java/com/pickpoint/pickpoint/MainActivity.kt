@@ -23,8 +23,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val appTheme = AppTheme.LIGHT_PROTOTYPE // 이후에 저장된 테마를 불러오도록 수정 필요
-//            val appTheme = AppTheme.DARK_PROTOTYPE
+//            val appTheme = AppTheme.LIGHT_PROTOTYPE // 이후에 저장된 테마를 불러오도록 수정 필요
+            val appTheme = AppTheme.DARK_PROTOTYPE
             PickPointTheme(theme = appTheme, dynamicColor = false) {
                 val dataStoreManager = DataStoreManager(context = this)
                 val homeViewModel = HomeViewModel(dataStoreManager = dataStoreManager)
