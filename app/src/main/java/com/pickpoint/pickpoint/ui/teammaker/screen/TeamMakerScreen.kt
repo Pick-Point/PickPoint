@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,7 +21,8 @@ import com.pickpoint.pickpoint.ui.common.component.SecondaryTopAppBar
 import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerGameComponent
 import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerSettingContent
 import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerTryAgain
-import com.pickpoint.pickpoint.ui.theme.LightPrototypeOnPrimaryColor
+import com.pickpoint.pickpoint.ui.theme.AppTheme
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
 @Composable
 fun TeamMakerScreen(
@@ -40,14 +42,14 @@ fun TeamMakerScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_main_top_back),
                             contentDescription = null,
-                            tint = LightPrototypeOnPrimaryColor
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     },
                     rightIcon = {
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = null,
-                            tint = LightPrototypeOnPrimaryColor
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 )
@@ -88,12 +90,13 @@ fun TeamMakerScreen(
             )
         }
     }
-
 }
 
 
 @Preview
 @Composable
 fun SettingScreenPreview() {
-    TeamMakerScreen(onNavigateBack = {})
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        TeamMakerScreen(onNavigateBack = {})
+    }
 }
