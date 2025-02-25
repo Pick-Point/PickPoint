@@ -168,7 +168,7 @@ fun TeamMakerGameComponent(
                 text = it.toString(),
                 style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.onPrimary,
-                modifier = modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center)
             )
         }
         if (showResultDialog) {
