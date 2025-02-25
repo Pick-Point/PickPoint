@@ -13,14 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.LightPrototypePrimaryColor
 import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
 @Composable
 fun TopMenu(
+    modifier: Modifier = Modifier,
     onReportClick: () -> Unit,
-    onSettingsClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onSettingsClick: () -> Unit
 ) {
     Surface(
         modifier = modifier.size(112.dp),
@@ -29,7 +30,7 @@ fun TopMenu(
     ) {
         Column(
             modifier = modifier
-                .background(LightPrototypePrimaryColor)
+                .background(MaterialTheme.colorScheme.primary)
                 .padding(vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -64,10 +65,15 @@ private fun NavigationItem(
         Icon(
             imageVector = icon,
             contentDescription = text,
+            tint = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.size(18.dp)
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Text(text = text)
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
     }
 }
 
@@ -77,7 +83,7 @@ private fun NavigationItem(
 )
 @Composable
 fun NavigationDrawerPreview() {
-    PickPointTheme {
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Surface {
             TopMenu(
                 onReportClick = { },
@@ -93,7 +99,7 @@ fun NavigationDrawerPreview() {
 )
 @Composable
 fun NavigationItemPreview() {
-    PickPointTheme {
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         Surface {
             NavigationItem(
                 icon = Icons.Default.Info,
