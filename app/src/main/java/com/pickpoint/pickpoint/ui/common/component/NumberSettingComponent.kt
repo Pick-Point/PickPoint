@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.R
+import com.pickpoint.pickpoint.ui.theme.AppTheme
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
 @Composable
 fun NumberSettingComponent(
@@ -44,7 +47,11 @@ fun NumberSettingComponent(
     onMinusButtonClick: (Int) -> Unit
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
-        Text(text = label, fontSize = 14.sp)
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
@@ -57,7 +64,7 @@ fun NumberSettingComponent(
                 .height(50.dp),
             shape = RoundedCornerShape(8.dp),
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFEEEEEE)
+                containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
             Row(
@@ -69,7 +76,8 @@ fun NumberSettingComponent(
             ) {
                 Text(
                     text = currentNumber.toString(),
-                    fontSize = 28.sp
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
                 Row {
                     //- 버튼
@@ -78,7 +86,7 @@ fun NumberSettingComponent(
                             onMinusButtonClick(currentNumber)
                         },
                         shape = CircleShape, // 원형 모양
-                        border = BorderStroke(1.dp, Color(0xFF333333)), // 테두리 설정
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimary), // 테두리 설정
                         contentPadding = PaddingValues(0.dp),
                         modifier = Modifier
                             .size(30.dp) // 버튼 크기 조정
@@ -86,7 +94,7 @@ fun NumberSettingComponent(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_number_setting_minus),
                             contentDescription = "-",
-                            tint = Color.Unspecified,
+                            tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(24.dp)
                         )
                     }
@@ -97,7 +105,7 @@ fun NumberSettingComponent(
                             onPlusButtonClick(currentNumber)
                         },
                         shape = CircleShape, // 원형 모양
-                        border = BorderStroke(1.dp, Color(0xFF333333)), // 테두리 설정
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onPrimary), // 테두리 설정
                         contentPadding = PaddingValues(0.dp),
                         modifier = Modifier
                             .size(30.dp) // 버튼 크기 조정
@@ -105,7 +113,7 @@ fun NumberSettingComponent(
                         Icon(
                             imageVector = Icons.Filled.Add,
                             contentDescription = "-",
-                            tint = Color.Unspecified,
+                            tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(24.dp)
                         )
                     }
@@ -120,22 +128,24 @@ fun NumberSettingComponent(
 private fun NumberSettingComponentPreview() {
     var count by rememberSaveable { mutableIntStateOf(0) }
     val label = "Total Points"
-    NumberSettingComponent(
-        label = label,
-        currentNumber = count,
-        onPlusButtonClick = {
-            if (count < 10) {
-                count++
-            } else {
-                //Toast
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        NumberSettingComponent(
+            label = label,
+            currentNumber = count,
+            onPlusButtonClick = {
+                if (count < 10) {
+                    count++
+                } else {
+                    //Toast
+                }
+            },
+            onMinusButtonClick = {
+                if (count > 1) {
+                    count--
+                } else {
+                    //Toast
+                }
             }
-        },
-        onMinusButtonClick = {
-            if (count > 1) {
-                count--
-            } else {
-                //Toast
-            }
-        }
-    )
+        )
+    }
 }
