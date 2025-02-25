@@ -28,20 +28,23 @@ import androidx.compose.foundation.background
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.graphics.Color
 import com.pickpoint.pickpoint.ui.common.component.MainTopAppBar
 import com.pickpoint.pickpoint.ui.home.component.TopMenu
+import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.LightPrototypeBackgroundColor
 
 
 @Composable
 fun HomeScreen(
+    modifier: Modifier = Modifier,
     viewModel: HomeViewModel? = null,
     onNavigateToSettings: () -> Unit = {},
     onNavigateToReport: () -> Unit = {},
     onNavigateToRandomPicker: () -> Unit = {},
     onNavigateToTeamMaker: () -> Unit = {},
-    onNavigateToWhatToDo: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onNavigateToWhatToDo: () -> Unit = {}
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
 
@@ -60,14 +63,17 @@ fun HomeScreen(
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxSize(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
             ) {
                 MainTopAppBar(
                     title = "Pick Point",
                     leftIcon = {
                         Icon(
                             imageVector = Icons.Filled.Menu,
-                            contentDescription = "Menu"
+                            contentDescription = "Menu",
+                            tint = MaterialTheme.colorScheme.secondary
                         )
                     },
                     leftIconClick = { menuExpanded = !menuExpanded }
@@ -95,7 +101,6 @@ fun HomeScreen(
                         "What To Do"
                     )
                 }
-
                 Spacer(modifier = Modifier.weight(1f))
             }
         }
@@ -126,7 +131,7 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 fun HomeSectionPreview() {
-    PickPointTheme {
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         HomeScreen()
     }
 }
