@@ -23,6 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.R
+import com.pickpoint.pickpoint.ui.theme.AppTheme
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 import com.pickpoint.pickpoint.ui.theme.robotoFontFamily
 
 @Composable
@@ -31,55 +33,61 @@ fun ResetConfirmButton(
     reset: () -> Unit,
     confirm: () -> Unit
 ) {
-        Row(
-            modifier = modifier.padding(10.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
+    Row(
+        modifier = modifier.padding(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
 
         Button(
             onClick = { reset() },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFEEEEEE),
-                contentColor = Color(0xFF333333),
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
             ),
             shape = RoundedCornerShape(100.dp),
-            modifier = Modifier.width(146.dp)
+            modifier = Modifier
+                .width(146.dp)
                 .height(48.dp)
                 .shadow(4.dp, RoundedCornerShape(100.dp))
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_trash_can),
-                contentDescription = "Reset"
+                contentDescription = "Reset",
+                tint = MaterialTheme.colorScheme.onPrimary
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                "Reset",
-                style = MaterialTheme.typography.labelLarge
+                text = "Reset",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }
 
         Button(
             onClick = { confirm() },
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF333333),
-                contentColor = Color(0xFFFFFFFF),
+                containerColor = MaterialTheme.colorScheme.onPrimary,
+                contentColor = MaterialTheme.colorScheme.background,
             ),
             shape = RoundedCornerShape(100.dp),
-            modifier = Modifier.width(146.dp)
+            modifier = Modifier
+                .width(146.dp)
                 .height(48.dp)
                 .shadow(4.dp, RoundedCornerShape(100.dp))
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_check),
                 contentDescription = "Confirm",
+                tint = MaterialTheme.colorScheme.background
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                "Confirm",
-                style = MaterialTheme.typography.labelLarge
+                text = "Confirm",
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.background
             )
         }
-            }
+    }
 
 }
 
@@ -87,5 +95,9 @@ fun ResetConfirmButton(
 @Preview
 @Composable
 fun ResetConfirmButtonPreview() {
-    ResetConfirmButton(reset = { /* Handle reset click */ }, confirm = { /* Handle confirm click */ })
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        ResetConfirmButton(
+            reset = { /* Handle reset click */ },
+            confirm = { /* Handle confirm click */ })
+    }
 }
