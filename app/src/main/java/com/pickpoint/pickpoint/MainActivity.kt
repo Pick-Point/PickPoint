@@ -31,12 +31,12 @@ class MainActivity : ComponentActivity() {
         // Splash
         val splashScreen = installSplashScreen()
         splashScreen.setKeepOnScreenCondition{
-            // true이면 Splash 화면이 유지
+            // 이 람다 안의 값이 true이면 Splash 화면이 유지됨
             isLoading
         }
         // 3초후에 Splash 화면 종료
         lifecycleScope.launch {
-            delay(3000L)
+            delay(2000L)
             isLoading = false
         }
         setContent {
