@@ -24,8 +24,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-    // splash 유지 여부 결정
-    private var isLoading = true
+    private var isLoading = true // splash 유지 여부 결정(이후에 viewModel 에서 값 가져오도록 수정?)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Splash
@@ -34,8 +33,9 @@ class MainActivity : ComponentActivity() {
             // 이 람다 안의 값이 true이면 Splash 화면이 유지됨
             isLoading
         }
-        // 3초후에 Splash 화면 종료
+        // 2초후에 Splash 화면 종료
         lifecycleScope.launch {
+            // 이후에 여기에서 테마 정보 가져오도록 하면 될듯
             delay(2000L)
             isLoading = false
         }
