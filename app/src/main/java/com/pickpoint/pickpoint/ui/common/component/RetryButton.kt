@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,6 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.R
+import com.pickpoint.pickpoint.ui.theme.AppTheme
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
 @Composable
 fun RetryButton(
@@ -29,8 +32,8 @@ fun RetryButton(
     Button(
         onClick = { retry() },
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color(0xFF333333),
-            contentColor = Color(0xFFFFFFFF),
+            containerColor = MaterialTheme.colorScheme.onPrimary,
+            contentColor = MaterialTheme.colorScheme.background,
         ),
         shape = RoundedCornerShape(100.dp),
         modifier = modifier
@@ -40,14 +43,14 @@ fun RetryButton(
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_retry),
-            contentDescription = "Cancel"
+            contentDescription = "Cancel",
+            tint = MaterialTheme.colorScheme.background
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            "Retry",
-            style = TextStyle(
-                fontSize = 20.sp
-            )
+            text = "Retry",
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.background
         )
     }
 
@@ -56,5 +59,7 @@ fun RetryButton(
 @Preview(showBackground = true)
 @Composable
 fun RetryButtonPreview() {
-    RetryButton(retry = { /* Handle retry click */ })
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        RetryButton(retry = { /* Handle retry click */ })
+    }
 }

@@ -18,16 +18,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pickpoint.pickpoint.R
 import com.pickpoint.pickpoint.ui.theme.*
 
 @Composable
 fun MainTopAppBar(
-    title: String,
     modifier: Modifier = Modifier,
-    onNavigationClick: () -> Unit
+    title: String,
+    leftIcon: @Composable () -> Unit = {},
+    leftIconClick: () -> Unit = {},
+    rightIcon: @Composable () -> Unit = {},
+    rightIconClick: () -> Unit = {},
 ) {
     Surface(
         modifier = modifier
@@ -42,33 +47,36 @@ fun MainTopAppBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(
-                onClick = onNavigationClick,
+                onClick = leftIconClick,
                 modifier = Modifier
                     .size(24.dp)
             ) {
-                Icon(
-                    imageVector = Icons.Default.Menu,
-                    contentDescription = null,
-                    tint = LightPrototypeOnPrimaryColor
-                )
+                leftIcon()
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = title,
-                color = LightPrototypeSecondaryColor,
+                color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.padding(end = 20.dp),
                 style = MaterialTheme.typography.titleLarge
             )
             Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = rightIconClick,
+                modifier = Modifier
+                    .size(24.dp)
+            ) {
+                rightIcon()
+            }
         }
     }
 }
 
 @Composable
 fun SecondaryTopAppBar(
+    modifier: Modifier = Modifier,
     title: String,
-    onNavigationClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onNavigationClick: () -> Unit
 ) {
     Surface(
         modifier = modifier
@@ -90,13 +98,12 @@ fun SecondaryTopAppBar(
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
                     contentDescription = null,
-                    tint = LightPrototypeOnPrimaryColor
+                    tint = MaterialTheme.colorScheme.secondary
                 )
             }
             Text(
                 text = title,
-                fontSize = 28.sp,
-                color = LightPrototypeSecondaryColor,
+                color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.padding(start = 18.dp),
                 style = MaterialTheme.typography.titleLarge
             )
@@ -106,12 +113,33 @@ fun SecondaryTopAppBar(
 
 @Preview(showBackground = true)
 @Composable
-fun FirstPreview() {
-    MainTopAppBar(title = "Pick Point", onNavigationClick = {})
+fun MainTopAppBarPreview() {
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        MainTopAppBar(
+            title = "Pick Point",
+            leftIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_main_top_back),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+            },
+            rightIcon = {
+                Icon(
+                    imageVector = Icons.Filled.Menu,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+            }
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun SecondPreview() {
-    SecondaryTopAppBar(title = "Settings", onNavigationClick = {})
+fun SecondaryTopAppBarPreview() {
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        SecondaryTopAppBar(title = "Settings", onNavigationClick = {})
+    }
 }
+

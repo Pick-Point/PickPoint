@@ -1,5 +1,6 @@
-package com.pickpoint.pickpoint.ui.common.component.game
+package com.pickpoint.pickpoint.ui.whattodo.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,32 +34,32 @@ import kotlin.math.roundToInt
 
 
 @Composable
-fun RandomPickerGameComponent(
+fun WTDGameComponent(
     modifier: Modifier = Modifier,
-    pointsToStart: Int = 2,
+    totalPoints: Int = 3, // 최종적으로 사용할 점의 개수
     resultDialog: @Composable ((onRetry: () -> Unit) -> Unit)? = null, // 카운트다운 끝난 후 결과 다이얼로그
-    resultLogic: (List<Pair<Offset, Color>>) -> List<Pair<Offset, Color>>
 ) {
     val pointColorList = LocalPointColors.current.getPointColorList()
     val pointSize = 100
     val timeToStart: Long = 2000 //2초
     val usedColors = remember { mutableStateListOf<Color>() }
-    var countdown by remember { mutableStateOf<Int?>(null)}
+    var countdown by remember { mutableStateOf<Int?>(null) }
     var isGameActive by remember { mutableStateOf(true) } // 게임 진행 여부
     var showResultDialog by remember { mutableStateOf(false) } // 결과 다이얼로그 표시 여부
 
     val (touchPoints, finalPoints) = timerStartHandler(
-        pointsToStart = pointsToStart,
+        pointsToStart = totalPoints,
         timeToStart = timeToStart,
     )
 
     val resultPoints = remember { mutableStateListOf<Pair<Offset, Color>>() }
 
     // 카운트다운
-    LaunchedEffect(touchPoints.keys.toSet()){
-        if (touchPoints.size >= pointsToStart){
+    LaunchedEffect(touchPoints.keys.toSet()) {
+        countdown = null
+        if (touchPoints.size == totalPoints) {
             delay(timeToStart)
-            for (i in 3 downTo 1){
+            for (i in 3 downTo 1) {
                 countdown = i
                 delay(1000)
             }
@@ -71,7 +72,7 @@ fun RandomPickerGameComponent(
 
             // 로직 반영
             resultPoints.clear()
-            resultPoints.addAll(resultLogic(finalPoints))
+            resultPoints.addAll(finalPoints.shuffled().take(totalPoints))
         }
     }
 
@@ -88,31 +89,35 @@ fun RandomPickerGameComponent(
     Box(
         modifier = modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             // pointerInput을 이용해 터치 이벤트를 감지
             .pointerInput(Unit) {
                 awaitPointerEventScope {
                     while (true) {
                         val event = awaitPointerEvent()
-                        event.changes.forEach { pointerInputChange ->
-                            val pointerId = pointerInputChange.id.value
-                            if (pointerInputChange.pressed) {
-                                // 이미 있는 포인터면 색상 유지, 없으면 랜덤 색상 할당
-                                if (pointerId !in touchPoints) {
-                                    val availableColor =
-                                        pointColorList.filter { it !in usedColors }.randomOrNull()
-                                    if (availableColor != null) {
-                                        usedColors.add(availableColor)
+                        if (event.changes.size <= totalPoints) {
+                            event.changes.forEach { pointerInputChange ->
+                                val pointerId = pointerInputChange.id.value
+                                if (pointerInputChange.pressed) {
+                                    // 이미 있는 포인터면 색상 유지, 없으면 랜덤 색상 할당
+                                    if (pointerId !in touchPoints) {
+                                        val availableColor =
+                                            pointColorList.filter { it !in usedColors }
+                                                .randomOrNull()
+                                        if (availableColor != null) {
+                                            usedColors.add(availableColor)
+                                            touchPoints[pointerId] =
+                                                pointerInputChange.position to availableColor
+                                        }
+                                    } else {
+                                        //기존 위치 업데이트
                                         touchPoints[pointerId] =
-                                            pointerInputChange.position to availableColor
+                                            pointerInputChange.position to touchPoints[pointerId]!!.second
                                     }
                                 } else {
-                                    //기존 위치 업데이트
-                                    touchPoints[pointerId] =
-                                        pointerInputChange.position to touchPoints[pointerId]!!.second
+                                    touchPoints[pointerId]?.second?.let { usedColors.remove(it) }
+                                    touchPoints.remove(pointerId)
                                 }
-                            } else {
-                                touchPoints[pointerId]?.second?.let { usedColors.remove(it) }
-                                touchPoints.remove(pointerId)
                             }
                         }
                     }
@@ -125,7 +130,7 @@ fun RandomPickerGameComponent(
                 val (position, color) = data
                 // offset을 이용해 터치한 위치에 Point를 배치
                 CircleButton(
-                    modifier = modifier.offset {
+                    modifier = Modifier.offset {
                         IntOffset(
                             (position.x - (pointSize / 2).dp.toPx()).roundToInt(),
                             (position.y - (pointSize / 2).dp.toPx()).roundToInt()
@@ -133,15 +138,13 @@ fun RandomPickerGameComponent(
                     },
                     pointSize = pointSize,
                     color = color,
-                ) {
-
-                }
+                )
             }
         }
         // 카운트다운 끝난 후 결과 Point 표시
-        resultPoints.forEach { (position, color) ->
+        resultPoints.forEachIndexed { index, (position, color) ->
             CircleButton(
-                modifier = modifier.offset {
+                modifier = Modifier.offset {
                     IntOffset(
                         (position.x - (pointSize / 2).dp.toPx()).roundToInt(),
                         (position.y - (pointSize / 2).dp.toPx()).roundToInt()
@@ -149,16 +152,16 @@ fun RandomPickerGameComponent(
                 },
                 pointSize = pointSize,
                 color = color,
-            ) {
-            }
+                number = index + 1
+            )
         }
         // 카운트다운 표시
-        countdown?.let{
+        countdown?.let {
             Text(
                 text = it.toString(),
                 style = MaterialTheme.typography.displayLarge,
                 color = MaterialTheme.colorScheme.onPrimary,
-                modifier = modifier.align(Alignment.Center)
+                modifier = Modifier.align(Alignment.Center)
             )
         }
 
@@ -170,21 +173,15 @@ fun RandomPickerGameComponent(
 }
 
 
-
 @Preview(showBackground = true)
 @Composable
-private fun RandomPickerGameComponentPreview() {
-    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+private fun WTDGameComponentPreview() {
+    val appTheme: AppTheme = AppTheme.LIGHT_PROTOTYPE
+//    val appTheme: AppTheme = AppTheme.DARK_PROTOTYPE
+    PickPointTheme(theme = appTheme, dynamicColor = false) {
         Column(modifier = Modifier.fillMaxSize()) {
-            RandomPickerGameComponent(
-                resultLogic = { resultPoints ->
-                    // 점 1개 선택
-                    resultPoints.shuffled().take(1)
-                    // 점 2개 선택
-//                    resultPoints.shuffled().take(2)
-                    // 점 3개 선택
-//                    resultPoints.shuffled().take(3)
-                },
+            WTDGameComponent(
+                totalPoints = 5,
                 resultDialog = { onRetry ->
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -194,7 +191,8 @@ private fun RandomPickerGameComponentPreview() {
                             onClick = { onRetry() },
                             modifier = Modifier.align(Alignment.Center)
                         ) {
-                            Text("Retry",
+                            Text(
+                                "Retry",
                                 style = MaterialTheme.typography.labelLarge,
                                 color = MaterialTheme.colorScheme.onPrimary
                             )

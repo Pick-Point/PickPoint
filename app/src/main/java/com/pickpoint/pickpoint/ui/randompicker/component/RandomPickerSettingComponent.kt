@@ -1,4 +1,4 @@
-package com.pickpoint.pickpoint.ui.whattodo.component
+package com.pickpoint.pickpoint.ui.randompicker.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -8,24 +8,26 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pickpoint.pickpoint.ui.common.component.NumberSettingComponent
 import com.pickpoint.pickpoint.ui.common.component.ResetConfirmButton
-import com.pickpoint.pickpoint.ui.common.component.ResultsComponent
 import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
+
 @Composable
-fun WTDSettingContent(
+fun RandomPickerSettingContent(
     modifier: Modifier = Modifier,
-    count: Int,
-    onPlusButtonClick: () -> Unit,
-    onMinusButtonClick: () -> Unit,
-    resultList: List<String>,
-    onResultChanged: (Int, String) -> Unit,
+    pointsToPick: Int,
+    pointsToPickPlus: () -> Unit,
+    pointsToPickMinus: () -> Unit,
     reset: () -> Unit,
     confirm: () -> Unit
 ) {
@@ -39,26 +41,12 @@ fun WTDSettingContent(
                 modifier = Modifier
                     .padding(top = 30.dp)
                     .padding(horizontal = 20.dp),
-                label = "Total Points",
-                currentNumber = count,
-                onPlusButtonClick = {
-                    if (count < 10) onPlusButtonClick()
-                },
-                onMinusButtonClick = {
-                    if (count > 1) onMinusButtonClick()
-                }
+                label = "Points to Pick",
+                currentNumber = pointsToPick,
+                onPlusButtonClick = { pointsToPickPlus() },
+                onMinusButtonClick = { pointsToPickMinus() }
             )
 
-            ResultsComponent(
-                modifier = Modifier
-                    .padding(top = 46.dp),
-                title = "Results",
-                count = count,
-                resultList = resultList,
-                onResultChanged = { index, result ->
-                    onResultChanged(index, result)
-                }
-            )
         }
 
         ResetConfirmButton(
@@ -75,18 +63,12 @@ fun WTDSettingContent(
 
 @Preview(showBackground = true)
 @Composable
-private fun WTDSettingContentPreview() {
+fun RandomPickerSettingContentPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
-        WTDSettingContent(
-            count = 1,
-            onPlusButtonClick = {},
-            onMinusButtonClick = {},
-            resultList = listOf(
-                "벌칙1", "벌칙2", "벌칙3", "벌칙4"
-            ),
-            onResultChanged = { index, result ->
-
-            },
+        RandomPickerSettingContent(
+            pointsToPick = 1,
+            pointsToPickPlus = {},
+            pointsToPickMinus = {},
             reset = {},
             confirm = {}
         )

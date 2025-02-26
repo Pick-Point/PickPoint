@@ -25,6 +25,10 @@ class WhatToDoViewmodel : ViewModel() {
     private val _randomColors: MutableStateFlow<List<Color>> = MutableStateFlow(emptyList())
     val randomColors: StateFlow<List<Color>> = _randomColors.asStateFlow()
 
+    fun setConfirmed(value: Boolean) {
+        _isConfirmed.value = value
+    }
+
     fun initRandomColors(colors : List<Color>){
         _randomColors.value = colors
     }

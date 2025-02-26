@@ -1,4 +1,4 @@
-package com.pickpoint.pickpoint.ui.whattodo.component
+package com.pickpoint.pickpoint.ui.teammaker.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -19,13 +19,11 @@ import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
 @Composable
-fun WTDSettingContent(
+fun TeamMakerSettingContent(
     modifier: Modifier = Modifier,
-    count: Int,
-    onPlusButtonClick: () -> Unit,
-    onMinusButtonClick: () -> Unit,
-    resultList: List<String>,
-    onResultChanged: (Int, String) -> Unit,
+    pointsToPick: Int,
+    pointsToPickPlus: () -> Unit,
+    pointsToPickMinus: () -> Unit,
     reset: () -> Unit,
     confirm: () -> Unit
 ) {
@@ -39,26 +37,12 @@ fun WTDSettingContent(
                 modifier = Modifier
                     .padding(top = 30.dp)
                     .padding(horizontal = 20.dp),
-                label = "Total Points",
-                currentNumber = count,
-                onPlusButtonClick = {
-                    if (count < 10) onPlusButtonClick()
-                },
-                onMinusButtonClick = {
-                    if (count > 1) onMinusButtonClick()
-                }
+                label = "Points to Pick",
+                currentNumber = pointsToPick,
+                onPlusButtonClick = { pointsToPickPlus() },
+                onMinusButtonClick = { pointsToPickMinus() }
             )
 
-            ResultsComponent(
-                modifier = Modifier
-                    .padding(top = 46.dp),
-                title = "Results",
-                count = count,
-                resultList = resultList,
-                onResultChanged = { index, result ->
-                    onResultChanged(index, result)
-                }
-            )
         }
 
         ResetConfirmButton(
@@ -75,18 +59,12 @@ fun WTDSettingContent(
 
 @Preview(showBackground = true)
 @Composable
-private fun WTDSettingContentPreview() {
+private fun TMSettingContentPreview() {
     PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
-        WTDSettingContent(
-            count = 1,
-            onPlusButtonClick = {},
-            onMinusButtonClick = {},
-            resultList = listOf(
-                "벌칙1", "벌칙2", "벌칙3", "벌칙4"
-            ),
-            onResultChanged = { index, result ->
-
-            },
+        TeamMakerSettingContent(
+            pointsToPick = 1,
+            pointsToPickPlus = {},
+            pointsToPickMinus = {},
             reset = {},
             confirm = {}
         )
