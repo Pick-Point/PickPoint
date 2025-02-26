@@ -17,39 +17,41 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pickpoint.pickpoint.ui.theme.AppTheme
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 import com.pickpoint.pickpoint.ui.theme.robotoFontFamily
 
 @Composable
-fun HomeButton(onClick: () -> Unit, Text: String = "Random Picker") {
-        Button(
-            onClick = { onClick() },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFEEEEEE),
-                contentColor = Color(0xFF333333),
-            ),
-            shape = RoundedCornerShape(100.dp),
-            modifier = Modifier
-                .width(181.dp)
-                .height(59.dp)
-                .shadow(2.dp, RoundedCornerShape(100.dp))
-                .shadow(3.dp, RoundedCornerShape(100.dp))
-        ) {
-            Text(
-                text = Text,
-                style = TextStyle(
-                    fontFamily = robotoFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    letterSpacing = 0.5.sp
-                )
-            )
-        }
+fun HomeButton(
+    onClick: () -> Unit,
+    text: String = "Random Picker"
+) {
+    Button(
+        onClick = { onClick() },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        ),
+        shape = RoundedCornerShape(100.dp),
+        modifier = Modifier
+            .width(181.dp)
+            .height(59.dp)
+            .shadow(2.dp, RoundedCornerShape(100.dp))
+            .shadow(3.dp, RoundedCornerShape(100.dp))
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.onPrimary
+        )
+    }
 
 }
 
 @Preview
 @Composable
-fun HomeButtonPreview(){
-    HomeButton(onClick = { /* Handle click */ })
+fun HomeButtonPreview() {
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        HomeButton(onClick = { /* Handle click */ })
+    }
 }

@@ -15,6 +15,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -38,6 +39,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pickpoint.pickpoint.R
 import com.pickpoint.pickpoint.ui.model.setting.ThemeSetting
+import com.pickpoint.pickpoint.ui.theme.AppTheme
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
 @Composable
 fun ResultsComponent(
@@ -59,14 +62,8 @@ fun ResultsComponent(
         ) {
             Text(
                 text = title,
-                // M3/label/large
-                style = TextStyle(
-                    fontSize = 14.sp,
-                    lineHeight = 20.sp,
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFF333333),
-                    textAlign = TextAlign.Center,
-                ),
+                style = MaterialTheme.typography.labelLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
             )
@@ -79,7 +76,10 @@ fun ResultsComponent(
                     .shadow(elevation = 4.dp)
                     .fillMaxWidth()
                     .wrapContentHeight()
-                    .background(color = Color(0xFFEEEEEE), shape = RoundedCornerShape(size = 8.dp))
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(size = 8.dp)
+                    )
             ) {
                 repeat(count) { index ->
 
@@ -91,36 +91,28 @@ fun ResultsComponent(
                             .height(24.dp),
                     ) {
                         Text(
-                            text = "${index+1}. ",
+                            text = "${index + 1}. ",
                             modifier = Modifier
                                 .align(Alignment.CenterVertically),
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                lineHeight = 16.sp,
-                                fontWeight = FontWeight(500),
-                                color = Color(0xFF333333),
-                            ),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onPrimary
                         )
                         BasicTextField(
                             value = resultList[index],
                             onValueChange = { onResultChanged(index, it) },
-                            textStyle = TextStyle(
-                                fontSize = 12.sp,
-                                lineHeight = 16.sp,
-                                fontWeight = FontWeight(500),
-                                color = Color(0xFF333333),
-                            ),
+                            textStyle = MaterialTheme.typography.labelMedium
+                                .copy(color = MaterialTheme.colorScheme.onPrimary),
                             modifier = Modifier
                                 .wrapContentHeight()
                                 .align(Alignment.CenterVertically)
-                                .background(color = Color(0xFFEEEEEE)),
+                                .background(color = MaterialTheme.colorScheme.primary),
                             singleLine = true,
-
                         )
                     }
                     HorizontalDivider(
                         modifier = Modifier
                             .padding(horizontal = 10.dp)
+                            .background(MaterialTheme.colorScheme.tertiary)
                             .fillMaxWidth()
                     )
                 }
@@ -134,10 +126,12 @@ fun ResultsComponent(
 private fun ResultsComponentPreview() {
     val count by remember { mutableIntStateOf(3) }
 
-    ResultsComponent(
-        title = "Results",
-        count = count,
-        resultList = listOf("", "", ""),
-        onResultChanged = { _, _ -> }
-    )
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        ResultsComponent(
+            title = "Results",
+            count = count,
+            resultList = listOf("", "", ""),
+            onResultChanged = { _, _ -> }
+        )
+    }
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,14 +24,15 @@ import com.pickpoint.pickpoint.ui.model.setting.LanguageSetting
 import com.pickpoint.pickpoint.ui.model.setting.PreferencesSetting
 import com.pickpoint.pickpoint.ui.model.setting.ThemeSetting
 import com.pickpoint.pickpoint.ui.common.component.ResetConfirmButton
+import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.LightPrototypeBackgroundColor
 import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
 @Composable
 fun SettingsScreen(
+    modifier: Modifier = Modifier,
     viewModel: HomeViewModel? = null,
-    onNavigateBack: () -> Unit = {},
-    modifier: Modifier = Modifier
+    onNavigateBack: () -> Unit = {}
 ) {
 
     val themeIndex = viewModel!!.themeSettingIndex.collectAsState()
@@ -41,7 +43,7 @@ fun SettingsScreen(
         modifier = modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .background(LightPrototypeBackgroundColor)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -49,7 +51,7 @@ fun SettingsScreen(
             modifier = Modifier.fillMaxSize()
         ) {
             SecondaryTopAppBar(
-                "Settings",
+                title = "Settings",
                 onNavigationClick = onNavigateBack
             )
             Spacer(modifier = Modifier.padding(15.dp))
@@ -97,7 +99,7 @@ fun SettingsScreen(
 @Preview(showBackground = true)
 @Composable
 fun SettingsScreenPreview() {
-    PickPointTheme {
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
         SettingsScreen()
     }
 }

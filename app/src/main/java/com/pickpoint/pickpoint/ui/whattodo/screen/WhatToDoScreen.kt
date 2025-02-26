@@ -1,12 +1,16 @@
 package com.pickpoint.pickpoint.ui.whattodo.screen
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
@@ -17,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,8 +32,9 @@ import com.pickpoint.pickpoint.ui.common.component.DragHandle
 import com.pickpoint.pickpoint.ui.common.component.MainTopAppBar
 import com.pickpoint.pickpoint.ui.common.component.SecondaryTopAppBar
 import com.pickpoint.pickpoint.ui.common.util.getPointColorList
-import com.pickpoint.pickpoint.ui.theme.LightPrototypeOnPrimaryColor
+import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.LocalPointColors
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDBottomSheetContent
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDGameComponent
 import com.pickpoint.pickpoint.ui.whattodo.component.WTDSeeResult
@@ -79,14 +85,14 @@ fun WhatToDoScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_main_top_back),
                             contentDescription = null,
-                            tint = LightPrototypeOnPrimaryColor
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     },
                     rightIcon = {
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = null,
-                            tint = LightPrototypeOnPrimaryColor
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 )
@@ -111,7 +117,14 @@ fun WhatToDoScreen(
         },
         sheetPeekHeight = if (isTapped) 53.dp else 0.dp,
         sheetDragHandle = {
-            DragHandle()
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primary),
+                contentAlignment = Alignment.Center
+            ) {
+                DragHandle()
+            }
         }
 
 
@@ -154,5 +167,7 @@ fun WhatToDoScreen(
 @Preview(showBackground = true)
 @Composable
 private fun WhatToDoScreenPreview() {
-    WhatToDoScreen({})
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        WhatToDoScreen({})
+    }
 }

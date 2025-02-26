@@ -1,5 +1,6 @@
 package com.pickpoint.pickpoint.ui.theme
 
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -37,7 +38,7 @@ val robotoFontFamily = runCatching{
  * labelLarge ~ labelSmall -> FontWeight.Medium
  */
 val RobotoTypography = Typography(
-    //Countdown Text, Try Again,
+    // Countdown Text, Try Again,
     displayLarge = TextStyle(
         fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Bold,
@@ -45,7 +46,15 @@ val RobotoTypography = Typography(
         lineHeight = 64.sp,
         letterSpacing = 0.sp
     ),
-    //Top App Bar text, Tap To Start,
+    // Point에 표시되는 text
+    displaySmall = TextStyle(
+        fontFamily = robotoFontFamily,
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 36.sp,
+        lineHeight = 44.sp,
+        letterSpacing = 0.sp
+    ),
+    // Top App Bar text, Tap To Start,
     titleLarge = TextStyle(
         fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Medium,
@@ -53,7 +62,7 @@ val RobotoTypography = Typography(
         lineHeight = 28.sp,
         letterSpacing = 0.sp
     ),
-    //Results Title,
+    // Results Title,
     headlineLarge = TextStyle(
         fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Bold,
@@ -61,7 +70,7 @@ val RobotoTypography = Typography(
         lineHeight = 40.sp,
         letterSpacing = 0.sp
     ),
-    //Number Setting Component Text,
+    // Number Setting Component Text,
     headlineMedium = TextStyle(
         fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Bold,
@@ -69,7 +78,7 @@ val RobotoTypography = Typography(
         lineHeight = 36.sp,
         letterSpacing = 0.sp
     ),
-    //Home Button Text, Setting(Report) Popup Text, Setting Title, Confirm/Reset Button,
+    // Home Button Text, Setting(Report) Popup Text, Setting Title, Confirm/Reset Button,
     labelLarge = TextStyle(
         fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Medium,
@@ -77,7 +86,7 @@ val RobotoTypography = Typography(
         lineHeight = 20.sp,
         letterSpacing = 0.5.sp
     ),
-    //Setting Content Text,
+    // Setting Content Text,
     labelMedium = TextStyle(
         fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Medium,
@@ -85,7 +94,7 @@ val RobotoTypography = Typography(
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
     ),
-    //Result Content,
+    // Result Content,
     bodyMedium = TextStyle(
         fontFamily = robotoFontFamily,
         fontWeight = FontWeight.Normal,

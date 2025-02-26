@@ -16,13 +16,16 @@ import com.pickpoint.pickpoint.navigation.PickPointNavGraph
 import com.pickpoint.pickpoint.ui.common.util.DataStoreManager
 import com.pickpoint.pickpoint.ui.home.screen.HomeScreen
 import com.pickpoint.pickpoint.ui.home.viewmodel.HomeViewModel
+import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            PickPointTheme {
+//            val appTheme = AppTheme.LIGHT_PROTOTYPE // 이후에 저장된 테마를 불러오도록 수정 필요
+            val appTheme = AppTheme.DARK_PROTOTYPE
+            PickPointTheme(theme = appTheme, dynamicColor = false) {
                 val dataStoreManager = DataStoreManager(context = this)
                 val homeViewModel = HomeViewModel(dataStoreManager = dataStoreManager)
                 val navController = rememberNavController()

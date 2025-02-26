@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import com.pickpoint.pickpoint.ui.common.component.MainTopAppBar
@@ -30,7 +31,9 @@ import com.pickpoint.pickpoint.ui.randompicker.component.RandomPickerSettingCont
 import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerGameComponent
 import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerSettingContent
 import com.pickpoint.pickpoint.ui.teammaker.component.TeamMakerTryAgain
+import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.LightPrototypeOnPrimaryColor
+import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 
 @Composable
 fun RandomPickerScreen(
@@ -41,6 +44,7 @@ fun RandomPickerScreen(
     var confirmed by remember { mutableStateOf(false) }
 
     Scaffold(
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
         topBar = {
             if (confirmed) {
                 MainTopAppBar(
@@ -49,14 +53,14 @@ fun RandomPickerScreen(
                         Icon(
                             painter = painterResource(id = R.drawable.ic_main_top_back),
                             contentDescription = null,
-                            tint = LightPrototypeOnPrimaryColor
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     },
                     rightIcon = {
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = null,
-                            tint = LightPrototypeOnPrimaryColor
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 )
@@ -102,5 +106,7 @@ fun RandomPickerScreen(
 @Preview
 @Composable
 fun RandomPickerScreenPreview() {
-    RandomPickerScreen { }
+    PickPointTheme(theme = AppTheme.LIGHT_PROTOTYPE, dynamicColor = false) {
+        RandomPickerScreen { }
+    }
 }
