@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PickPoint</string>
+    <string name="app_name">Pick Point</string>
 
     <!--  Theme Setting  -->
     <string name="prototype">prototype</string>
@@ -13,5 +13,17 @@
     <!--  Preferences Setting  -->
     <string name="remember_previous_settings">Remember Previous Settings</string>
     <string name="some_settings">Some Settings</string>
+
+    <!-- Team Maker / RandomPicker -->
+    <!-- Setting Content -->
+    <string name="points_to_pick">Points to Pick</string>
+    <!-- Game Component -->
+    <string name="retry">Retry</string>
+    <!-- Try Again -->
+    <string name="try_again">Try Again?</string>
+    <!-- Screen -->
+    <string name="game_settings">Game Settings</string>
+    <string name="team_maker">Team Maker</string>
+    <string name="random_picker">Random Picker</string>
     
 </resources>

@@ -32,7 +32,7 @@ val LightPrototypePointColors = PointColors(
      pointColor7 = Color(0xFF6DFFF3),
      pointColor8 = Color(0xFF2C61FF),
      pointColor9 = Color(0xFFAEAEAE),
-     pointColor10 =Color(0xFF000000),
+     pointColor10 =Color(0xFF5E4FA2),
      pointTextColor = Color(0xFFFFFFFF)
 )
 
