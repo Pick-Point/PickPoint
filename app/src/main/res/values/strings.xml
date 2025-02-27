@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PickPoint</string>
+    <string name="app_name">Pick Point</string>
 
     <!--  Theme Setting  -->
     <string name="prototype">prototype</string>
