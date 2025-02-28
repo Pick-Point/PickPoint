@@ -27,14 +27,17 @@ fun TeamMakerSettingContent(
     pointsToPickPlus: () -> Unit,
     pointsToPickMinus: () -> Unit,
     reset: () -> Unit,
-    confirm: () -> Unit
+    apply: () -> Unit
 ) {
     Box(
         modifier = modifier
             .background(MaterialTheme.colorScheme.background)
             .fillMaxSize()
     ) {
-        Column {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
             NumberSettingComponent(
                 modifier = Modifier
                     .padding(top = 30.dp)
@@ -46,15 +49,15 @@ fun TeamMakerSettingContent(
             )
 
         }
-
         ResetConfirmButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 14.dp)
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 35.dp)
                 .align(Alignment.BottomCenter),
             reset = { reset() },
-            confirm = { confirm() }
+            apply = { apply() }
+
         )
     }
 }
@@ -68,7 +71,7 @@ private fun TMSettingContentPreview() {
             pointsToPickPlus = {},
             pointsToPickMinus = {},
             reset = {},
-            confirm = {}
+            apply = {}
         )
     }
 }

@@ -31,7 +31,7 @@ fun RandomPickerSettingContent(
     pointsToPickPlus: () -> Unit,
     pointsToPickMinus: () -> Unit,
     reset: () -> Unit,
-    confirm: () -> Unit
+    apply: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -58,7 +58,7 @@ fun RandomPickerSettingContent(
                 .padding(horizontal = 20.dp)
                 .align(Alignment.BottomCenter),
             reset = { reset() },
-            confirm = { confirm() }
+            apply = { apply() }
         )
     }
 }
@@ -72,7 +72,7 @@ fun RandomPickerSettingContentPreview() {
             pointsToPickPlus = {},
             pointsToPickMinus = {},
             reset = {},
-            confirm = {}
+            apply = {}
         )
     }
 }

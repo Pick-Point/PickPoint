@@ -87,7 +87,7 @@ fun RandomPickerScreen(
                     totalCount = 4
                     pointsToPick = 1
                 },
-                confirm = { confirmed = true }
+                apply = { confirmed = true }
             )
         } else {
             RandomPickerGameComponent(
