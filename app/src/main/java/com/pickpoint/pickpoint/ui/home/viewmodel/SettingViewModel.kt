@@ -1,8 +1,16 @@
 package com.pickpoint.pickpoint.ui.home.viewmodel
 
-import android.util.Log
+import android.app.Application
+import android.app.LocaleManager
+import android.os.Build
+import android.os.LocaleList
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.getSystemService
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pickpoint.pickpoint.R
 import com.pickpoint.pickpoint.ui.common.util.DataStoreManager
 import com.pickpoint.pickpoint.ui.model.setting.LanguageSetting
 import com.pickpoint.pickpoint.ui.model.setting.PreferencesSetting
@@ -13,6 +21,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class SettingViewModel(
+    private val application: Application,
     private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
 
@@ -24,6 +33,9 @@ class SettingViewModel(
 
     private val _preferencesSettingIndex = MutableStateFlow<Int>(0)
     val preferencesSettingIndex: StateFlow<Int> = _preferencesSettingIndex
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private val localeManager = application.getSystemService(LocaleManager::class.java)
 
     init {
         loadSettings()
@@ -37,19 +49,34 @@ class SettingViewModel(
     // confirm 버튼의 onClick 이벤트로 설정하면 됨.
     fun saveSettings() {
         viewModelScope.launch {
+            // api 33 이상일 경우
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+                val languageTag = when (_languageSettingIndex.value) {
+                    LanguageSetting.KOREAN.index -> "ko"
+                    LanguageSetting.ENGLISH.index -> "en"
+                    LanguageSetting.JAPANESE.index -> "ja"
+                    else -> "ko"
+                }
+
+                AppCompatDelegate.setApplicationLocales(
+                    LocaleListCompat.forLanguageTags(languageTag)
+                )
+            }
+
             dataStoreManager.saveAllSettings(
-                when (themeSettingIndex.value) {
+                when (_themeSettingIndex.value) {
                     ThemeSetting.PROTOTYPE.index -> ThemeSetting.PROTOTYPE
                     ThemeSetting.COMING_SOON.index -> ThemeSetting.COMING_SOON
                     else -> ThemeSetting.PROTOTYPE
                 },
-                when (languageSettingIndex.value) {
+                when (_languageSettingIndex.value) {
                     LanguageSetting.KOREAN.index -> LanguageSetting.KOREAN
                     LanguageSetting.ENGLISH.index -> LanguageSetting.ENGLISH
                     LanguageSetting.JAPANESE.index -> LanguageSetting.JAPANESE
                     else -> LanguageSetting.KOREAN
                 },
-                when (preferencesSettingIndex.value) {
+                when (_preferencesSettingIndex.value) {
                     PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS.index -> PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS
                     PreferencesSetting.SOME_SETTINGS.index -> PreferencesSetting.SOME_SETTINGS
                     else -> PreferencesSetting.REMEMBER_PREVIOUS_SETTINGS
