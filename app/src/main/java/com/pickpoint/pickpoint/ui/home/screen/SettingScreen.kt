@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pickpoint.pickpoint.ui.common.component.SecondaryTopAppBar
 import com.pickpoint.pickpoint.ui.common.component.SettingComponent
-import com.pickpoint.pickpoint.ui.home.viewmodel.HomeViewModel
+import com.pickpoint.pickpoint.ui.home.viewmodel.SettingViewModel
 import com.pickpoint.pickpoint.ui.model.setting.LanguageSetting
 import com.pickpoint.pickpoint.ui.model.setting.PreferencesSetting
 import com.pickpoint.pickpoint.ui.model.setting.ThemeSetting
@@ -31,7 +31,7 @@ import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 @Composable
 fun SettingsScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel? = null,
+    viewModel: SettingViewModel? = null,
     onNavigateBack: () -> Unit = {}
 ) {
 

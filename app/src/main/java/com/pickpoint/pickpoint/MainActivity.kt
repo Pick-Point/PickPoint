@@ -17,7 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.pickpoint.pickpoint.navigation.PickPointNavGraph
 import com.pickpoint.pickpoint.ui.common.util.DataStoreManager
 import com.pickpoint.pickpoint.ui.home.screen.HomeScreen
-import com.pickpoint.pickpoint.ui.home.viewmodel.HomeViewModel
+import com.pickpoint.pickpoint.ui.home.viewmodel.SettingViewModel
 import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.PickPointTheme
 import kotlinx.coroutines.delay
@@ -44,12 +44,12 @@ class MainActivity : ComponentActivity() {
 //           val appTheme = AppTheme.DARK_PROTOTYPE
             PickPointTheme(theme = appTheme, dynamicColor = false) {
                 val dataStoreManager = DataStoreManager(context = this)
-                val homeViewModel = HomeViewModel(dataStoreManager = dataStoreManager)
+                val settingViewModel = SettingViewModel(dataStoreManager = dataStoreManager)
                 val navController = rememberNavController()
                 // homeViewModel을 전달
                 PickPointNavGraph(
                     navController = navController,
-                    homeViewModel = homeViewModel
+                    settingViewModel = settingViewModel
                 )
             }
         }

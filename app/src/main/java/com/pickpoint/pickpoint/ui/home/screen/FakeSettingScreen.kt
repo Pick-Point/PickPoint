@@ -14,7 +14,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pickpoint.pickpoint.ui.common.component.SettingComponent
-import com.pickpoint.pickpoint.ui.home.viewmodel.HomeViewModel
+import com.pickpoint.pickpoint.ui.home.viewmodel.SettingViewModel
 import com.pickpoint.pickpoint.ui.model.setting.LanguageSetting
 import com.pickpoint.pickpoint.ui.model.setting.PreferencesSetting
 import com.pickpoint.pickpoint.ui.model.setting.ThemeSetting
@@ -22,7 +22,7 @@ import com.pickpoint.pickpoint.ui.model.setting.ThemeSetting
 @Composable
 fun FakeSettingScreen(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel
+    viewModel: SettingViewModel
 ) {
 
     val themeSettingIndex by viewModel.themeSettingIndex.collectAsStateWithLifecycle()

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
-class HomeViewModel(
+class SettingViewModel(
     private val dataStoreManager: DataStoreManager
 ) : ViewModel() {
 
