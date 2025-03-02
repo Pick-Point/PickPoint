@@ -83,7 +83,9 @@ fun SettingComponent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(size = 8.dp))
-                            .clickable { onClick(index) }
+                            .clickable(
+                                enabled = res != R.string.coming_soon,
+                            ) { onClick(index) }
                             .padding(10.dp)
                             .height(24.dp),
                         horizontalArrangement = Arrangement.SpaceBetween

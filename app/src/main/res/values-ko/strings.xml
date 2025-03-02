@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pick Point</string>
+
+    <!--  Theme Setting  -->
+    <string name="prototype">프로토타입</string>
+    <string name="coming_soon">곧 출시 예정…</string>
+    
+    <!--  Language Setting  -->
+    <string name="korean">한국어 (대한민국)</string>
+    <string name="english">English</string>
+    <string name="japanese">日本語</string>
+
+    <!--  Preferences Setting  -->
+    <string name="remember_previous_settings">이전 설정 기억하기</string>
+    <string name="some_settings">일부 설정</string>
+
+    <string name="settings">설정</string>
+    <string name="theme">테마</string>
+    <string name="language">언어</string>
+    <string name="preferences">기본 설정</string>
+    <!-- 다른 문자열들... -->
+    
+</resources>
+
