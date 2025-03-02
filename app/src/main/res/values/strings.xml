@@ -5,7 +5,7 @@
     <!--  Theme Setting  -->
     <string name="prototype">prototype</string>
     <string name="coming_soon">coming soon…</string>
-    
+
     <!--  Language Setting  -->
     <string name="korean">한국어 (대한민국)</string>
     <string name="english">English</string>
@@ -20,5 +20,24 @@
     <string name="language">Language</string>
     <string name="preferences">Preferences</string>
     <!-- 다른 문자열들... -->
+
+    <!--  HomeTopMenu  -->
+
+    <!--  HomeScreen  -->
+    <string name="pick_point">Pick Point</string>
+    <string name="menu">Menu</string>
+    <string name="random_picker">Random Picker</string>
+    <string name="team_maker">Team Maker</string>
+    <string name="what_to_do">What To Do</string>
+
+    <!-- Team Maker / RandomPicker -->
+    <!-- Setting Content -->
+    <string name="points_to_pick">Points to Pick</string>
+    <!-- Game Component -->
+    <string name="retry">Retry</string>
+    <!-- Try Again -->
+    <string name="try_again">Try Again?</string>
+    <!-- Screen -->
+    <string name="game_settings">Game Settings</string>
 
 </resources>
