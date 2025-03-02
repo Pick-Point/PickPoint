@@ -55,7 +55,7 @@ fun RandomPickerSettingContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 14.dp)
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 35.dp)
                 .align(Alignment.BottomCenter),
             reset = { reset() },
             apply = { apply() }
