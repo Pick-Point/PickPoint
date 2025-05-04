@@ -110,7 +110,8 @@ fun WhatToDoScreen(
                     retryClick = {
                         showSheet = false
                         viewmodel.setConfirmed(false)
-                    }
+                    },
+                    viewModel = viewmodel   // viewModel 전달 추가 ㅎㅎ
                 )
             },
             sheetPeekHeight = if (isTapped) 53.dp else 0.dp,

@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.toClipEntry
@@ -31,6 +34,7 @@ import com.pickpoint.pickpoint.ui.common.component.RetryButton
 import com.pickpoint.pickpoint.ui.common.util.getResultString
 import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.theme.PickPointTheme
+import com.pickpoint.pickpoint.ui.whattodo.viewmodel.WhatToDoViewmodel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -38,7 +42,8 @@ fun WTDBottomSheetContent(
     modifier: Modifier = Modifier,
     count: Int,
     resultList: List<String>,
-    retryClick: () -> Unit
+    retryClick: () -> Unit,
+    viewModel: WhatToDoViewmodel?  // ViewModel 추가
 ) {
     val clipboard = LocalClipboard.current
     val coroutineScope = rememberCoroutineScope()
@@ -113,6 +118,14 @@ fun WTDBottomSheetContent(
             }
         }
 
+        KakaotalkShareButton(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 30.dp)
+                .padding(bottom = 90.dp),
+            viewModel = viewModel
+        )
+
         RetryButton(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -130,7 +143,8 @@ private fun WTDBottomSheetContentPreview() {
         WTDBottomSheetContent(
             count = 5,
             resultList = listOf("result1", "result2", "result3", "result4", "result5"),
-            retryClick = { }
+            retryClick = { },
+            viewModel = null
         )
     }
 }
