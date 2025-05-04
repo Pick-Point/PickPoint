@@ -94,8 +94,8 @@ class WhatToDoViewmodel : ViewModel() {
                 webUrl = "https://play.google.com/store/apps/details?id=com.pickpoint.pickpoint",
                 mobileWebUrl = "https://play.google.com/store/apps/details?id=com.pickpoint.pickpoint"
             ),
-            // 버튼 추가 (필요한 경우)
-            buttonTitle = "결과 자세히 보기",
+            // 버튼 추가
+            buttonTitle = "앱 설치 해보기",
         )
 
         // 카카오톡 설치 여부 확인
