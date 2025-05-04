@@ -66,4 +66,6 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     // navigation
     implementation(libs.androidx.navigation.compose)
+    // 카카오톡 공유
+    implementation("com.kakao.sdk:v2-share:2.17.0") // 카카오톡 공유 API 모듈
 }

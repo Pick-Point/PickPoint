@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.rememberNavController
+import com.kakao.sdk.common.KakaoSdk
 import com.pickpoint.pickpoint.navigation.PickPointNavGraph
 import com.pickpoint.pickpoint.ui.common.util.DataStoreManager
 import com.pickpoint.pickpoint.ui.theme.AppTheme
@@ -73,5 +74,8 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+
+        // Kakao SDK 초기화
+        KakaoSdk.init(this, "7d5cb01a3a537cd5f04050b21b0ad344")
     }
 }
