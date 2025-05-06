@@ -23,10 +23,20 @@
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- 카카오톡 공유를 위한 스킴 설정 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- 카카오 네이티브 앱 키를 사용한 스킴 설정 -->
+                <data android:scheme="kakao7d5cb01a3a537cd5f04050b21b0ad344" android:host="kakaolink" />
+            </intent-filter>
         </activity>
+
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
             android:enabled="false"
@@ -35,6 +45,21 @@
                 android:name="autoStoreLocales"
                 android:value="true" />
         </service>
+
+        <!-- 카카오 CustomTabsService 지원 -->
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- 카카오 OAuth 리다이렉트 URI 설정 -->
+                <data android:host="oauth"
+                    android:scheme="kakao7d5cb01a3a537cd5f04050b21b0ad344" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

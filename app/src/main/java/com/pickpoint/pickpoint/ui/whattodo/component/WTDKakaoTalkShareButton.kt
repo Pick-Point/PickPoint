@@ -1,10 +1,14 @@
 package com.pickpoint.pickpoint.ui.whattodo.component
 
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -47,10 +51,19 @@ fun KakaotalkShareButton(
             contentColor = Color.Black
         )
     ) {
-        Text(
-            text = "카카오톡으로 공유하기",
-            fontWeight = FontWeight.Bold
-        )
+        Row() {
+            // 카카오톡 아이콘 (R.drawable.ic_kakaotalk으로 아이콘을 추가해야 합니다)
+            Image(
+                painter = painterResource(id = R.drawable.ic_kakaotalk), // 카카오톡 아이콘 리소스 추가 필요
+                contentDescription = "카카오톡 아이콘",
+                modifier = Modifier.size(24.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = "카카오톡으로 공유하기",
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
 

@@ -2,6 +2,7 @@ package com.pickpoint.pickpoint.ui.whattodo.viewmodel
 
 import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
@@ -104,33 +105,49 @@ class WhatToDoViewmodel : ViewModel() {
             ShareClient.instance.shareDefault(context, textTemplate) { result, error ->
                 if (error != null) {
                     Log.e("KakaoShare", "카카오톡 공유 실패", error)
+                    // 실패 시 대체 공유 방법 제공
+                    shareTextFallback(context)
                 } else if (result != null) {
                     Log.d("KakaoShare", "카카오톡 공유 성공 ${result.intent}")
                     context.startActivity(result.intent)
                 }
             }
         } else {
-            // 카카오톡 미설치: 웹 공유 사용 권장
-            // 웹 공유 예시 코드
+            // 카카오톡 미설치: 웹 공유 사용
             val sharerUrl = WebSharerClient.instance.makeDefaultUrl(textTemplate)
 
             // CustomTabs으로 웹 브라우저 열기
-
-            // 1. CustomTabsServiceConnection 지원 브라우저 열기
-            // ex) Chrome, 삼성 인터넷, FireFox, 웨일 등
             try {
                 KakaoCustomTabsClient.openWithDefault(context, sharerUrl)
             } catch(e: UnsupportedOperationException) {
-                // CustomTabsServiceConnection 지원 브라우저가 없을 때 예외처리
-            }
-
-            // 2. CustomTabsServiceConnection 미지원 브라우저 열기
-            // ex) 다음, 네이버 등
-            try {
-                KakaoCustomTabsClient.open(context, sharerUrl)
-            } catch (e: ActivityNotFoundException) {
-                // 디바이스에 설치된 인터넷 브라우저가 없을 때 예외처리
+                try {
+                    KakaoCustomTabsClient.open(context, sharerUrl)
+                } catch (e: ActivityNotFoundException) {
+                    // 브라우저도 없는 경우 안드로이드 기본 공유 다이얼로그 사용
+                    shareTextFallback(context)
+                }
             }
         }
+    }
+
+    // 카카오톡 공유가 실패한 경우 대체 공유 방법
+    private fun shareTextFallback(context: Context) {
+        val resultList = resultList.value
+
+        // 결과 텍스트 포맷팅
+        val formattedResults = resultList.mapIndexed { index, result ->
+            "${index + 1}. $result"
+        }.joinToString("\n")
+
+        val shareText = "What To Do 결과:\n$formattedResults\n\n앱 설치하기: https://play.google.com/store/apps/details?id=com.pickpoint.pickpoint"
+
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, shareText)
+            type = "text/plain"
+        }
+
+        val shareIntent = Intent.createChooser(sendIntent, "What To Do 결과 공유하기")
+        context.startActivity(shareIntent)
     }
 }
