@@ -18,7 +18,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun timerStartHandler(
     pointsToStart: Int = 2, // 시작하기 위한 포인트 개수
-    timeToStart: Long = 2000, // 시작하기 위한 시간 (ms)
+    timeToStart: Long = 1000, // 시작하기 위한 시간 (ms)
 ): Pair<SnapshotStateMap<Long, Pair<Offset, Color>>, SnapshotStateList<Pair<Offset, Color>>> {
     val touchPoints = remember { mutableStateMapOf<Long, Pair<Offset, Color>>() }
     val finalPoints = remember { mutableStateListOf<Pair<Offset, Color>>() }
