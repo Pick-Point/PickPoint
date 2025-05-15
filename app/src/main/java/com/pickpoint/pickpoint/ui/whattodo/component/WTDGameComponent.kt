@@ -97,8 +97,8 @@ fun WTDGameComponent(
                 awaitPointerEventScope {
                     while (true) {
                         val event = awaitPointerEvent()
+
                         event.changes.take(totalPoints).forEach { pointerInputChange ->
-                            Log.d("eventchange", "eventchange: ${pointerInputChange.id.value})")
                             val pointerId = pointerInputChange.id.value
                             if (pointerInputChange.pressed) {
                                 // 이미 있는 포인터면 색상 유지, 없으면 랜덤 색상 할당
@@ -135,7 +135,7 @@ fun WTDGameComponent(
 
         // 현재 활성화된 각 터치에 대해 Point composable 표시
         if (isGameActive) {
-            touchPoints.values.take(totalPoints).forEach { (position, color) ->
+            touchPoints.values.forEach { (position, color) ->
                 // offset을 이용해 터치한 위치에 Point를 배치
                 CircleButton(
                     modifier = Modifier.offset {
