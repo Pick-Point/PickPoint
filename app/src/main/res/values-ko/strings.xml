@@ -17,6 +17,9 @@
     <string name="app_theme">앱 테마</string>
     <string name="point_theme">포인트 테마</string>
     <string name="language">언어</string>
+    <string name="language_change_message">앱이 재시작됩니다</string>
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
 
     <!-- 다른 문자열들... -->
     <string name="reset">초기화</string>
