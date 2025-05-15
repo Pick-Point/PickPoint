@@ -1,5 +1,6 @@
 package com.pickpoint.pickpoint.ui.whattodo.component
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -96,29 +97,28 @@ fun WTDGameComponent(
                 awaitPointerEventScope {
                     while (true) {
                         val event = awaitPointerEvent()
-                        if (event.changes.size <= totalPoints) {
-                            event.changes.forEach { pointerInputChange ->
-                                val pointerId = pointerInputChange.id.value
-                                if (pointerInputChange.pressed) {
-                                    // 이미 있는 포인터면 색상 유지, 없으면 랜덤 색상 할당
-                                    if (pointerId !in touchPoints) {
-                                        val availableColor =
-                                            pointColorList.filter { it !in usedColors }
-                                                .randomOrNull()
-                                        if (availableColor != null) {
-                                            usedColors.add(availableColor)
-                                            touchPoints[pointerId] =
-                                                pointerInputChange.position to availableColor
-                                        }
-                                    } else {
-                                        //기존 위치 업데이트
+                        event.changes.take(totalPoints).forEach { pointerInputChange ->
+                            Log.d("eventchange", "eventchange: ${pointerInputChange.id.value})")
+                            val pointerId = pointerInputChange.id.value
+                            if (pointerInputChange.pressed) {
+                                // 이미 있는 포인터면 색상 유지, 없으면 랜덤 색상 할당
+                                if (pointerId !in touchPoints) {
+                                    val availableColor =
+                                        pointColorList.filter { it !in usedColors }
+                                            .randomOrNull()
+                                    if (availableColor != null) {
+                                        usedColors.add(availableColor)
                                         touchPoints[pointerId] =
-                                            pointerInputChange.position to touchPoints[pointerId]!!.second
+                                            pointerInputChange.position to availableColor
                                     }
                                 } else {
-                                    touchPoints[pointerId]?.second?.let { usedColors.remove(it) }
-                                    touchPoints.remove(pointerId)
+                                    //기존 위치 업데이트
+                                    touchPoints[pointerId] =
+                                        pointerInputChange.position to touchPoints[pointerId]!!.second
                                 }
+                            } else {
+                                touchPoints[pointerId]?.second?.let { usedColors.remove(it) }
+                                touchPoints.remove(pointerId)
                             }
                         }
                     }
@@ -126,7 +126,7 @@ fun WTDGameComponent(
             }
     ) {
         // 게임 시작 전 Tap to Start 표시
-        if (touchPoints.isEmpty() && isGameActive){
+        if (touchPoints.isEmpty() && isGameActive) {
             TapToStartComponent(
                 modifier = modifier
                     .align(Alignment.Center)
@@ -135,8 +135,7 @@ fun WTDGameComponent(
 
         // 현재 활성화된 각 터치에 대해 Point composable 표시
         if (isGameActive) {
-            touchPoints.forEach { (_, data) ->
-                val (position, color) = data
+            touchPoints.values.take(totalPoints).forEach { (position, color) ->
                 // offset을 이용해 터치한 위치에 Point를 배치
                 CircleButton(
                     modifier = Modifier.offset {
