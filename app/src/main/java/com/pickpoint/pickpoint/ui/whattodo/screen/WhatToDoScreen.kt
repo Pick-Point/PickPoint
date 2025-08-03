@@ -7,11 +7,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.rememberBottomSheetScaffoldState
-import androidx.compose.material3.rememberStandardBottomSheetState
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -51,82 +51,37 @@ fun WhatToDoScreen(
 
     val count by viewmodel.count.collectAsState()
     val resultList by viewmodel.resultList.collectAsState()
-    val scaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberStandardBottomSheetState(
-            skipHiddenState = false
-        )
+    val bottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
     )
     val coroutineScope = rememberCoroutineScope()
-    var showSheet by remember { mutableStateOf(false) }
     var isTapped by remember { mutableStateOf(false) }
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     val confirmed by viewmodel.isConfirmed.collectAsState()
 
     viewmodel.initRandomColors(LocalPointColors.current.getPointColorList())
 
-    LaunchedEffect(showSheet) {
-        if (showSheet) {
-            scaffoldState.bottomSheetState.expand()
-        } else {
-            scaffoldState.bottomSheetState.hide()
-        }
-    }
-    LaunchedEffect(scaffoldState) {
-        showSheet = !scaffoldState.bottomSheetState.isVisible
-    }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-    ) {
-        BottomSheetScaffold(
-            modifier = modifier,
-            scaffoldState = scaffoldState,
-            topBar = {
-                if (confirmed) {
-                    GameTopAppBar(
-                        modifier = modifier,
-                        title = stringResource(id = R.string.what_to_do),
-                        onBackClick = onNavigateBack,
-                        onSettingClick = {
-                            viewmodel.onSettingClick()
-                        }
-                    )
-                } else {
-                    SettingsTopAppBar(
-                        modifier = modifier,
-                        title = stringResource(id = R.string.game_settings),
-                        onNavigationClick = onNavigateBack
-                    )
-                }
-            },
-            sheetContent = {
-                WTDBottomSheetContent(
-                    modifier = Modifier
-                        .fillMaxHeight(0.91f),
-                    count = count,
-                    resultList = resultList,
-                    retryClick = {
-                        showSheet = false
-                        viewmodel.setConfirmed(false)
+    Scaffold(
+        modifier = modifier.background(MaterialTheme.colorScheme.background),
+        topBar = {
+            if (confirmed) {
+                GameTopAppBar(
+                    title = stringResource(id = R.string.what_to_do),
+                    onBackClick = onNavigateBack,
+                    onSettingClick = {
+                        viewmodel.onSettingClick()
                     }
                 )
-            },
-            sheetPeekHeight = if (isTapped) 53.dp else 0.dp,
-            sheetDragHandle = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.primary),
-                    contentAlignment = Alignment.Center
-                ) {
-                    DragHandle()
-                }
+            } else {
+                SettingsTopAppBar(
+                    title = stringResource(id = R.string.game_settings),
+                    onNavigationClick = onNavigateBack
+                )
             }
-
-
-        ) { innerPadding ->
+        }
+    ) { innerPadding ->
+        Box(modifier = Modifier.fillMaxSize()) {
             if (!confirmed) {
                 WTDSettingContent(
                     modifier = Modifier.padding(innerPadding),
@@ -151,13 +106,49 @@ fun WhatToDoScreen(
                         WTDSeeResult(
                             modifier = Modifier.padding(innerPadding),
                         ) {
+                            showBottomSheet = true
                             coroutineScope.launch {
-                                showSheet = true
-                                scaffoldState.bottomSheetState.expand()
+                                bottomSheetState.expand()
                             }
                         }
                     }
                 )
+            }
+
+            if (showBottomSheet) {
+                ModalBottomSheet(
+                    onDismissRequest = { 
+                        showBottomSheet = false
+                        coroutineScope.launch {
+                            bottomSheetState.hide()
+                        }
+                    },
+                    sheetState = bottomSheetState,
+                    dragHandle = {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.primary),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            DragHandle()
+                        }
+                    }
+                ) {
+                    WTDBottomSheetContent(
+                        modifier = Modifier
+                            .fillMaxHeight(0.95f),
+                        count = count,
+                        resultList = resultList,
+                        retryClick = {
+                            viewmodel.setConfirmed(false)
+                            showBottomSheet = false
+                            coroutineScope.launch {
+                                bottomSheetState.hide()
+                            }
+                        }
+                    )
+                }
             }
         }
     }

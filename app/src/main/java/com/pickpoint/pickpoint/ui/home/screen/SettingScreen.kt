@@ -14,6 +14,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -28,6 +31,10 @@ import com.pickpoint.pickpoint.ui.model.setting.PointThemeSetting
 import com.pickpoint.pickpoint.ui.common.component.ResetConfirmButton
 import com.pickpoint.pickpoint.ui.common.component.SettingSwitch
 import com.pickpoint.pickpoint.ui.theme.AppTheme
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.setValue
 
 @Composable
 fun SettingRoute(
@@ -69,6 +76,9 @@ fun SettingsScreen(
     resetSettings: () -> Unit = {},
     saveSettings: () -> Unit = {}
 ) {
+    var showLanguageDialog by remember { mutableStateOf(false) }
+    var hasLanguageChanged by remember { mutableStateOf(false) }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -110,7 +120,10 @@ fun SettingsScreen(
                 title = stringResource(id = R.string.language),
                 settingRes = LanguageSetting.entries.map { it.res },
                 checkedIndex = languageIndex,
-                onClick = { updateLanguageSettingIndex(it) }
+                onClick = { 
+                    updateLanguageSettingIndex(it)
+                    hasLanguageChanged = true
+                }
             )
 
             Spacer(modifier = Modifier.paddingFromBaseline(top = 124.dp))
@@ -129,11 +142,55 @@ fun SettingsScreen(
                     .padding(horizontal = 20.dp),
                 reset = { resetSettings() },
                 apply = {
-                    changeTheme(appTheme)
-                    saveSettings()
+                    if (hasLanguageChanged) {
+                        showLanguageDialog = true
+                    } else {
+                        changeTheme(appTheme)
+                        saveSettings()
+                    }
                 }
             )
         }
+    }
+
+    if (showLanguageDialog) {
+        AlertDialog(
+            containerColor = MaterialTheme.colorScheme.primary,
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            textContentColor = MaterialTheme.colorScheme.onPrimary,
+            onDismissRequest = { 
+                showLanguageDialog = false
+            },
+            title = { Text(stringResource(id = R.string.language)) },
+            text = { Text(stringResource(id = R.string.language_change_message)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showLanguageDialog = false
+                        changeTheme(appTheme)
+                        saveSettings()
+                        hasLanguageChanged = false
+                    }
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.ok),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { 
+                        showLanguageDialog = false
+                    }
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.cancel),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+            }
+        )
     }
 }
 

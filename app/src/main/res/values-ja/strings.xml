@@ -17,6 +17,9 @@
     <string name="app_theme">アプリのテーマ</string>
     <string name="point_theme">ポイントのテーマ</string>
     <string name="language">言語</string>
+    <string name="language_change_message">アプリが再起動します</string>
+    <string name="ok">はい</string>
+    <string name="cancel">キャンセル</string>
 
     <!-- 다른 문자열들... -->
     <string name="reset">リセット</string>
