@@ -43,7 +43,7 @@ fun TeamMakerGameComponent(
 ) {
     val pointColorList = LocalPointColors.current.getPointColorList()
     val pointSize = 100
-    val timeToStart: Long = 2000 //2초
+    val timeToStart: Long = 1000 //2초
     val usedColors = remember { mutableStateListOf<Color>() }
     val teamColors = remember { mutableStateListOf<Color>() }
     var countdown by remember { mutableStateOf<Int?>(null) }
