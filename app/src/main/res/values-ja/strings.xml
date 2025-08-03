@@ -21,6 +21,8 @@
     <!-- 다른 문자열들... -->
     <string name="reset">リセット</string>
     <string name="apply">適用 </string>
+    <string name="app_qr_code">アプリのQRコード</string>
+    <string name="app_qr_code_desc">スキャンしてアプリをダウンロード</string>
 
     <!-- HomeTopMenu -->
     <string name="review">レビュー</string>

@@ -22,6 +22,8 @@ import com.pickpoint.pickpoint.ui.teammaker.screen.TeamMakerScreen
 import com.pickpoint.pickpoint.ui.theme.AppTheme
 import com.pickpoint.pickpoint.ui.whattodo.screen.WhatToDoScreen
 import androidx.core.net.toUri
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.pickpoint.pickpoint.ui.home.screen.QRCodeScreen
 
 @Composable
 fun PickPointNavGraph(
@@ -51,7 +53,8 @@ fun PickPointNavGraph(
                 },
                 onNavigateToRandomPicker = { navController.navigate(Routes.RandomPicker.route) },
                 onNavigateToTeamMaker = { navController.navigate(Routes.TeamMaker.route) },
-                onNavigateToWhatToDo = { navController.navigate(Routes.WhatToDo.route) }
+                onNavigateToWhatToDo = { navController.navigate(Routes.WhatToDo.route) },
+                onNavigateToQRCode = { navController.navigate(Routes.QRCode.route)}
             )
         }
         composable(route = Routes.Settings.route) {
@@ -81,6 +84,14 @@ fun PickPointNavGraph(
         composable(route = Routes.WhatToDo.route) {
             WhatToDoScreen(
                 modifier = modifier,
+                onNavigateBack = { navController.navigateUp() }
+            )
+        }
+        composable(route = Routes.QRCode.route) {
+            val viewModel = SettingViewModel(dataStoreManager = dataStoreManager)
+            QRCodeScreen(
+                modifier = modifier,
+                viewModel = viewModel,
                 onNavigateBack = { navController.navigateUp() }
             )
         }
