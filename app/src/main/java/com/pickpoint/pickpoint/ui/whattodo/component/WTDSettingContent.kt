@@ -49,7 +49,7 @@ fun WTDSettingContent(
                     if (count < 10) onPlusButtonClick()
                 },
                 onMinusButtonClick = {
-                    if (count > 1) onMinusButtonClick()
+                    if (count > 2) onMinusButtonClick()
                 }
             )
 
