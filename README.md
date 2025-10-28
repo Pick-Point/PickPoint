@@ -1,7 +1,7 @@
 # Pick Point
 
 ⏰ 개발기간
-- `2025. 02. 01` ~ 
+- `2025. 02` ~ `2025.08`
 
 <br>
 
@@ -70,7 +70,7 @@
 <img src="https://img.shields.io/badge/discord-5865F2?style=for-the-badge&logo=discord&logoColor=white">
 </div>
 
-**📱 Front-End**
+**📱 Android**
 
 <div>
   <img src="https://img.shields.io/badge/kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white">
