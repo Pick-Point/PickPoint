@@ -106,14 +106,14 @@ fun SettingsScreen(
             )
             Spacer(modifier = Modifier.padding(15.dp))
 
-            // Point 설정
-            SettingComponent(
-                title = stringResource(id = R.string.point_theme),
-                settingRes = PointThemeSetting.entries.map { it.res },
-                checkedIndex = pointThemeIndex,
-                onClick = { updatePointThemeSettingIndex(it) }
-            )
-            Spacer(modifier = Modifier.padding(15.dp))
+//            // Point 설정(deprecated)
+//            SettingComponent(
+//                title = stringResource(id = R.string.point_theme),
+//                settingRes = PointThemeSetting.entries.map { it.res },
+//                checkedIndex = pointThemeIndex,
+//                onClick = { updatePointThemeSettingIndex(it) }
+//            )
+//            Spacer(modifier = Modifier.padding(15.dp))
 
             // 언어 설정
             SettingComponent(

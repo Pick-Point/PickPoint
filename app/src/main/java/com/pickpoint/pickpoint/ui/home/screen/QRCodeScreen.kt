@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -50,35 +51,40 @@ fun QRCodeScreen(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top,
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
-                .verticalScroll(rememberScrollState())
         ) {
             SettingsTopAppBar(
                 title = stringResource(id = R.string.app_qr_code),
                 onNavigationClick = onNavigateBack
             )
-
-            Text(
-                text = stringResource(id = R.string.app_qr_code_desc),
-                style = MaterialTheme.typography.displayLarge,
-                color = MaterialTheme.colorScheme.secondary,
-                fontSize = 20.sp,
+            Column(
                 modifier = Modifier
-                    .padding(top = 20.dp, bottom = 20.dp)
-                    .align(Alignment.CenterHorizontally)
-            )
+                    .fillMaxSize()
+                    .background(MaterialTheme.colorScheme.background),
+                verticalArrangement = Arrangement.Center
+            ) {
 
-            Image(
-                painter = painterResource(id = imageRes),
-                contentDescription = "pick point QR Code",
-                modifier = Modifier
-                    .size(350.dp)
-                    .padding(bottom = 20.dp)
-                    .align(Alignment.CenterHorizontally),
-            )
+                Text(
+                    text = stringResource(id = R.string.app_qr_code_desc),
+                    style = MaterialTheme.typography.displayLarge,
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontSize = 20.sp,
+                    modifier = Modifier
+                        .padding(top = 20.dp, bottom = 20.dp)
+                        .align(Alignment.CenterHorizontally)
+                )
+
+                Image(
+                    painter = painterResource(id = imageRes),
+                    contentDescription = "pick point QR Code",
+                    modifier = Modifier
+                        .size(350.dp)
+                        .padding(bottom = 20.dp)
+                        .align(Alignment.CenterHorizontally),
+                )
+            }
         }
     }
 }
